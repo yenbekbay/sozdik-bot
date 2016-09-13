@@ -12,13 +12,13 @@ import env from './env';
 import getLogger from './getLogger';
 import type { Translation } from './sozdikApi';
 
-export type User = {
+type User = {
   id: string,
   first_name?: string,
   last_name?: string,
   username?: string
 };
-export type Chat = {
+type Chat = {
   id: string,
   type: 'private' | 'group' | 'supergroup' | 'channel',
   title?: string,
@@ -26,8 +26,8 @@ export type Chat = {
   last_name?: string,
   username?: string
 };
-export type ParseMode = 'Markdown' | 'HTML';
-export type MessageConfig = {
+type ParseMode = 'Markdown' | 'HTML';
+type MessageConfig = {
   chat: Chat,
   text: string,
   parse_mode?: ParseMode,
@@ -38,7 +38,7 @@ export type MessageConfig = {
     force_reply?: bool
   }
 };
-export type InlineQueryResult = {
+type InlineQueryResult = {
   type: 'article',
   id: string,
   title: string,
