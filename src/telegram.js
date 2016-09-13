@@ -14,8 +14,8 @@ import type { Translation } from './sozdikApi';
 
 type User = {
   id: string,
-  first_name?: string,
-  last_name?: string,
+  first_name?: ?string,
+  last_name?: ?string,
   username?: string
 };
 type Chat = {
