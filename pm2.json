@@ -1,0 +1,20 @@
+{
+  "apps": [
+    {
+      "name": "telegram-bot",
+      "script": "build/telegram.js",
+      "node_args": "-r dotenv/config",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    {
+      "name": "messenger-bot",
+      "script": "build/messenger.js",
+      "node_args": "-r dotenv/config",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}

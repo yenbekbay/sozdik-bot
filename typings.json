@@ -1,0 +1,11 @@
+{
+  "globalDependencies": {
+    "express": "registry:dt/express#4.0.0+20160708185218",
+    "lodash": "registry:dt/lodash#4.14.0+20160830145422",
+    "mixpanel": "registry:dt/mixpanel#0.0.0+20160317120654",
+    "node": "registry:dt/node#6.0.0+20160909174046",
+    "request": "registry:dt/request#0.0.0+20160726020908",
+    "request-promise": "registry:dt/request-promise#3.0.0+20160906190103",
+    "winston": "registry:dt/winston#0.0.0+20160417152829"
+  }
+}

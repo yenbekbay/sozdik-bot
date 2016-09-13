@@ -1,0 +1,77 @@
+{
+  "name": "sozdik-bot",
+  "version": "1.0.0",
+  "description": "Telegram and Messenger bot for Sozdik, a Russian to Kazakh dictionary",
+  "homepage": "https://github.com/anvilabs/sozdik-bot",
+  "repository": "anvilabs/sozdik-bot",
+  "license": "MIT",
+  "author": {
+    "name": "Ayan Yenbekbay",
+    "email": "ayan.yenb@gmail.com",
+    "url": "http://yenbekbay.me"
+  },
+  "engines": {
+    "node": ">=5.0",
+    "npm": ">=3.0"
+  },
+  "scripts": {
+    "build": "npm run clean && babel --out-dir ./build ./src",
+    "clean": "rimraf build && mkdir build",
+    "test": "ava",
+    "lint": "eslint ./src",
+    "fixlint": "eslint --fix ./src"
+  },
+  "ava": {
+    "files": [
+      "**/__tests__/**/*-test.js"
+    ],
+    "source": [
+      "src/**/*.js"
+    ],
+    "failFast": true,
+    "powerAssert": false,
+    "require": "./scripts/ava-require",
+    "babel": "inherit"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.11.6",
+    "body-parser": "^1.15.2",
+    "dotenv": "^2.0.0",
+    "express": "^4.14.0",
+    "fbmessenger": "^2.0.3",
+    "localtunnel": "^1.8.1",
+    "lodash": "^4.15.0",
+    "mixpanel": "^0.4.1",
+    "node-telegram-bot-api": "^0.23.3",
+    "remove-markdown": "^0.1.0",
+    "request": "^2.74.0",
+    "request-promise": "^4.1.1",
+    "to-markdown": "^3.0.1",
+    "winston": "^2.2.0",
+    "winston-papertrail": "^1.0.3"
+  },
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "babel-cli": "^6.14.0",
+    "babel-eslint": "^6.1.2",
+    "babel-plugin-lodash": "^3.2.8",
+    "babel-plugin-transform-flow-strip-types": "^6.14.0",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.14.0",
+    "chai": "^3.5.0",
+    "dirty-chai": "^1.2.2",
+    "eslint": "^3.5.0",
+    "eslint-config-airbnb-base": "^7.0.1",
+    "eslint-plugin-ava": "^3.0.0",
+    "eslint-plugin-babel": "^3.3.0",
+    "eslint-plugin-flowtype": "^2.16.1",
+    "eslint-plugin-import": "^1.14.0",
+    "eslint-plugin-lodash": "^1.10.3",
+    "eslint-plugin-no-use-extend-native": "^0.3.8",
+    "eslint-plugin-promise": "^2.0.1",
+    "proxyquire": "^1.7.10",
+    "rimraf": "^2.5.4"
+  }
+}

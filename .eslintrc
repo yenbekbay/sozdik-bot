@@ -1,0 +1,61 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "airbnb-base",
+    "plugin:lodash/recommended",
+    "plugin:ava/recommended"
+  ],
+  "env": {
+    "es6": true
+  },
+  "plugins": [
+    "ava",
+    "babel",
+    "flowtype",
+    "import",
+    "lodash",
+    "no-use-extend-native",
+    "promise"
+  ],
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": true
+    }
+  },
+  "rules": {
+    "array-bracket-spacing": 0,
+    "generator-star-spacing": 0,
+    "max-len": [1, 80],
+    "no-console": 0,
+    "no-duplicate-imports": 0,
+    "no-multiple-empty-lines": [1, { "max": 1 }],
+    "no-underscore-dangle": 0,
+
+    "babel/array-bracket-spacing": [2, "never"],
+    "babel/flow-object-type": [1, "comma"],
+    "babel/func-params-comma-dangle": [2, "always-multiline"],
+    "babel/generator-star-spacing": [2, { "before": false, "after": true }],
+
+    "import/order": [1, {
+      "groups": [
+        "builtin",
+        "external",
+        "internal",
+        ["parent", "sibling", "index"]
+      ],
+      "newlines-between": "always"
+    }],
+
+    "flowtype/require-parameter-type": 1,
+    "flowtype/require-return-type": 1,
+    "flowtype/space-after-type-colon": [2, "always"],
+    "flowtype/space-before-type-colon": [1, "never"],
+    "flowtype/valid-syntax": 1,
+
+    "no-use-extend-native/no-use-extend-native": 0,
+
+    "promise/always-return": 2,
+    "promise/catch-or-return": 2,
+    "promise/param-names": 2
+  }
+}

@@ -1,0 +1,10 @@
+# Private environment variables
+# Rename to .env and DON'T commit to the public repo
+# 
+TELEGRAM_BOT_TOKEN=xxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+FB_PAGE_ACCESS_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+FB_WEBHOOK_VERIFY_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+MIXPANEL_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+SOZDIK_API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+PAPERTRAIL_HOST=logs.papertrailapp.com
+PAPERTRAIL_PORT=xxxx
