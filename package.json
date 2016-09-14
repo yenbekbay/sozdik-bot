@@ -15,7 +15,7 @@
     "npm": ">=3.0"
   },
   "scripts": {
-    "build": "npm run clean && babel --out-dir ./build ./src",
+    "build": "npm run clean && babel --out-dir ./build --ignore **/__tests__ ./src",
     "clean": "rimraf build && mkdir build",
     "test": "ava",
     "lint": "eslint ./src",
@@ -23,7 +23,7 @@
   },
   "ava": {
     "files": [
-      "**/__tests__/**/*-test.js"
+      "src/**/__tests__/**/*-test.js"
     ],
     "source": [
       "src/**/*.js"
