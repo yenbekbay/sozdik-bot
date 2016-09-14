@@ -95,7 +95,7 @@ const sendMessage = (
         `Failed to send a message to chat ${chat.id}: ${err.message}`,
       );
 
-      throw err;
+      return;
     },
   );
 const sendChatAction = (
@@ -114,7 +114,7 @@ const sendChatAction = (
         `Failed to send a ${action} action to chat ${chatId}: ${err.message}`,
       );
 
-      throw err;
+      return;
     },
   );
 const answerInlineQuery = (
@@ -133,7 +133,7 @@ const answerInlineQuery = (
         `Failed to answer inline query ${inlineQueryId}: ${err.message}`,
       );
 
-      throw err;
+      return;
     },
   );
 

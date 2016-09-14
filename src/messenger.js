@@ -53,7 +53,7 @@ const sendText = (userId: string, text: string): Promise<void> => bot
         `Failed to send a message to user ${userId}: ${err.message}`,
       );
 
-      throw err;
+      return;
     },
   );
 const senderAction = (
@@ -72,7 +72,7 @@ const senderAction = (
         `Failed to send a ${action} action to user ${userId}: ${err.message}`,
       );
 
-      throw err;
+      return;
     },
   );
 
