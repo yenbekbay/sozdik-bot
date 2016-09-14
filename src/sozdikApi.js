@@ -2,7 +2,7 @@
 
 import crypto from 'crypto';
 
-import _ from 'lodash';
+import _ from 'lodash/fp';
 import rp from 'request-promise';
 import toMarkdown from 'to-markdown';
 
@@ -106,12 +106,12 @@ export const getTranslationsForQuery = async (
   ]));
 
   if (translations.length) {
-    _.forEach(translations, (translation: Translation) => {
+    _.forEach((translation: Translation) => {
       logger.info(
         `Found a ${translation.toLang === 'ru' ? 'Russian' : 'Kazakh'} ` +
         `translation for "${query}"`,
       );
-    });
+    })(translations);
   } else {
     logger.info(`No translations found for "${query}"`);
   }

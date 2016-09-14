@@ -68,7 +68,7 @@
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-flowtype": "^2.16.1",
     "eslint-plugin-import": "^1.14.0",
-    "eslint-plugin-lodash": "^1.10.3",
+    "eslint-plugin-lodash-fp": "^2.0.1",
     "eslint-plugin-no-use-extend-native": "^0.3.8",
     "eslint-plugin-promise": "^2.0.1",
     "proxyquire": "^1.7.10",

@@ -1,6 +1,6 @@
 /* @flow */
 
-import _ from 'lodash';
+import _ from 'lodash/fp';
 import winston from 'winston';
 import 'winston-papertrail';
 
@@ -20,7 +20,7 @@ const logger = new winston.Logger({
   rewriters: [
     (level: string, message: string, meta: Object): Object => (
       _.isEmpty(meta.tags)
-        ? _.omit(meta, ['tags'])
+        ? _.omit(['tags'])(meta)
         : meta
     ),
   ],
@@ -42,11 +42,11 @@ const logger = new winston.Logger({
 });
 
 const logLevels = ['error', 'warn', 'debug', 'info'];
-const getLogger = (tags: Array<string> = []): Logger => _.zipObject(
-  logLevels,
-  _.map(logLevels, (level: string): LogFn => (...data: Array<any>) => {
+const getLogger = (tags: Array<string> = []): Logger => _.flow(
+  _.map((level: string): LogFn => (...data: Array<any>) => {
     logger[level](...data, { tags });
   }),
-);
+  _.zipObject(logLevels),
+)(logLevels);
 
 export default getLogger;

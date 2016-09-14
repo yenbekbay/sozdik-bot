@@ -1,6 +1,6 @@
 /* @flow */
 
-import _ from 'lodash';
+import _ from 'lodash/fp';
 import Mixpanel from 'mixpanel';
 
 import env from './env';
@@ -23,7 +23,7 @@ export const trackUser = (user: {
   mixpanel.people.set(user.id, {
     $first_name: user.first_name,
     $last_name: user.last_name,
-    ..._.omit(user, ['id', 'first_name', 'last_name']),
+    ..._.omit(['id', 'first_name', 'last_name'])(user),
   }, (err: Error) => {
     if (err) {
       reject(err);

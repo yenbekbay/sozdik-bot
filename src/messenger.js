@@ -4,7 +4,7 @@ import {
   GreetingText,
   Messenger as MessengerBot,
 } from 'fbmessenger';
-import _ from 'lodash';
+import _ from 'lodash/fp';
 import bodyParser from 'body-parser';
 import express from 'express';
 import localtunnel from 'localtunnel';
@@ -89,22 +89,20 @@ bot.on('message', async (
     trackUser({ id: sender.id, ...user }),
     trackEvent(sender.id, 'Requested translations', {
       query: text,
-      kk_translation: !!_.find(translations, { toLang: 'kk' }),
-      ru_translation: !!_.find(translations, { toLang: 'ru' }),
+      kk_translation: !!_.find({ toLang: 'kk' })(translations),
+      ru_translation: !!_.find({ toLang: 'ru' })(translations),
     }),
   ]);
 
   if (translations.length) {
     await Promise.all(_.map(
-      translations,
       (translation: Translation): Promise<void> => sendText(
         sender.id,
         _.truncate(
-          removeMarkdown(`${translation.title}:\n${translation.text}`),
           { length: 320, omission: `...\n${translation.url}` },
-        ),
+        )(removeMarkdown(`${translation.title}:\n${translation.text}`)),
       ),
-    ));
+    )(translations));
   } else {
     await sendText(
       sender.id,

@@ -1,6 +1,6 @@
 /* @flow */
 
-import _ from 'lodash';
+import _ from 'lodash/fp';
 
 import type { Logger } from '../getLogger';
 

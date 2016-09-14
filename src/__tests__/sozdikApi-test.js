@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import proxyquire from 'proxyquire';
 import test from 'ava';
 /* eslint-enable import/no-extraneous-dependencies */
-import _ from 'lodash';
+import _ from 'lodash/fp';
 
 import getLoggerStub from './getLoggerStub';
 
@@ -47,8 +47,8 @@ test('returns all translations for a common word', async (): Promise<void> => {
   const translations = await getTranslationsForQuery('машина');
 
   expect(translations).to.be.an('array').and.to.have.lengthOf(2);
-  expect(_.find(translations, { fromLang: 'kk', toLang: 'ru' })).to.be.ok();
-  expect(_.find(translations, { fromLang: 'ru', toLang: 'kk' })).to.be.ok();
+  expect(_.find({ fromLang: 'kk', toLang: 'ru' })(translations)).to.be.ok();
+  expect(_.find({ fromLang: 'ru', toLang: 'kk' })(translations)).to.be.ok();
 });
 
 test(

@@ -2,7 +2,7 @@
 
 import crypto from 'crypto';
 
-import _ from 'lodash';
+import _ from 'lodash/fp';
 import removeMarkdown from 'remove-markdown';
 import TelegramBot from 'node-telegram-bot-api';
 
@@ -80,7 +80,7 @@ const sendMessage = (
 ): Promise<void> => bot
   .sendMessage(chat.id, text, {
     ...options,
-    ..._.includes(chat.type, 'group') && {
+    ..._.includes('group')(chat.type) && {
       reply_markup: { force_reply: true },
     },
   })
@@ -143,9 +143,8 @@ bot.on('message', async (
   if (!text || !text.length) return;
 
   const chatInfo = _.pick(
-    chat,
     ['id', 'type', 'title', 'username', 'first_name', 'last_name'],
-  );
+  )(chat);
 
   try {
     switch (text) {
@@ -191,20 +190,19 @@ bot.on('message', async (
           trackUser(user),
           trackEvent(user.id, 'Requested translations', {
             query: text,
-            kk_translation: !!_.find(translations, { toLang: 'kk' }),
-            ru_translation: !!_.find(translations, { toLang: 'ru' }),
+            kk_translation: !!_.find({ toLang: 'kk' })(translations),
+            ru_translation: !!_.find({ toLang: 'ru' })(translations),
           }),
         ]);
 
         if (translations.length) {
           await Promise.all(_.map(
-            translations,
             (translation: Translation): Promise<void> => sendMessage({
               chat,
               text: `${translation.title}:\n${translation.text}`,
               parse_mode: 'Markdown',
               disable_web_page_preview: true,
-            })));
+            }))(translations));
         } else {
           await sendMessage({
             chat,
@@ -236,13 +234,12 @@ bot.on('inline_query', async (
     trackUser(user),
     translations.length && trackEvent(user.id, 'Sent an inline query', {
       query,
-      kk_translation: !!_.find(translations, { toLang: 'kk' }),
-      ru_translation: !!_.find(translations, { toLang: 'ru' }),
+      kk_translation: !!_.find({ toLang: 'kk' })(translations),
+      ru_translation: !!_.find({ toLang: 'ru' })(translations),
     }),
   ]);
 
   const results = _.map(
-    translations,
     ({ text, title }: Translation): InlineQueryResult => ({
       type: 'article',
       id: crypto
@@ -257,7 +254,7 @@ bot.on('inline_query', async (
         disable_web_page_preview: true,
       },
     }),
-  );
+  )(translations);
 
   await answerInlineQuery(id, results);
 });
