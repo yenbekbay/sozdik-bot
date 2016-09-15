@@ -150,7 +150,7 @@ server.listen(port, () => {
   );
 
   tunnel.on('close', () => {
-    logger.error('Total to the server closed');
+    logger.error('Tunnel to the server closed');
     process.exit(1);
   });
 });
