@@ -39,7 +39,7 @@
   },
   "jest": {
     "coverageReporters": [
-      "json"
+      "lcov"
     ],
     "setupFiles": [
       "scripts/jest-env.js"
