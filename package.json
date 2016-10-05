@@ -27,7 +27,7 @@
   "scripts": {
     "deploy": "sh ./scripts/deploy.sh",
     "start": "nodemon src/index.js",
-    "build": "npm run clean && babel --out-dir ./build --ignore **/__tests__ --ignore **/__mocks__ ./src",
+    "build": "npm run clean && babel --out-dir ./build --ignore **/__tests__,**/__mocks__ ./src",
     "clean": "rimraf build && mkdir build",
     "test": "npm run typecheck && npm run lint && npm run jest",
     "test:ci": "npm run typecheck && npm run lint && npm run jest:coverage -- -i && codecov",
