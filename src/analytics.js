@@ -4,18 +4,15 @@ import _ from 'lodash/fp';
 import Mixpanel from 'mixpanel';
 
 import env from './env';
-import getLogger from './getLogger';
+import createLogger from './createLogger';
 
-const logger = getLogger(['analytics']);
-const mixpanel = Mixpanel.init(
-  env.mixpanelToken,
-  { debug: process.env.NODE_ENV !== 'production' },
-);
+const logger = createLogger('analytics');
+const mixpanel = Mixpanel.init(env.mixpanelToken);
 
-export const trackUser = (user: {
+const trackUser = (user: {
   id: string,
   first_name?: ?string,
-  last_name?: ?string
+  last_name?: ?string,
 }): Promise<any> => new Promise((
   resolve: () => void,
   reject: (err: Error) => void,
@@ -23,24 +20,24 @@ export const trackUser = (user: {
   mixpanel.people.set(user.id, {
     $first_name: user.first_name,
     $last_name: user.last_name,
-    ..._.omit(['id', 'first_name', 'last_name'])(user),
-  }, (err: Error) => {
+    ..._.omit(['id', 'first_name', 'last_name'], user),
+  }, (err: ?Error) => {
     if (err) {
       reject(err);
     } else {
       resolve();
     }
   });
-})
-.catch((err: Error) => {
+}).catch((err: Error) => {
   logger.error(
-    `Failed to track user ${JSON.stringify(user)} to Mixpanel: ${err.message}`,
+    `Failed to track user ${JSON.stringify(user)} to Mixpanel:`,
+    err.message,
   );
 
   return;
 });
 
-export const trackEvent = (
+const trackEvent = (
   userId: string,
   event: string,
   properties: Object = {},
@@ -51,7 +48,7 @@ export const trackEvent = (
   mixpanel.track(
     event,
     { ...properties, userId },
-    (err: Error) => {
+    (err: ?Error) => {
       if (err) {
         reject(err);
       } else {
@@ -59,12 +56,18 @@ export const trackEvent = (
       }
     },
   );
-})
-.catch((err: Error) => {
+}).catch((err: Error) => {
   logger.error(
-    `Failed to track event ${event} for user ${userId} ` +
-    `to Mixpanel: ${err.message}`,
+    `Failed to track event ${event} for user ${userId} to Mixpanel:`,
+    err.message,
   );
 
   return;
 });
+
+export {
+  trackUser,
+  trackEvent,
+  logger as __logger,
+  mixpanel as __mixpanel,
+};

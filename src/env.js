@@ -1,23 +1,49 @@
 /* @flow */
 
-const {
-  FB_PAGE_ACCESS_TOKEN,
-  FB_WEBHOOK_VERIFY_TOKEN,
-  MIXPANEL_TOKEN,
-  PAPERTRAIL_HOST,
-  PAPERTRAIL_PORT,
-  SOZDIK_API_KEY,
-  TELEGRAM_BOT_TOKEN,
-} = process.env;
+const optionalEnvVariable = (variableName: string) => process.env[variableName];
+const requiredEnvVariable = (variableName: string) => {
+  const variable = optionalEnvVariable(variableName);
+
+  if (!variable) {
+    throw new Error(`${variableName} environment variable is required`);
+  }
+
+  return variable;
+};
+
+/* eslint-disable max-len */
+const helpText = `
+Просто введи слово, фразу или число, и я переведу.
+Также я поддерживаю встроенный режим: просто набери \`@SozdikBot\` и любую фразу в поле сообщения и выбери подходящий тебе ответ.
+`;
+const startText = `
+Привет! Я официальный бот sozdik.kz и могу переводить с русского на казахский и обратно.
+
+${helpText}
+
+'Разработано: @yenbekbay\nСервис: sozdik.kz
+`;
+/* eslint-enable max-len */
+const noTranslationsFoundText = 'К сожалению, я не знаю, как это перевести 😔';
+const errorText =
+  'Что-то пошло не так. Пожалуйста, попробуйте еще раз чуть позже.';
 
 export default {
-  papertrailOptions: (PAPERTRAIL_HOST && PAPERTRAIL_PORT) && {
-    host: PAPERTRAIL_HOST,
-    port: PAPERTRAIL_PORT,
+  fbPageAccessToken: requiredEnvVariable('FB_PAGE_ACCESS_TOKEN'),
+  fbWebhookVerifyToken: requiredEnvVariable('FB_WEBHOOK_VERIFY_TOKEN'),
+  mixpanelToken: requiredEnvVariable('MIXPANEL_TOKEN'),
+  papertrailOptions: {
+    host: optionalEnvVariable('PAPERTRAIL_HOST'),
+    port: optionalEnvVariable('PAPERTRAIL_PORT'),
   },
-  fbPageAccessToken: FB_PAGE_ACCESS_TOKEN,
-  fbWebhookVerifyToken: FB_WEBHOOK_VERIFY_TOKEN,
-  mixpanelToken: MIXPANEL_TOKEN,
-  sozdikApiKey: SOZDIK_API_KEY,
-  telegramBotToken: TELEGRAM_BOT_TOKEN,
+  port: 8080,
+  sozdikApiKey: requiredEnvVariable('SOZDIK_API_KEY'),
+  telegramBotToken: requiredEnvVariable('TELEGRAM_BOT_TOKEN'),
+  tunnelOptions: { subdomain: 'sozdikbot' },
+  isProd: optionalEnvVariable('NODE_ENV') === 'production',
+
+  helpText,
+  startText,
+  noTranslationsFoundText,
+  errorText,
 };

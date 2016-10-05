@@ -7,7 +7,7 @@ import rp from 'request-promise';
 import toMarkdown from 'to-markdown';
 
 import env from './env';
-import getLogger from './getLogger';
+import createLogger from './createLogger';
 
 export type Language = 'ru' | 'kk';
 export type Translation = {
@@ -15,11 +15,11 @@ export type Translation = {
   fromLang: Language,
   text: string,
   url: string,
-  title: string
+  title: string,
 };
 
 const { sozdikApiKey } = env;
-const logger = getLogger(['sozdik-api']);
+const logger = createLogger('sozdik-api');
 
 const client = 'telegram';
 const formattedLanguageMappings = {
@@ -27,54 +27,47 @@ const formattedLanguageMappings = {
   kk: 'по-казахски',
 };
 const request = rp.defaults({
-  headers: { 'User-Agent': 'sozdik-telegram-bot' },
+  headers: { 'User-Agent': 'sozdik-bot' },
   gzip: true,
+  json: true,
 });
 
-export const getTranslation = async (
+const getTranslation = async (
   query: string,
   fromLang: Language,
   toLang: Language,
 ): Promise<?Translation> => {
-  if (!sozdikApiKey) {
-    throw new Error('Missing sozdik.kz API key');
-  }
-
   const hash = crypto
     .createHash('md5')
     .update(`${client}${sozdikApiKey}${fromLang}${toLang}${query}`, 'utf8')
     .digest('hex');
 
-  const params = {
-    client,
-    lang_from: fromLang,
-    lang_to: toLang,
-    phrase: query,
-    hash,
-    strict: 0,
-    output_format: 'json',
-    output_samples: 1,
-    api_version: '1.0',
-    client_version: '0.1.0',
-  };
-  const options = {
+  const json = await request({
     url: 'http://api.sozdik.kz/translate',
-    qs: params,
-    json: true,
-  };
-
-  const json = await request(options);
+    qs: {
+      client,
+      lang_from: fromLang,
+      lang_to: toLang,
+      phrase: query,
+      hash,
+      strict: 0,
+      output_format: 'json',
+      output_samples: 1,
+      api_version: '1.0',
+      client_version: '0.1.0',
+    },
+  });
 
   if (json.message !== 'Found' || !json.translation) return null;
 
   const converters = [{
     filter: 'abbr',
-    replacement: (content: string): string => `_${content}_`,
+    replacement: (content: string) => `_${content}_`,
   }, {
-    filter: (node: Object): bool => node.nodeName === 'A'
+    filter: (node: Object) => node.nodeName === 'A'
       && node.getAttribute('href')
       && !/^https?:\/\//.test(node.getAttribute('href')),
-    replacement: (content: string, node: Object): string =>
+    replacement: (content: string, node: Object) =>
       `[${content}](https://sozdik.kz${node.getAttribute('href')}` +
       `${node.title ? ` "${node.title}"` : ''})`,
   }];
@@ -95,26 +88,30 @@ export const getTranslation = async (
   };
 };
 
-export const getTranslationsForQuery = async (
+const getTranslationsForQuery = async (
   query: string,
 ): Promise<Array<Translation>> => {
   const translations = _.compact(await Promise.all([
     getTranslation(query, 'kk', 'ru'),
-    !/[әіңғүұқөһ]/i.test(query)
-      ? getTranslation(query, 'ru', 'kk')
-      : Promise.resolve(),
+    !/[әіңғүұқөһ]/i.test(query) && getTranslation(query, 'ru', 'kk'),
   ]));
 
   if (translations.length) {
-    _.forEach((translation: Translation) => {
-      logger.info(
-        `Found a ${translation.toLang === 'ru' ? 'Russian' : 'Kazakh'} ` +
-        `translation for "${query}"`,
-      );
-    })(translations);
+    _.forEach(
+      (translation: Translation) => {
+        logger.info(
+          `Found a ${translation.toLang === 'ru' ? 'Russian' : 'Kazakh'} ` +
+          `translation for "${query}"`,
+        );
+      },
+      translations,
+    );
   } else {
     logger.info(`No translations found for "${query}"`);
   }
 
   return translations;
 };
+
+export { logger as __logger };
+export { getTranslation, getTranslationsForQuery };

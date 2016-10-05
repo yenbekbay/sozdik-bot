@@ -1,8 +1,8 @@
 /* @flow */
 
+import { Papertrail } from 'winston-papertrail';
 import _ from 'lodash/fp';
 import winston from 'winston';
-import 'winston-papertrail';
 
 import env from './env';
 
@@ -13,10 +13,13 @@ export type Logger = {
   error: LogFn,
   warn: LogFn,
   debug: LogFn,
-  info: LogFn
+  info: LogFn,
+  stream: {
+    write: (message: string) => void,
+  },
 };
 
-const logger = new winston.Logger({
+const winstonLogger = new winston.Logger({
   rewriters: [
     (level: string, message: string, meta: Object): Object => (
       _.isEmpty(meta.tags)
@@ -24,12 +27,12 @@ const logger = new winston.Logger({
         : meta
     ),
   ],
-  transports: [
+  transports: _.compact([
     new winston.transports.Console({
       level: 'debug',
       colorize: true,
     }),
-    papertrailOptions && new winston.transports.Papertrail({
+    (papertrailOptions.host && papertrailOptions.port) && new Papertrail({
       ...papertrailOptions,
       hostname: 'sozdik-bot',
       inlineMeta: true,
@@ -38,15 +41,25 @@ const logger = new winston.Logger({
         message: string,
       ): string => `[${level}] ${message}`,
     }),
-  ],
+  ]),
 });
 
 const logLevels = ['error', 'warn', 'debug', 'info'];
-const getLogger = (tags: Array<string> = []): Logger => _.flow(
-  _.map((level: string): LogFn => (...data: Array<any>) => {
-    logger[level](...data, { tags });
-  }),
-  _.zipObject(logLevels),
-)(logLevels);
+const createLogger = (source: string): Logger => {
+  const logger = _.flow(
+    _.map((level: string): LogFn => (...data: Array<any>) => {
+      winstonLogger[level](`[${source}]`, ...data);
+    }),
+    _.zipObject(logLevels),
+  )(logLevels);
+  logger.stream = {
+    write: (message: string) => {
+      logger.info(message.trim());
+    },
+  };
 
-export default getLogger;
+  return logger;
+};
+
+export { winstonLogger as __winstonLogger };
+export default createLogger;
