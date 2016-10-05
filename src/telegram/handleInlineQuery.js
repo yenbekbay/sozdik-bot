@@ -24,16 +24,6 @@ const handleInlineQuery = (
 
   try {
     const translations = await getTranslationsForQuery(query.toLowerCase());
-
-    await Promise.all([
-      trackUser(user),
-      translations.length && trackEvent(user.id, 'Sent an inline query', {
-        query,
-        kk_translation: !!_.find({ toLang: 'kk' }, translations),
-        ru_translation: !!_.find({ toLang: 'ru' }, translations),
-      }),
-    ]);
-
     const results = _.map(
       ({ text, title }: Translation): InlineQueryResult => ({
         type: 'article',
@@ -52,7 +42,17 @@ const handleInlineQuery = (
       translations,
     );
 
-    return await answerInlineQuery({ inlineQueryId: id, results });
+    return await Promise
+      .all([
+        answerInlineQuery({ inlineQueryId: id, results }),
+        trackUser(user),
+        translations.length ? trackEvent(user.id, 'Sent an inline query', {
+          query,
+          kk_translation: !!_.find({ toLang: 'kk' }, translations),
+          ru_translation: !!_.find({ toLang: 'ru' }, translations),
+        }) : Promise.resolve(),
+      ])
+      .then(([response]: [?JSON]) => response);
   } catch (err) {
     logger.error(
       `Failed to answer to an inline query from ${JSON.stringify(user)}:`,
