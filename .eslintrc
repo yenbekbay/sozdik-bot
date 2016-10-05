@@ -2,15 +2,14 @@
   "parser": "babel-eslint",
   "extends": [
     "airbnb-base",
-    "plugin:ava/recommended"
     "plugin:flowtype/recommended",
     "plugin:lodash-fp/recommended"
   ],
   "env": {
-    "es6": true
+    "es6": true,
+    "jest": true
   },
   "plugins": [
-    "ava",
     "babel",
     "flowtype",
     "lodash-fp",

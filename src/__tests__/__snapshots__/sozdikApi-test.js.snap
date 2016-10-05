@@ -1,0 +1,71 @@
+exports[`sozdikApi returns all translations for an universal word 1`] = `
+Array [
+  Object {
+    "fromLang": "kk",
+    "query": "машина",
+    "text": "1. [машина](https://sozdik.kz/dictionary/translate/ru/kk/машина/)  
+2. [машинный](https://sozdik.kz/dictionary/translate/ru/kk/машинный/)",
+    "title": "*\"машина\" по-русски*",
+    "toLang": "ru",
+    "url": "http://szd.kz/DAOGLy",
+  },
+  Object {
+    "fromLang": "ru",
+    "query": "машина",
+    "text": "_жен._ _тех._ [машина](https://sozdik.kz/dictionary/translate/kk/ru/машина/) _разг._ _(автомобиль)_ [көлік](https://sozdik.kz/dictionary/translate/kk/ru/көлік/); [машина](https://sozdik.kz/dictionary/translate/kk/ru/машина/) _перен._ [машина](https://sozdik.kz/dictionary/translate/kk/ru/машина/)",
+    "title": "*\"машина\" по-казахски*",
+    "toLang": "kk",
+    "url": "http://szd.kz/wbwRZc",
+  },
+]
+`;
+
+exports[`sozdikApi returns only a kk translation for a kk word 1`] = `
+Array [
+  Object {
+    "fromLang": "kk",
+    "query": "лұғат",
+    "text": "_ар._ _уст._ [язык](https://sozdik.kz/dictionary/translate/ru/kk/язык/) _книжн._ [словарь](https://sozdik.kz/dictionary/translate/ru/kk/словарь/)  
+_син._ [сөздік](https://sozdik.kz/dictionary/translate/kk/ru/сөздік/), [сөзтізбе](https://sozdik.kz/dictionary/translate/kk/ru/сөзтізбе/)",
+    "title": "*\"лұғат\" по-русски*",
+    "toLang": "ru",
+    "url": "http://szd.kz/*PdASd",
+  },
+]
+`;
+
+exports[`sozdikApi returns only a ru translation for a ru word 1`] = `
+Array [
+  Object {
+    "fromLang": "ru",
+    "query": "словарь",
+    "text": "_муж._ [сөздік](https://sozdik.kz/dictionary/translate/kk/ru/сөздік/); [лұғат](https://sozdik.kz/dictionary/translate/kk/ru/лұғат/) _только ед._ _(лексика)_ сөз байлығы; сөздік құрамы _(бір тілдің не жазушының)_",
+    "title": "*\"словарь\" по-казахски*",
+    "toLang": "kk",
+    "url": "http://szd.kz/Misd56",
+  },
+]
+`;
+
+exports[`sozdikApi translates from kk to ru 1`] = `
+Object {
+  "fromLang": "kk",
+  "query": "лұғат",
+  "text": "_ар._ _уст._ [язык](https://sozdik.kz/dictionary/translate/ru/kk/язык/) _книжн._ [словарь](https://sozdik.kz/dictionary/translate/ru/kk/словарь/)  
+_син._ [сөздік](https://sozdik.kz/dictionary/translate/kk/ru/сөздік/), [сөзтізбе](https://sozdik.kz/dictionary/translate/kk/ru/сөзтізбе/)",
+  "title": "*\"лұғат\" по-русски*",
+  "toLang": "ru",
+  "url": "http://szd.kz/*PdASd",
+}
+`;
+
+exports[`sozdikApi translates from ru to kk 1`] = `
+Object {
+  "fromLang": "ru",
+  "query": "словарь",
+  "text": "_муж._ [сөздік](https://sozdik.kz/dictionary/translate/kk/ru/сөздік/); [лұғат](https://sozdik.kz/dictionary/translate/kk/ru/лұғат/) _только ед._ _(лексика)_ сөз байлығы; сөздік құрамы _(бір тілдің не жазушының)_",
+  "title": "*\"словарь\" по-казахски*",
+  "toLang": "kk",
+  "url": "http://szd.kz/Misd56",
+}
+`;
