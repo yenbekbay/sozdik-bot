@@ -1,4 +1,4 @@
-# sozdik-bot
+# sozdik-bot [![Build Status][travis-image]][travis-url] [![Coverage Status][codecov-image]][codecov-url]
 > Telegram and Messenger bot for Sozdik, a Russian to Kazakh dictionary
 
 ## Development
@@ -25,3 +25,9 @@ This message shows that your installation appears to be working correctly.
 ## License
 
 [MIT License](./LICENSE) © Anvilabs LLC 
+
+[travis-url]: https://travis-ci.org/anvilabs/sozdik-bot
+[travis-image]: https://img.shields.io/travis/anvilabs/sozdik-bot.svg
+
+[codecov-url]: https://codecov.io/gh/anvilabs/sozdik-bot
+[codecov-image]: https://img.shields.io/codecov/c/github/anvilabs/sozdik-bot.svg
