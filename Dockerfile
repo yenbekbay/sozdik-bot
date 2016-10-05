@@ -1,4 +1,4 @@
-FROM node:latest
+FROM keymetrics/pm2-docker-alpine:latest
 
 # Set environment variables
 ENV NPM_CONFIG_LOGLEVEL warn
@@ -12,13 +12,10 @@ WORKDIR ${appDir}
 ADD package.json ./
 RUN npm i --production
 
-# Install pm2 *globally* so we can run our application
-RUN npm i -g pm2
-
 # Add application files
 ADD . ./
 
 # Expose the port
 EXPOSE 8080
 
-CMD ["pm2", "start", "pm2.json", "--no-daemon"]
+CMD ["pm2-docker", "start", "pm2.json"]

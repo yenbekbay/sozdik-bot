@@ -16,6 +16,7 @@
   },
   "scripts": {
     "build": "npm run clean && babel --out-dir ./build --ignore **/__tests__ ./src",
+    "deploy": "sh ./scripts/deploy.sh",
     "clean": "rimraf build && mkdir build",
     "test": "ava",
     "lint": "eslint ./src",
