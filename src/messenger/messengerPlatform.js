@@ -5,6 +5,16 @@ import rp from 'request-promise';
 import env from '../env';
 import type { Logger } from '../createLogger';
 
+export type ThreadSettingType = 'greeting' | 'call_to_actions';
+export type UserProfile = {
+  first_name?: ?string,
+  last_name?: ?string,
+  profile_pic?: ?string,
+  locale: string,
+  timezone: number,
+  gender?: ?string,
+};
+
 type SendApiMethodConfig = { recipientId: string };
 type SendTextMessageConfig = SendApiMethodConfig & { text: string };
 type SendSenderActionConfig = SendApiMethodConfig & {

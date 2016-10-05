@@ -6,6 +6,7 @@ import createLogger from '../createLogger';
 import curriedHandleMessage from './handleMessage';
 import env from '../env';
 import messengerPlatform from './messengerPlatform';
+import type { Messaging } from './types';
 
 type WebhookCallback = {
   entry: Array<{ messaging: Array<Messaging> }>,
