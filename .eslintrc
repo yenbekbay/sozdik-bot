@@ -2,8 +2,9 @@
   "parser": "babel-eslint",
   "extends": [
     "airbnb-base",
-    "plugin:lodash-fp/recommended",
     "plugin:ava/recommended"
+    "plugin:flowtype/recommended",
+    "plugin:lodash-fp/recommended"
   ],
   "env": {
     "es6": true
@@ -12,7 +13,6 @@
     "ava",
     "babel",
     "flowtype",
-    "import",
     "lodash-fp",
     "no-use-extend-native",
     "promise"
@@ -24,6 +24,7 @@
   },
   "rules": {
     "array-bracket-spacing": 0,
+    "arrow-parens": [2, "always"],
     "generator-star-spacing": 0,
     "max-len": [1, 80],
     "no-console": 0,
@@ -32,9 +33,14 @@
     "no-underscore-dangle": 0,
 
     "babel/array-bracket-spacing": [2, "never"],
-    "babel/flow-object-type": [1, "comma"],
     "babel/func-params-comma-dangle": [2, "always-multiline"],
     "babel/generator-star-spacing": [2, { "before": false, "after": true }],
+    "babel/new-cap": [2, { "newIsCap": true }],
+    "babel/no-await-in-loop": 2,
+
+    "flowtype/delimiter-dangle": [2, "always-multiline"],
+    "flowtype/require-parameter-type": 2,
+    "flowtype/semi": 2,
 
     "import/order": [1, {
       "groups": [
@@ -45,12 +51,7 @@
       ],
       "newlines-between": "always"
     }],
-
-    "flowtype/require-parameter-type": 1,
-    "flowtype/require-return-type": 1,
-    "flowtype/space-after-type-colon": [2, "always"],
-    "flowtype/space-before-type-colon": [1, "never"],
-    "flowtype/valid-syntax": 1,
+    "import/prefer-default-export": 0,
 
     "no-use-extend-native/no-use-extend-native": 0,
 
