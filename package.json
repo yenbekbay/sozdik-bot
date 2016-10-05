@@ -20,7 +20,9 @@
     "build": "npm run clean && babel --out-dir ./build --ignore **/__tests__ --ignore **/__mocks__ ./src",
     "clean": "rimraf build && mkdir build",
     "test": "npm run typecheck && npm run lint && npm run jest",
+    "test:ci": "npm run typecheck && npm run lint && npm run jest-coverage -- -i && codecov",
     "jest": "jest",
+    "jest:coverage": "jest --coverage",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
     "typecheck": "flow check ./src"
@@ -68,6 +70,7 @@
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.14.0",
+    "codecov": "^1.0.1",
     "eslint": "^3.7.0",
     "eslint-config-airbnb-base": "^8.0.0",
     "eslint-plugin-babel": "^3.3.0",

@@ -13,5 +13,6 @@ typings/
 
 # App
 #
-/build
+build/
+coverage/
 .env
