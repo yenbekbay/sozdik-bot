@@ -2,7 +2,8 @@
 
 const optionalEnvVariable = (variableName: string) => process.env[variableName];
 const requiredEnvVariable = (variableName: string) => {
-  const variable = optionalEnvVariable(variableName);
+  const variable = optionalEnvVariable(variableName) ||
+    ((variableName !== 'SOZDIK_API_KEY' && 'CI' in process.env) && 'test');
 
   if (!variable) {
     throw new Error(`${variableName} environment variable is required`);
