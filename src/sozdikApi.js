@@ -68,7 +68,7 @@ const getTranslation = async (
       && node.getAttribute('href')
       && !/^https?:\/\//.test(node.getAttribute('href')),
     replacement: (content: string, node: Object) =>
-      `[${content}](https://sozdik.kz${node.getAttribute('href')}` +
+      `[${content}](https://sozdik.kz/ru${node.getAttribute('href')}` +
       `${node.title ? ` "${node.title}"` : ''})`,
   }];
 
