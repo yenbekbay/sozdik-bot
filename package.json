@@ -17,6 +17,7 @@
   "scripts": {
     "build": "npm run clean && babel --out-dir ./build --ignore **/__tests__ ./src",
     "deploy": "sh ./scripts/deploy.sh",
+    "start": "nodemon src/index.js",
     "clean": "rimraf build && mkdir build",
     "test": "ava",
     "lint": "eslint ./src",
@@ -72,6 +73,7 @@
     "eslint-plugin-no-use-extend-native": "^0.3.8",
     "eslint-plugin-promise": "^2.0.1",
     "proxyquire": "^1.7.10",
+    "nodemon": "^1.10.2",
     "rimraf": "^2.5.4"
   }
 }
