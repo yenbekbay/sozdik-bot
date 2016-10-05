@@ -41,6 +41,7 @@ const handleMessage = (
               chat,
               text: startText,
               parse_mode: 'Markdown',
+              disable_web_page_preview: true,
             }),
             trackUser(user),
             trackEvent(user.id, 'Requested the start message'),
