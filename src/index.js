@@ -22,7 +22,10 @@ const messengerBot = createMessengerBot();
 
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
-server.use(morgan(isProd ? 'combined' : 'dev', { stream: logger.stream }));
+server.use(morgan(
+  ':method :url HTTP/:http-version :status - :response-time ms',
+  { stream: logger.stream },
+));
 
 server.post(telegramWebhookUrl, ({ body }: $Request, res: $Response) => {
   if (body && typeof body === 'object') {
