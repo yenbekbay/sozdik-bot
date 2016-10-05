@@ -11,7 +11,7 @@ import { createMessengerBot } from './messenger';
 import env from './env';
 import createLogger from './createLogger';
 
-const { telegramBotToken, port, tunnelOptions, isProd } = env;
+const { telegramBotToken, port, tunnelOptions, prodUrl, isProd } = env;
 const logger = createLogger('server');
 const telegramWebhookUrl = `/telegram${telegramBotToken}`;
 const messengerWebhookUrl = '/messenger';
@@ -48,42 +48,48 @@ server.post(messengerWebhookUrl, ({ body }: $Request, res: $Response) => {
   res.sendStatus(200);
 });
 
+const configureBots = (url: string) => {
+  telegramBot
+    .setWebhook(`${url}${telegramWebhookUrl}`)
+    .then(() => {
+      process.on('exit', () => {
+        telegramBot.setWebhook('');
+      });
+
+      return;
+    })
+    .catch(() => {
+      process.exit(1);
+    });
+  messengerBot.setGreetingText(
+    'Просто введи слово, фразу или число, и я переведу.',
+  );
+};
+
 server.listen(port, () => {
   logger.info(`Started server on port ${port}`);
 
-  const tunnel = localtunnel(port, tunnelOptions, (err: ?Error) => {
-    if (err) {
-      logger.error(
-        'Failed to request a tunnel for the server:',
-        err.message,
-      );
+  if (isProd) {
+    configureBots(prodUrl);
+  } else {
+    const tunnel = localtunnel(port, tunnelOptions, (err: ?Error) => {
+      if (err) {
+        logger.error(
+          'Failed to request a tunnel for the server:',
+          err.message,
+        );
 
-      process.exit(1);
-    }
-
-    logger.info(`Created a tunnel to server at ${tunnel.url}`);
-
-    telegramBot
-      .setWebhook(
-        `${tunnel.url.replace(/^http:/, 'https:')}${telegramWebhookUrl}`,
-      )
-      .then(() => {
-        process.on('exit', () => {
-          telegramBot.setWebhook('');
-        });
-
-        return;
-      })
-      .catch(() => {
         process.exit(1);
-      });
-    messengerBot.setGreetingText(
-      'Просто введи слово, фразу или число, и я переведу.',
-    );
-  });
+      }
 
-  tunnel.on('close', () => {
-    logger.error('Tunnel to server closed');
-    process.exit(1);
-  });
+      logger.info(`Created a tunnel to server at ${tunnel.url}`);
+
+      configureBots(tunnel.url.replace(/^http:/, 'https:'));
+    });
+
+    tunnel.on('close', () => {
+      logger.error('Tunnel to server closed');
+      process.exit(1);
+    });
+  }
 });

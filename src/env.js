@@ -42,6 +42,7 @@ export default {
   tunnelOptions: { subdomain: 'sozdikbot' },
   isProd: optionalEnvVariable('NODE_ENV') === 'production',
 
+  prodUrl: 'https://sozdikbot.anvilabs.co',
   helpText,
   startText,
   noTranslationsFoundText,

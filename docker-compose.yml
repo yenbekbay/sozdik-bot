@@ -1,0 +1,13 @@
+server:
+  build: .
+
+caddy:
+  image: zzrot/alpine-caddy
+  links:
+    - server
+  volumes:
+    - /root/.caddy:/root/.caddy
+    - /opt/data/sozdikbot/Caddyfile:/etc/Caddyfile
+  ports:
+    - "80:80"
+    - "443:443"
