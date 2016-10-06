@@ -1,4 +1,4 @@
-# sozdik-bot [![Build Status][travis-image]][travis-url] [![Coverage Status][codecov-image]][codecov-url] [![Dependency Status][dependency-image]][dependency-url] [![devDependency Status][devDependency-image]][devDependency-url]
+# sozdik-bot [![Build Status][travis-image]][travis-url] [![Coverage Status][codecov-image]][codecov-url] [![Dependency Status][dependency-image]][dependency-url] [![devDependency Status][devDependency-image]][devDependency-url] [![Commitizen Friendly][commitizen-image]][commitizen-url]
 > Telegram and Messenger bot for Sozdik, a Russian to Kazakh dictionary
 
 ## Development
@@ -28,3 +28,6 @@
 
 [devDependency-url]: https://david-dm.org/anvilabs/sozdik-bot?type=dev
 [devDependency-image]: https://img.shields.io/david/dev/anvilabs/sozdik-bot.svg
+
+[commitizen-url]: http://commitizen.github.io/cz-cli
+[commitizen-image]: https://img.shields.io/badge/commitizen-friendly-brightgreen.svg
