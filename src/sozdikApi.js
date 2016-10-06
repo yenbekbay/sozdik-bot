@@ -99,7 +99,7 @@ const getTranslationsForQuery = async (
   if (translations.length) {
     _.forEach(
       (translation: Translation) => {
-        logger.info(
+        logger.debug(
           `Found a ${translation.toLang === 'ru' ? 'Russian' : 'Kazakh'} ` +
           `translation for "${query}"`,
         );
@@ -107,7 +107,7 @@ const getTranslationsForQuery = async (
       translations,
     );
   } else {
-    logger.info(`No translations found for "${query}"`);
+    logger.debug(`No translations found for "${query}"`);
   }
 
   return translations;

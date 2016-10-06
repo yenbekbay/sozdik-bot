@@ -36,6 +36,16 @@ const handleMessage = (
       sendSenderAction({ recipientId, action: 'typing_on' }),
     ]);
 
+    const userInfo = {
+      id: recipientId,
+      ..._.pick(['first_name', 'last_name'], user),
+    };
+
+    logger.info(
+      `Translating "${text.toLowerCase()}" for user`,
+      JSON.stringify(userInfo),
+    );
+
     await Promise.all([
       trackUser({ id: recipientId, ...user }),
       trackEvent(recipientId, 'Requested translations', {

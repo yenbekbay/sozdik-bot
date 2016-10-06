@@ -32,7 +32,8 @@ const handleMessage = (
     switch (text) {
       case '/start': {
         logger.info(
-          `Sending the start message for chat ${JSON.stringify(chatInfo)}`,
+          'Sending the start message for chat',
+          JSON.stringify(chatInfo),
         );
 
         return await Promise
@@ -50,7 +51,8 @@ const handleMessage = (
       }
       case '/help': {
         logger.info(
-          `Sending the help message for chat ${JSON.stringify(chatInfo)}`,
+          'Sending the help message for chat',
+          JSON.stringify(chatInfo),
         );
 
         return await Promise
@@ -66,6 +68,11 @@ const handleMessage = (
           .then(([message]: [?Message]) => message);
       }
       default: {
+        logger.info(
+          `Translating "${text.toLowerCase()}" for chat`,
+          JSON.stringify(chatInfo),
+        );
+
         const [translations] = await Promise.all([
           getTranslationsForQuery(text.toLowerCase()),
           sendChatAction({ chat, action: 'typing' }),
