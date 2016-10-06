@@ -24,11 +24,6 @@ describe('createTelegramBot', () => {
     (messengerBot.__handleMessage: any).mockClear();
   });
 
-  it('exposes "setGreetingText" method', () => {
-    expect(messengerBot.setGreetingText)
-      .toBe(messengerBot.__platform.setGreetingText);
-  });
-
   it('handles webhook verification', () => {
     expect(messengerBot.verifyWebhook({
       'hub.mode': 'blahblahblah',
@@ -69,5 +64,11 @@ describe('createTelegramBot', () => {
     });
 
     expect(messengerBot.__handleMessage).not.toHaveBeenCalled();
+  });
+
+  it('runs setup', () => {
+    messengerBot.setUp();
+
+    expect(messengerBot.__platform.setGreetingText).toHaveBeenCalled();
   });
 });

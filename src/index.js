@@ -1,79 +1,29 @@
 /* @flow */
 
-import bodyParser from 'body-parser';
-import express from 'express';
 import localtunnel from 'localtunnel';
-import morgan from 'morgan';
-import type { $Request, $Response } from 'express';
 
-import { createTelegramBot } from './telegram';
-import { createMessengerBot } from './messenger';
-import env from './env';
 import createLogger from './createLogger';
+import createServer from './createServer';
+import env from './env';
 
-const { telegramBotToken, port, tunnelOptions, prodUrl, isProd } = env;
+const { port, tunnelOptions, telegramWebhookUrl, prodUrl, isProd } = env;
 const logger = createLogger('server');
-const telegramWebhookUrl = `/telegram${telegramBotToken}`;
-const messengerWebhookUrl = '/messenger';
+const { server, telegramBot, messengerBot } = createServer(logger);
 
-const server = express();
-const telegramBot = createTelegramBot();
-const messengerBot = createMessengerBot();
-
-server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({ extended: true }));
-server.use(morgan(
-  ':method :url HTTP/:http-version :status - :response-time ms',
-  { stream: logger.stream },
-));
-
-server.post(telegramWebhookUrl, ({ body }: $Request, res: $Response) => {
-  if (body && typeof body === 'object') {
-    telegramBot.handleUpdate(body);
-  }
-
-  res.sendStatus(200);
-});
-
-server.get(messengerWebhookUrl, ({ query }: $Request, res: $Response) => {
-  if (messengerBot.verifyWebhook(query)) {
-    res.send(query['hub.challenge']);
-  } else {
-    res.sendStatus(400);
-  }
-});
-
-server.post(messengerWebhookUrl, ({ body }: $Request, res: $Response) => {
-  if (body && typeof body === 'object') {
-    messengerBot.handleWebhookCallback(body);
-  }
-
-  res.sendStatus(200);
-});
-
-const configureBots = (url: string) => {
+const setUpBots = (serverUrl: string) => {
   telegramBot
-    .setWebhook(`${url}${telegramWebhookUrl}`)
-    .then(() => {
-      process.on('exit', () => {
-        telegramBot.setWebhook('');
-      });
-
-      return;
-    })
+    .setUp(`${serverUrl}${telegramWebhookUrl}`)
     .catch(() => {
       process.exit(1);
     });
-  messengerBot.setGreetingText(
-    'Просто введи слово, фразу или число, и я переведу.',
-  );
+  messengerBot.setUp();
 };
 
 server.listen(port, () => {
   logger.info(`Started server on port ${port}`);
 
   if (isProd) {
-    configureBots(prodUrl);
+    setUpBots(prodUrl);
   } else {
     const tunnel = localtunnel(port, tunnelOptions, (err: ?Error) => {
       if (err) {
@@ -87,7 +37,7 @@ server.listen(port, () => {
 
       logger.info(`Created a tunnel to server at ${tunnel.url}`);
 
-      configureBots(tunnel.url.replace(/^http:/, 'https:'));
+      setUpBots(tunnel.url.replace(/^http:/, 'https:'));
     });
 
     tunnel.on('close', () => {

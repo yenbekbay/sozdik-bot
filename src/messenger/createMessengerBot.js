@@ -31,7 +31,6 @@ const createMessengerBot = () => {
   });
 
   return {
-    setGreetingText,
     verifyWebhook: (query: Object) =>
       query['hub.mode'] === 'subscribe' &&
       query['hub.verify_token'] === env.fbWebhookVerifyToken,
@@ -46,6 +45,9 @@ const createMessengerBot = () => {
         }
       }),
     )(callback.entry),
+    setUp: () => {
+      setGreetingText('Просто введи слово, фразу или число, и я переведу.');
+    },
     __platform: platform,
     __handleMessage: handleMessage,
   };

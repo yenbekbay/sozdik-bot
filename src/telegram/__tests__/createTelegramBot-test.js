@@ -25,10 +25,6 @@ describe('createTelegramBot', () => {
     (telegramBot.__handleMessage: any).mockClear();
   });
 
-  it('exposes "setWebhook" method', () => {
-    expect(telegramBot.setWebhook).toBe(telegramBot.__botApi.setWebhook);
-  });
-
   it('handles message updates', () => {
     telegramBot.handleUpdate({
       message: {
@@ -63,5 +59,14 @@ describe('createTelegramBot', () => {
 
     expect(telegramBot.__handleMessage).not.toHaveBeenCalled();
     expect(telegramBot.__handleInlineQuery).not.toHaveBeenCalled();
+  });
+
+  it('runs setup', async () => {
+    const sampleWebhookUrl = 'http://example.com';
+
+    telegramBot.setUp(sampleWebhookUrl);
+
+    expect(telegramBot.__botApi.setWebhook)
+      .toHaveBeenCalledWith(sampleWebhookUrl);
   });
 });

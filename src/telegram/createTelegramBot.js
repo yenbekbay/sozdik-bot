@@ -36,7 +36,6 @@ const createTelegramBot = () => {
   });
 
   return {
-    setWebhook,
     handleUpdate: (update: Update) => {
       if (update.message) {
         handleMessage(((update.message: any): Message));
@@ -44,6 +43,7 @@ const createTelegramBot = () => {
         handleInlineQuery(((update.inline_query: any): InlineQuery));
       }
     },
+    setUp: (webhookUrl: string) => setWebhook(webhookUrl),
     __botApi: botApi,
     __handleMessage: handleMessage,
     __handleInlineQuery: handleInlineQuery,

@@ -40,7 +40,8 @@ export default {
   telegramBotToken: requiredEnvVariable('TELEGRAM_BOT_TOKEN'),
   tunnelOptions: { subdomain: 'sozdikbot' },
   isProd: optionalEnvVariable('NODE_ENV') === 'production',
-
+  telegramWebhookUrl: `/telegram${requiredEnvVariable('TELEGRAM_BOT_TOKEN')}`,
+  messengerWebhookUrl: '/messenger',
   prodUrl: 'https://sozdikbot.anvilabs.co',
   helpText,
   startText,
