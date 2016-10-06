@@ -16,7 +16,7 @@
     "url": "http://yenbekbay.me"
   },
   "engines": {
-    "node": ">=5.0",
+    "node": ">=6.0",
     "npm": ">=3.0"
   },
   "files": [
