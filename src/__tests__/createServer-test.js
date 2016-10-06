@@ -16,6 +16,7 @@ jest.mock('../messenger', () => ({
   }),
 }));
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 import request from 'supertest-as-promised';
 
 import createLogger from '../createLogger';
