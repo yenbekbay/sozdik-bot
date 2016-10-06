@@ -36,6 +36,7 @@
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
     "typecheck": "flow check ./src",
+    "commitmsg": "validate-commit-msg",
     "prepush": "npm test"
   },
   "jest": {
@@ -95,6 +96,7 @@
     "nodemon": "^1.10.2",
     "rimraf": "^2.5.4",
     "supertest": "^2.0.0",
-    "supertest-as-promised": "^4.0.0"
+    "supertest-as-promised": "^4.0.0",
+    "validate-commit-msg": "^2.8.2"
   }
 }
