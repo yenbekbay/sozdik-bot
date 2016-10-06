@@ -35,7 +35,8 @@
     "jest:coverage": "jest --coverage",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
-    "typecheck": "flow check ./src"
+    "typecheck": "flow check ./src",
+    "prepush": "npm test"
   },
   "jest": {
     "coverageReporters": [
@@ -89,6 +90,7 @@
     "eslint-plugin-no-use-extend-native": "^0.3.8",
     "eslint-plugin-promise": "^2.0.1",
     "flow-bin": "^0.33.0",
+    "husky": "^0.11.8",
     "jest-cli": "^16.0.0",
     "nodemon": "^1.10.2",
     "rimraf": "^2.5.4",
