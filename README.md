@@ -6,7 +6,7 @@
 [![devDependency Status](https://img.shields.io/david/dev/anvilabs/sozdik-bot.svg)](https://david-dm.org/anvilabs/sozdik-bot?type=dev)
 [![Commitizen Friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli)
 
-> Telegram and Messenger bot for Sozdik, a Russian to Kazakh dictionary
+Telegram and Messenger bot for Sozdik, a Russian to Kazakh dictionary
 
 ## Development
 
