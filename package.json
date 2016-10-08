@@ -99,7 +99,7 @@
     "eslint-plugin-import": "^2.0.0",
     "eslint-plugin-lodash-fp": "^2.0.1",
     "eslint-plugin-no-use-extend-native": "^0.3.8",
-    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-promise": "^3.0.0",
     "flow-bin": "^0.33.0",
     "husky": "^0.11.8",
     "jest-cli": "^16.0.0",
