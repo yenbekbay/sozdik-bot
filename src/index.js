@@ -13,8 +13,8 @@ const { server, telegramBot, messengerBot } = createServer(logger);
 const setUpBots = (serverUrl: string) => {
   telegramBot
     .setUp(`${serverUrl}${telegramWebhookUrl}`)
-    .catch(() => {
-      process.exit(1);
+    .catch((err: Error) => {
+      throw err;
     });
   messengerBot.setUp();
 };
@@ -32,7 +32,7 @@ server.listen(port, () => {
           err.message,
         );
 
-        process.exit(1);
+        throw err;
       }
 
       logger.info(`Created a tunnel to server at ${tunnel.url}`);
@@ -42,7 +42,8 @@ server.listen(port, () => {
 
     tunnel.on('close', () => {
       logger.error('Tunnel to server closed');
-      process.exit(1);
+
+      throw new Error('Tunnel to server closed');
     });
   }
 });

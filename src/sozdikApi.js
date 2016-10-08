@@ -96,7 +96,7 @@ const getTranslationsForQuery = async (
     !/[әіңғүұқөһ]/i.test(query) && getTranslation(query, 'ru', 'kk'),
   ]));
 
-  if (translations.length) {
+  if (translations.length > 0) {
     _.forEach(
       (translation: Translation) => {
         logger.debug(

@@ -27,7 +27,7 @@ const handleMessage = (
 ) => async (
   { recipientId, message: { text } }: { recipientId: string, message: Message },
 ): Promise<?JSON> => {
-  if (!text || !text.length) return null;
+  if (!text || text.length === 0) return null;
 
   try {
     const [user, translations] = await Promise.all([

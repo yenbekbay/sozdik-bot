@@ -1,59 +1,6 @@
 {
-  "parser": "babel-eslint",
   "extends": [
-    "airbnb-base",
-    "plugin:flowtype/recommended",
-    "plugin:lodash-fp/recommended"
-  ],
-  "env": {
-    "es6": true,
-    "jest": true
-  },
-  "plugins": [
-    "babel",
-    "flowtype",
-    "lodash-fp",
-    "no-use-extend-native",
-    "promise"
-  ],
-  "settings": {
-    "flowtype": {
-      "onlyFilesWithFlowAnnotation": true
-    }
-  },
-  "rules": {
-    "array-bracket-spacing": 0,
-    "arrow-parens": [2, "always"],
-    "generator-star-spacing": 0,
-    "max-len": [1, 80],
-    "no-duplicate-imports": 0,
-    "no-multiple-empty-lines": [1, { "max": 1 }],
-    "no-underscore-dangle": 0,
-
-    "babel/array-bracket-spacing": [2, "never"],
-    "babel/func-params-comma-dangle": [2, "always-multiline"],
-    "babel/generator-star-spacing": [2, { "before": false, "after": true }],
-    "babel/new-cap": [2, { "newIsCap": true }],
-    "babel/no-await-in-loop": 2,
-
-    "flowtype/delimiter-dangle": [2, "always-multiline"],
-    "flowtype/require-parameter-type": 2,
-    "flowtype/semi": 2,
-
-    "import/order": [1, {
-      "groups": [
-        "builtin",
-        "external",
-        "internal",
-        ["parent", "sibling", "index"]
-      ],
-      "newlines-between": "always"
-    }],
-
-    "no-use-extend-native/no-use-extend-native": 2,
-
-    "promise/always-return": 2,
-    "promise/catch-or-return": 2,
-    "promise/param-names": 2
-  }
+    "anvilabs",
+    "anvilabs/jest"
+  ]
 }

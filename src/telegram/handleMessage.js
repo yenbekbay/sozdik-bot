@@ -21,7 +21,7 @@ const handleMessage = (
 ) => async (
   { text, from: user, chat }: Message,
 ): Promise<?(Message | Array<Message>)> => {
-  if (!text || !text.length) return null;
+  if (!text || text.length === 0) return null;
 
   const chatInfo = _.pick(
     ['id', 'type', 'title', 'username', 'first_name', 'last_name'],
@@ -87,7 +87,7 @@ const handleMessage = (
           }),
         ]);
 
-        if (translations.length) {
+        if (translations.length > 0) {
           return await Promise.all(_.map(
             (translation: Translation) => sendMessage({
               chat,

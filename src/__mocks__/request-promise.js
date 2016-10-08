@@ -2,9 +2,11 @@
 
 const requestMethod = () => jest.fn(() => Promise.resolve({}));
 
-const request = requestMethod();
-(request: any).get = requestMethod();
-(request: any).post = requestMethod();
+const request = {
+  ...requestMethod(),
+  get: requestMethod(),
+  post: requestMethod(),
+};
 
 const rp = {
   defaults: () => request,
