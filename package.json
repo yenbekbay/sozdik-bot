@@ -94,7 +94,7 @@
     "eslint": "^3.7.0",
     "eslint-config-anvilabs": "^1.1.0",
     "flow-bin": "^0.33.0",
-    "husky": "^0.11.8",
+    "husky": "^0.11.9",
     "jest-cli": "^16.0.0",
     "nodemon": "^1.10.2",
     "npm-run-all": "^3.1.0",
