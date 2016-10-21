@@ -4,6 +4,8 @@
     "allowSyntheticDefaultImports": true
   },
   "exclude": [
-    "node_modules"
+    ".vscode/",
+    "flow-typed/",
+    "node_modules/"
   ]
 }
