@@ -33,7 +33,6 @@ describe('createTelegramBot', () => {
       },
     });
 
-    // $FlowMissingDefinition
     expect(telegramBot.__handleMessage).toHaveBeenCalledTimes(1);
     expect(telegramBot.__handleInlineQuery).not.toHaveBeenCalled();
   });
@@ -48,7 +47,6 @@ describe('createTelegramBot', () => {
     });
 
     expect(telegramBot.__handleMessage).not.toHaveBeenCalled();
-    // $FlowMissingDefinition
     expect(telegramBot.__handleInlineQuery).toHaveBeenCalledTimes(1);
   });
 

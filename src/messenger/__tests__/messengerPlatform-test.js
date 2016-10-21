@@ -29,7 +29,6 @@ describe('messengerPlatform', () => {
       text: 'test',
     });
 
-    // $FlowMissingDefinition
     expect(request.post).toHaveBeenCalledTimes(1);
     // $FlowMissingDefinition
     expect(request.post).toHaveBeenLastCalledWith({
@@ -58,7 +57,6 @@ describe('messengerPlatform', () => {
       action: 'typing_on',
     });
 
-    // $FlowMissingDefinition
     expect(request.post).toHaveBeenCalledTimes(1);
     // $FlowMissingDefinition
     expect(request.post).toHaveBeenLastCalledWith({
@@ -84,7 +82,6 @@ describe('messengerPlatform', () => {
   it('sets greeting text', async () => {
     await platform.setGreetingText('test');
 
-    // $FlowMissingDefinition
     expect(request.post).toHaveBeenCalledTimes(1);
     // $FlowMissingDefinition
     expect(request.post).toHaveBeenLastCalledWith({
@@ -102,7 +99,6 @@ describe('messengerPlatform', () => {
     try {
       await platform.setGreetingText('test');
     } catch (err) {
-      // $FlowMissingDefinition
       expect(err).toBeInstanceOf(Error);
     }
 
@@ -112,7 +108,6 @@ describe('messengerPlatform', () => {
   it('fetches a user profile', async () => {
     await platform.getUserProfile('123');
 
-    // $FlowMissingDefinition
     expect(request.get).toHaveBeenCalledTimes(1);
     // $FlowMissingDefinition
     expect(request.get).toHaveBeenLastCalledWith({

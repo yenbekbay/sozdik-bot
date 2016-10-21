@@ -38,7 +38,6 @@ describe('createLogger', () => {
     );
     _.forEach(
       (level: string) => {
-        // $FlowMissingDefinition
         expect(__winstonLogger[level]).toHaveBeenCalledTimes(1);
         // $FlowMissingDefinition
         expect(__winstonLogger[level])

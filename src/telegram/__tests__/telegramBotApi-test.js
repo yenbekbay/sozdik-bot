@@ -35,7 +35,6 @@ describe('telegramBotApi', () => {
       parse_mode: 'Markdown',
     });
 
-    // $FlowMissingDefinition
     expect(request.post).toHaveBeenCalledTimes(1);
     // $FlowMissingDefinition
     expect(request.post).toHaveBeenLastCalledWith({
@@ -66,7 +65,6 @@ describe('telegramBotApi', () => {
       action: 'typing',
     });
 
-    // $FlowMissingDefinition
     expect(request.post).toHaveBeenCalledTimes(1);
     // $FlowMissingDefinition
     expect(request.post).toHaveBeenLastCalledWith({
@@ -95,7 +93,6 @@ describe('telegramBotApi', () => {
       results: [sampleInlineQueryResult],
     });
 
-    // $FlowMissingDefinition
     expect(request.post).toHaveBeenCalledTimes(1);
     // $FlowMissingDefinition
     expect(request.post).toHaveBeenLastCalledWith({
@@ -121,7 +118,6 @@ describe('telegramBotApi', () => {
   it('sets webhook url', async () => {
     await botApi.setWebhook('https://test.com');
 
-    // $FlowMissingDefinition
     expect(request.post).toHaveBeenCalledTimes(1);
     // $FlowMissingDefinition
     expect(request.post).toHaveBeenLastCalledWith({
@@ -136,7 +132,6 @@ describe('telegramBotApi', () => {
     try {
       await botApi.setWebhook('https://test.com');
     } catch (err) {
-      // $FlowMissingDefinition
       expect(err).toBeInstanceOf(Error);
     }
 

@@ -48,7 +48,6 @@ describe('createTelegramBot', () => {
       }],
     });
 
-    // $FlowMissingDefinition
     expect(messengerBot.__handleMessage).toHaveBeenCalledTimes(1);
   });
 
