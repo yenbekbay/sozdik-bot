@@ -1,5 +1,5 @@
-// flow-typed signature: 68cb00241c4731f831a8585014fa76fd
-// flow-typed version: ea99362bac/express_v4.x.x/flow_>=v0.25.x
+// flow-typed signature: c099894613b849a251fe2231073ba9d0
+// flow-typed version: d2849ed4c4/express_v4.x.x/flow_>=v0.25.x
 
 // @flow
 import type { Server } from 'http';
@@ -78,7 +78,7 @@ declare module 'express' {
     location(path: string): this;
     redirect(url: string, ...args: Array<void>): this;
     redirect(status: number, url: string, ...args: Array<void>): this;
-    render(view: string, locals?: mixed, callback: RenderCallback): this;
+    render(view: string, locals?: {[name: string]: mixed}, callback?: RenderCallback): this;
     send(body?: mixed): this;
     sendFile(path: string, options?: SendFileOptions, callback?: (err?: ?Error) => mixed): this;
     sendStatus(statusCode: number): this;
@@ -105,6 +105,7 @@ declare module 'express' {
     (path: string, router: Router): T;
   }
   declare class Route {
+    all: RouteMethodType<this>;
     get: RouteMethodType<this>;
     post: RouteMethodType<this>;
     put: RouteMethodType<this>;
@@ -140,6 +141,8 @@ declare module 'express' {
     use: RouterMethodType<this>;
 
     route(path: string): Route;
+    
+    static (): Router;
   }
 
   declare function serveStatic(root: string, options?: Object): Middleware;
