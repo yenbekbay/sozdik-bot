@@ -1,0 +1,13 @@
+{
+  "files.associations": {
+    ".flowconfig": "ini",
+    "*.js.flow": "javascript",
+    "yarn.lock": "yaml"
+  },
+
+  "editor.renderWhitespace": "boundary",
+  "editor.rulers": [80],
+  "editor.tabSize": 2,
+
+  "javascript.validate.enable": false
+}
