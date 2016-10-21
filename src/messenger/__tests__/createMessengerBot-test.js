@@ -1,6 +1,7 @@
 /* @flow */
 
-/* eslint-disable import/imports-first */
+import createMessengerBot from '../createMessengerBot';
+import env from '../../env';
 
 jest.mock('../messengerPlatform', () => () => ({
   sendTextMessage: jest.fn(),
@@ -9,9 +10,6 @@ jest.mock('../messengerPlatform', () => () => ({
   getUserProfile: jest.fn(),
 }));
 jest.mock('../handleMessage', () => () => jest.fn());
-
-import createMessengerBot from '../createMessengerBot';
-import env from '../../env';
 
 describe('createTelegramBot', () => {
   let messengerBot;

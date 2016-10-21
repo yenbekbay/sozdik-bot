@@ -1,6 +1,8 @@
 /* @flow */
 
-/* eslint-disable import/imports-first */
+import _ from 'lodash/fp';
+
+import createLogger, { __winstonLogger } from '../createLogger';
 
 jest.unmock('../createLogger');
 jest.mock('winston', () => ({
@@ -17,10 +19,6 @@ jest.mock('winston', () => ({
 jest.mock('winston-papertrail', () => ({
   Papertrail: jest.fn(),
 }));
-
-import _ from 'lodash/fp';
-
-import createLogger, { __winstonLogger } from '../createLogger';
 
 describe('createLogger', () => {
   let logger;

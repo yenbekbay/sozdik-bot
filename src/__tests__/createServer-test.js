@@ -1,6 +1,11 @@
 /* @flow */
 
-/* eslint-disable import/imports-first */
+// eslint-disable-next-line import/no-extraneous-dependencies
+import request from 'supertest-as-promised';
+
+import createLogger from '../createLogger';
+import createServer from '../createServer';
+import env from '../env';
 
 jest.mock('../telegram', () => ({
   createTelegramBot: () => ({
@@ -15,13 +20,6 @@ jest.mock('../messenger', () => ({
     handleWebhookCallback: jest.fn(),
   }),
 }));
-
-// eslint-disable-next-line import/no-extraneous-dependencies
-import request from 'supertest-as-promised';
-
-import createLogger from '../createLogger';
-import createServer from '../createServer';
-import env from '../env';
 
 const { telegramWebhookUrl, messengerWebhookUrl } = env;
 const logger = createLogger('test');

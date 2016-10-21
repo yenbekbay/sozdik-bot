@@ -1,6 +1,9 @@
 /* @flow */
 
-/* eslint-disable import/imports-first */
+import { getTranslationsForQuery } from '../../sozdikApi';
+import { trackUser, trackEvent } from '../../analytics';
+import createLogger from '../../createLogger';
+import curriedHandleInlineQuery from '../handleInlineQuery';
 
 jest.mock('crypto', () => ({
   createHash: () => ({
@@ -9,11 +12,6 @@ jest.mock('crypto', () => ({
     }),
   }),
 }));
-
-import { getTranslationsForQuery } from '../../sozdikApi';
-import { trackUser, trackEvent } from '../../analytics';
-import createLogger from '../../createLogger';
-import curriedHandleInlineQuery from '../handleInlineQuery';
 
 const answerInlineQuery = jest.fn();
 const logger = createLogger('test');

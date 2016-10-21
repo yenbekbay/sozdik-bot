@@ -1,6 +1,11 @@
 /* @flow */
 
-/* eslint-disable import/imports-first */
+import {
+  trackUser,
+  trackEvent,
+  __logger,
+  __mixpanel,
+} from '../analytics';
 
 jest.unmock('../analytics');
 jest.mock('mixpanel', () => ({
@@ -23,13 +28,6 @@ jest.mock('mixpanel', () => ({
     }),
   }),
 }));
-
-import {
-  trackUser,
-  trackEvent,
-  __logger,
-  __mixpanel,
-} from '../analytics';
 
 describe('analytics', () => {
   beforeEach(() => {

@@ -1,11 +1,9 @@
 /* @flow */
 
-/* eslint-disable import/imports-first */
+import { getTranslation, getTranslationsForQuery } from '../sozdikApi';
 
 jest.unmock('request-promise');
 jest.unmock('../sozdikApi');
-
-import { getTranslation, getTranslationsForQuery } from '../sozdikApi';
 
 describe('sozdikApi', () => {
   it('translates from ru to kk', async () => {

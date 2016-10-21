@@ -1,7 +1,5 @@
 /* @flow */
 
-/* eslint-disable import/imports-first */
-
 import { getTranslationsForQuery } from '../../sozdikApi';
 import { trackUser, trackEvent } from '../../analytics';
 import createLogger from '../../createLogger';

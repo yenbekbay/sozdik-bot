@@ -1,6 +1,6 @@
 /* @flow */
 
-/* eslint-disable import/imports-first */
+import createTelegramBot from '../createTelegramBot';
 
 jest.mock('../telegramBotApi', () => () => ({
   sendMessage: jest.fn(),
@@ -10,8 +10,6 @@ jest.mock('../telegramBotApi', () => () => ({
 }));
 jest.mock('../handleInlineQuery', () => () => jest.fn());
 jest.mock('../handleMessage', () => () => jest.fn());
-
-import createTelegramBot from '../createTelegramBot';
 
 describe('createTelegramBot', () => {
   let telegramBot;
