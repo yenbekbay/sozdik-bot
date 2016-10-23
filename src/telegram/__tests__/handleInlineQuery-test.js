@@ -1,9 +1,9 @@
 /* @flow */
 
-import { getTranslationsForQuery } from '../../sozdikApi';
 import { trackUser, trackEvent } from '../../analytics';
 import createLogger from '../../createLogger';
 import curriedHandleInlineQuery from '../handleInlineQuery';
+import sozdikApi from '../../sozdikApi';
 
 jest.mock('crypto', () => ({
   createHash: () => ({
@@ -14,6 +14,7 @@ jest.mock('crypto', () => ({
 }));
 
 const answerInlineQuery = jest.fn();
+const { getTranslationsForQuery } = sozdikApi('telegram');
 const logger = createLogger('test');
 
 const sampleHandleInlineQueryConfig = {
@@ -25,7 +26,11 @@ describe('handleInlineQuery', () => {
   let handleInlineQuery;
 
   beforeAll(() => {
-    handleInlineQuery = curriedHandleInlineQuery({ answerInlineQuery, logger });
+    handleInlineQuery = curriedHandleInlineQuery({
+      answerInlineQuery,
+      getTranslationsForQuery,
+      logger,
+    });
   });
 
   beforeEach(() => {

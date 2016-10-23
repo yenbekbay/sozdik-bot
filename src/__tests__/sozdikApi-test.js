@@ -1,9 +1,14 @@
 /* @flow */
 
-import { getTranslation, getTranslationsForQuery } from '../sozdikApi';
+import sozdikApi from '../sozdikApi';
 
 jest.unmock('request-promise');
 jest.unmock('../sozdikApi');
+
+const {
+  getTranslation,
+  getTranslationsForQuery,
+} = sozdikApi('facebook');
 
 describe('sozdikApi', () => {
   it('translates from ru to kk', async () => {

@@ -2,20 +2,20 @@
 
 import _ from 'lodash/fp';
 
-import { getTranslationsForQuery } from '../sozdikApi';
 import { trackUser, trackEvent } from '../analytics';
 import env from '../env';
 import type { Logger } from '../createLogger';
 import type { Message } from './types';
 import type { SendMessageFn, SendChatActionFn } from './telegramBotApi';
-import type { Translation } from '../sozdikApi';
+import type { Translation, GetTranslationForQueryFn } from '../sozdikApi';
 
 const { helpText, startText, noTranslationsFoundText, errorText } = env;
 
 const handleMessage = (
-  { sendMessage, sendChatAction, logger }: {
+  { sendMessage, sendChatAction, getTranslationsForQuery, logger }: {
     sendMessage: SendMessageFn,
     sendChatAction: SendChatActionFn,
+    getTranslationsForQuery: GetTranslationForQueryFn,
     logger: Logger,
   },
 ) => async (

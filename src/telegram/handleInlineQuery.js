@@ -5,16 +5,16 @@ import crypto from 'crypto';
 import _ from 'lodash/fp';
 import removeMarkdown from 'remove-markdown';
 
-import { getTranslationsForQuery } from '../sozdikApi';
 import { trackUser, trackEvent } from '../analytics';
 import type { AnswerInlineQueryFn } from './telegramBotApi';
 import type { InlineQuery, InlineQueryResult } from './types';
 import type { Logger } from '../createLogger';
-import type { Translation } from '../sozdikApi';
+import type { Translation, GetTranslationForQueryFn } from '../sozdikApi';
 
 const handleInlineQuery = (
-  { answerInlineQuery, logger }: {
+  { answerInlineQuery, getTranslationsForQuery, logger }: {
     answerInlineQuery: AnswerInlineQueryFn,
+    getTranslationsForQuery: GetTranslationForQueryFn,
     logger: Logger,
   },
 ) => async (

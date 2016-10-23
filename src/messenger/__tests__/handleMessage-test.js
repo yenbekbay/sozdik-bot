@@ -1,10 +1,10 @@
 /* @flow */
 
-import { getTranslationsForQuery } from '../../sozdikApi';
 import { trackUser, trackEvent } from '../../analytics';
 import createLogger from '../../createLogger';
 import curriedHandleMessage from '../handleMessage';
 import env from '../../env';
+import sozdikApi from '../../sozdikApi';
 
 const { noTranslationsFoundText, errorText } = env;
 const sampleHandleMessageConfig = {
@@ -18,6 +18,7 @@ const sampleUserProfile = {
 const sendTextMessage = jest.fn();
 const sendSenderAction = jest.fn();
 const getUserProfile = jest.fn(() => Promise.resolve(sampleUserProfile));
+const { getTranslationsForQuery } = sozdikApi('facebook');
 const logger = createLogger('test');
 
 describe('handleMessage', () => {
@@ -28,6 +29,7 @@ describe('handleMessage', () => {
       sendTextMessage,
       sendSenderAction,
       getUserProfile,
+      getTranslationsForQuery,
       logger,
     });
   });

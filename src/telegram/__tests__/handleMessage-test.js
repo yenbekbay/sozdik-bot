@@ -1,10 +1,10 @@
 /* @flow */
 
-import { getTranslationsForQuery } from '../../sozdikApi';
 import { trackUser, trackEvent } from '../../analytics';
 import createLogger from '../../createLogger';
 import curriedHandleMessage from '../handleMessage';
 import env from '../../env';
+import sozdikApi from '../../sozdikApi';
 
 const { helpText, startText, noTranslationsFoundText, errorText } = env;
 const sampleHandleMessageConfig = {
@@ -14,6 +14,7 @@ const sampleHandleMessageConfig = {
 
 const sendMessage = jest.fn();
 const sendChatAction = jest.fn();
+const { getTranslationsForQuery } = sozdikApi('telegram');
 const logger = createLogger('test');
 
 describe('handleMessage', () => {
@@ -23,6 +24,7 @@ describe('handleMessage', () => {
     handleMessage = curriedHandleMessage({
       sendMessage,
       sendChatAction,
+      getTranslationsForQuery,
       logger,
     });
   });

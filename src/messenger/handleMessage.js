@@ -3,7 +3,6 @@
 import _ from 'lodash/fp';
 import removeMarkdown from 'remove-markdown';
 
-import { getTranslationsForQuery } from '../sozdikApi';
 import { trackUser, trackEvent } from '../analytics';
 import env from '../env';
 import type {
@@ -13,15 +12,22 @@ import type {
 } from './messengerPlatform';
 import type { Logger } from '../createLogger';
 import type { Message } from './types';
-import type { Translation } from '../sozdikApi';
+import type { Translation, GetTranslationForQueryFn } from '../sozdikApi';
 
 const { noTranslationsFoundText, errorText } = env;
 
 const handleMessage = (
-  { sendTextMessage, sendSenderAction, getUserProfile, logger }: {
+  {
+    sendTextMessage,
+    sendSenderAction,
+    getUserProfile,
+    getTranslationsForQuery,
+    logger,
+  }: {
     sendTextMessage: SendTextMessageFn,
     sendSenderAction: SendSenderActionFn,
     getUserProfile: GetUserProfileFn,
+    getTranslationsForQuery: GetTranslationForQueryFn,
     logger: Logger,
   },
 ) => async (

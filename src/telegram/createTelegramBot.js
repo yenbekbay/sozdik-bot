@@ -3,6 +3,7 @@
 import createLogger from '../createLogger';
 import curriedHandleInlineQuery from './handleInlineQuery';
 import curriedHandleMessage from './handleMessage';
+import sozdikApi from '../sozdikApi';
 import telegramBotApi from './telegramBotApi';
 import type {
   Message,
@@ -14,6 +15,7 @@ type Update = {
   inline_query?: InlineQuery,
 };
 
+const { getTranslationsForQuery } = sozdikApi('telegram');
 const logger = createLogger('telegram');
 
 const createTelegramBot = () => {
@@ -28,10 +30,12 @@ const createTelegramBot = () => {
   const handleMessage = curriedHandleMessage({
     sendMessage,
     sendChatAction,
+    getTranslationsForQuery,
     logger,
   });
   const handleInlineQuery = curriedHandleInlineQuery({
     answerInlineQuery,
+    getTranslationsForQuery,
     logger,
   });
 

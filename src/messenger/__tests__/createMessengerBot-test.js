@@ -11,7 +11,7 @@ jest.mock('../messengerPlatform', () => () => ({
 }));
 jest.mock('../handleMessage', () => () => jest.fn());
 
-describe('createTelegramBot', () => {
+describe('createMessengerBot', () => {
   let messengerBot;
 
   beforeAll(() => {

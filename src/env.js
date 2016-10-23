@@ -2,8 +2,13 @@
 
 const optionalEnvVariable = (variableName: string) => process.env[variableName];
 const requiredEnvVariable = (variableName: string) => {
-  const variable = optionalEnvVariable(variableName) ||
-    ((variableName !== 'SOZDIK_API_KEY' && 'CI' in process.env) && 'test');
+  const variable = optionalEnvVariable(variableName) || (
+    (
+      variableName !== 'SOZDIK_API_TELEGRAM_KEY' &&
+      variableName !== 'SOZDIK_API_FACEBOOK_KEY' &&
+      'CI' in process.env
+    ) && 'test'
+  );
 
   if (!variable) {
     throw new Error(`${variableName} environment variable is required`);
@@ -36,7 +41,10 @@ export default {
     port: optionalEnvVariable('PAPERTRAIL_PORT'),
   },
   port: 8080,
-  sozdikApiKey: requiredEnvVariable('SOZDIK_API_KEY'),
+  sozdikApiKey: {
+    telegram: requiredEnvVariable('SOZDIK_API_TELEGRAM_KEY'),
+    facebook: requiredEnvVariable('SOZDIK_API_FACEBOOK_KEY'),
+  },
   telegramBotToken: requiredEnvVariable('TELEGRAM_BOT_TOKEN'),
   tunnelOptions: { subdomain: 'sozdikbot' },
   isProd: optionalEnvVariable('NODE_ENV') === 'production',

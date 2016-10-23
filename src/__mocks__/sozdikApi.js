@@ -39,13 +39,15 @@ const translations = {
 };
 /* eslint-enable quote-props */
 
-const getTranslation = jest.fn((
-  query: string,
-  fromLang: Language,
-  toLang: Language,
-) => _.find({ toLang, fromLang }, translations[query]));
-const getTranslationsForQuery = jest.fn(
-  (query: string) => translations[query] || [],
-);
+const sozdikApi = () => ({
+  getTranslation: jest.fn((
+    query: string,
+    fromLang: Language,
+    toLang: Language,
+  ) => _.find({ toLang, fromLang }, translations[query])),
+  getTranslationsForQuery: jest.fn(
+    (query: string) => translations[query] || [],
+  ),
+});
 
-export { getTranslation, getTranslationsForQuery };
+export default sozdikApi;
