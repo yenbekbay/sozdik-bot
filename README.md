@@ -8,6 +8,8 @@
 
 Telegram and Messenger bot for Sozdik, a Russian to Kazakh dictionary
 
+<img width="50%" src=".github/sozdik-telegram-bot.jpg" alt="Telegram screenshot"><img width="50%" src=".github/sozdik-messenger-bot.jpg" alt="Messenger screenshot">
+
 ## Development
 
 1. Copy env-example to .env and set the variables
