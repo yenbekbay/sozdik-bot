@@ -1718,14 +1718,14 @@ eslint-config-airbnb@^12.0.0:
   dependencies:
     eslint-config-airbnb-base "^8.0.0"
 
-eslint-config-anvilabs@^1.1.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-anvilabs/-/eslint-config-anvilabs-1.5.0.tgz#5823b4931f7718e34e2765bb4c138f01f64a9268"
+eslint-config-anvilabs@^1.5.0:
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/eslint-config-anvilabs/-/eslint-config-anvilabs-1.6.3.tgz#27e25784724c58cbfe6506276be05817c65072a7"
   dependencies:
     eslint-config-airbnb "^12.0.0"
     eslint-plugin-babel "^3.3.0"
     eslint-plugin-eslint-comments "^0.1.1"
-    eslint-plugin-flowtype "^2.20.0"
+    eslint-plugin-flowtype "^2.23.0"
     eslint-plugin-fp "^2.2.0"
     eslint-plugin-import "^1.16.0"
     eslint-plugin-jasmine "^1.8.1"
@@ -1755,9 +1755,9 @@ eslint-plugin-eslint-comments@^0.1.1:
   dependencies:
     escape-string-regexp "^1.0.5"
 
-eslint-plugin-flowtype@^2.20.0:
-  version "2.20.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.20.0.tgz#69b90576174ee6a305362c777720825e7db9464b"
+eslint-plugin-flowtype@^2.23.0:
+  version "2.25.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.25.0.tgz#c462521ab20ce3d8db819f10ad3c9f1bc7f3f819"
   dependencies:
     lodash "^4.15.0"
 
@@ -2186,9 +2186,9 @@ flat-cache@1.0.10:
     read-json-sync "^1.1.0"
     write "^0.2.1"
 
-flow-bin@^0.33.0:
-  version "0.33.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.33.0.tgz#ef011eace7a6100f1ae08b852db78279032b8750"
+flow-bin:
+  version "0.34.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.34.0.tgz#093ed36981e8fafc39d16f0b0878d0968aa80fad"
 
 for-in@^0.1.5:
   version "0.1.6"
