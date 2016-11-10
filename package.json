@@ -102,7 +102,7 @@
     "commitizen": "^2.8.6",
     "cz-conventional-changelog": "^1.2.0",
     "eslint": "^3.7.0",
-    "eslint-config-anvilabs": "^1.5.0",
+    "eslint-config-anvilabs": "^2.0.1",
     "flow-bin": "^0.34.0",
     "husky": "^0.11.9",
     "jest-cli": "^16.0.0",
