@@ -24,4 +24,4 @@
 
 ## License
 
-[MIT License](./LICENSE) © Anvilabs LLC 
+[GNU GPLv3 License](./LICENSE) © Anvilabs LLC
