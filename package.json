@@ -1,12 +1,8 @@
 {
   "name": "sozdik-bot",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Telegram and Messenger bot for Sozdik, a Russian to Kazakh dictionary",
-  "keywords": [
-    "telegram bot",
-    "messenger bot",
-    "fb bot"
-  ],
+  "private": true,
   "homepage": "https://github.com/anvilabs/sozdik-bot",
   "repository": "anvilabs/sozdik-bot",
   "license": "GPL-3.0",
@@ -19,11 +15,6 @@
     "node": ">=6.0",
     "npm": ">=3.0"
   },
-  "files": [
-    "build/",
-    ".env",
-    "pm2.json"
-  ],
   "scripts": {
     "deploy": "sh ./scripts/deploy.sh",
     "start": "nodemon src/index.js",
