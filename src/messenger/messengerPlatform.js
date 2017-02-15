@@ -75,8 +75,6 @@ const messengerPlatform = (logger: Logger) => ({
         `Failed to send a message to user ${recipientId}:`,
         err.message,
       );
-
-      return;
     },
   ),
   sendSenderAction: (
@@ -92,8 +90,6 @@ const messengerPlatform = (logger: Logger) => ({
         `Failed to send a ${action} action to user ${recipientId}:`,
         err.message,
       );
-
-      return;
     },
   ),
   setGreetingText: (text: string) => threadSettingsRequest(

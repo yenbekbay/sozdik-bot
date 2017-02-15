@@ -80,8 +80,6 @@ const telegramBotApi = (logger: Logger) => ({
         `Failed to send a message to chat ${chat.id}:`,
         err.message,
       );
-
-      return;
     },
   ),
   sendChatAction: (
@@ -97,8 +95,6 @@ const telegramBotApi = (logger: Logger) => ({
         `Failed to send a ${action} action to chat ${chat.id}:`,
         err.message,
       );
-
-      return;
     },
   ),
   answerInlineQuery: (
@@ -117,8 +113,6 @@ const telegramBotApi = (logger: Logger) => ({
         `Failed to answer inline query ${inlineQueryId}:`,
         err.message,
       );
-
-      return;
     },
   ),
   setWebhook: (url: string) => apiRequest('setWebhook', { url }).then(

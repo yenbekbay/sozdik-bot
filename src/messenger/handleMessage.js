@@ -79,7 +79,7 @@ const handleMessage = (
       err.message,
     );
 
-    return await sendTextMessage({ recipientId, text: errorText });
+    return sendTextMessage({ recipientId, text: errorText });
   }
 };
 

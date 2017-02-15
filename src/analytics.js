@@ -33,8 +33,6 @@ const trackUser = (user: {
     `Failed to track user ${JSON.stringify(user)} to Mixpanel:`,
     err.message,
   );
-
-  return;
 });
 
 const trackEvent = (
@@ -61,8 +59,6 @@ const trackEvent = (
     `Failed to track event ${event} for user ${userId} to Mixpanel:`,
     err.message,
   );
-
-  return;
 });
 
 export {

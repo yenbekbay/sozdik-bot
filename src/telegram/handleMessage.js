@@ -11,6 +11,7 @@ import type { Translation, GetTranslationForQueryFn } from '../sozdikApi';
 
 const { helpText, startText, noTranslationsFoundText, errorText } = env;
 
+/* eslint-disable max-statements */
 const handleMessage = (
   { sendMessage, sendChatAction, getTranslationsForQuery, logger }: {
     sendMessage: SendMessageFn,
@@ -108,8 +109,9 @@ const handleMessage = (
       err.message,
     );
 
-    return await sendMessage({ chat, text: errorText });
+    return sendMessage({ chat, text: errorText });
   }
 };
+/* eslint-enable max-statements */
 
 export default handleMessage;
