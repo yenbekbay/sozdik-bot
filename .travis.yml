@@ -1,15 +1,12 @@
 language: node_js
 node_js:
   - "6"
-install:
-  - npm install -g yarn
-  - yarn
-cache:
-  directories:
-    - ~/.yarn-cache
-    - ~/.nvm
 script:
-  - yarn run test:ci
+- yarn test:ci
+cache:
+  yarn: true
+  directories:
+    - node_modules
 branches:
   only:
   - master
