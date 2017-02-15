@@ -72,15 +72,6 @@
     "winston-papertrail": "^1.0.3"
   },
   "devDependencies": {
-    "@types/body-parser": "^0.0.33",
-    "@types/dotenv": "^2.0.18",
-    "@types/express": "^4.0.33",
-    "@types/lodash": "^4.14.37",
-    "@types/mixpanel": "^0.0.28",
-    "@types/morgan": "^1.7.32",
-    "@types/request": "^0.0.32",
-    "@types/request-promise": "^3.0.32",
-    "@types/winston": "^0.0.28",
     "babel-cli": "^6.16.0",
     "babel-jest": "^16.0.0",
     "babel-plugin-lodash": "^3.2.9",
