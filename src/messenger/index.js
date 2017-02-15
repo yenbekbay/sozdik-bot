@@ -2,4 +2,4 @@
 
 import createMessengerBot from './createMessengerBot';
 
-export { createMessengerBot };
+export {createMessengerBot};

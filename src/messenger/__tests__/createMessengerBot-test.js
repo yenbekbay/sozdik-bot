@@ -23,41 +23,55 @@ describe('createMessengerBot', () => {
   });
 
   it('handles webhook verification', () => {
-    expect(messengerBot.verifyWebhook({
-      'hub.mode': 'blahblahblah',
-    })).toBe(false);
-    expect(messengerBot.verifyWebhook({
-      'hub.mode': 'subscribe',
-      'hub.verify_token': 'blahblahblah',
-    })).toBe(false);
-    expect(messengerBot.verifyWebhook({
-      'hub.mode': 'subscribe',
-      'hub.verify_token': env.fbWebhookVerifyToken,
-    })).toBe(true);
+    expect(
+      messengerBot.verifyWebhook({
+        'hub.mode': 'blahblahblah',
+      }),
+    ).toBe(false);
+    expect(
+      messengerBot.verifyWebhook({
+        'hub.mode': 'subscribe',
+        'hub.verify_token': 'blahblahblah',
+      }),
+    ).toBe(false);
+    expect(
+      messengerBot.verifyWebhook({
+        'hub.mode': 'subscribe',
+        'hub.verify_token': env.fbWebhookVerifyToken,
+      }),
+    ).toBe(true);
   });
 
   it('handles message webhook callbacks', () => {
     messengerBot.handleWebhookCallback({
-      entry: [{
-        messaging: [{
-          sender: { id: '123' },
-          message: {
-            text: 'test',
-          },
-        }],
-      }],
+      entry: [
+        {
+          messaging: [
+            {
+              sender: {id: '123'},
+              message: {
+                text: 'test',
+              },
+            },
+          ],
+        },
+      ],
     });
 
     expect(messengerBot.__handleMessage).toHaveBeenCalledTimes(1);
   });
 
-  it('doesn\'t handle unsupported webhook callbacks', () => {
+  it("doesn't handle unsupported webhook callbacks", () => {
     messengerBot.handleWebhookCallback({
-      entry: [{
-        messaging: [{
-          sender: { id: '123' },
-        }],
-      }],
+      entry: [
+        {
+          messaging: [
+            {
+              sender: {id: '123'},
+            },
+          ],
+        },
+      ],
     });
 
     expect(messengerBot.__handleMessage).not.toHaveBeenCalled();

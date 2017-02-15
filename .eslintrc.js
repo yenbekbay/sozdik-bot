@@ -8,8 +8,6 @@ module.exports = {
   rules: {
     'no-magic-numbers': 0,
 
-    'prettier/prettier': 0,
-
     'promise/prefer-await-to-then': 0,
   },
 };

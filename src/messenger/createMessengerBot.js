@@ -7,14 +7,14 @@ import curriedHandleMessage from './handleMessage';
 import env from '../env';
 import messengerPlatform from './messengerPlatform';
 import sozdikApi from '../sozdikApi';
-import type { Messaging } from './types';
+import type {Messaging} from './types';
 
 type WebhookCallback = {
-  entry: Array<{ messaging: Array<Messaging> }>,
+  entry: Array<{messaging: Array<Messaging>}>,
 };
 
-const { fbWebhookVerifyToken } = env;
-const { getTranslationsForQuery } = sozdikApi('facebook');
+const {fbWebhookVerifyToken} = env;
+const {getTranslationsForQuery} = sozdikApi('facebook');
 const logger = createLogger('messenger');
 
 const createMessengerBot = () => {
@@ -37,7 +37,7 @@ const createMessengerBot = () => {
   return {
     verifyWebhook: (query: Object) =>
       query['hub.mode'] === 'subscribe' &&
-      query['hub.verify_token'] === fbWebhookVerifyToken,
+        query['hub.verify_token'] === fbWebhookVerifyToken,
     handleWebhookCallback: (callback: WebhookCallback) => _.flow(
       _.flatMap('messaging'),
       _.forEach((messaging: Messaging) => {

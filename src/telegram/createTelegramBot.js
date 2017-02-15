@@ -5,17 +5,14 @@ import curriedHandleInlineQuery from './handleInlineQuery';
 import curriedHandleMessage from './handleMessage';
 import sozdikApi from '../sozdikApi';
 import telegramBotApi from './telegramBotApi';
-import type {
-  Message,
-  InlineQuery,
-} from './types';
+import type {Message, InlineQuery} from './types';
 
 type Update = {
   message?: Message,
   inline_query?: InlineQuery,
 };
 
-const { getTranslationsForQuery } = sozdikApi('telegram');
+const {getTranslationsForQuery} = sozdikApi('telegram');
 const logger = createLogger('telegram');
 
 const createTelegramBot = () => {

@@ -1,6 +1,6 @@
 /* @flow */
 
-import { trackUser, trackEvent } from '../../analytics';
+import {trackUser, trackEvent} from '../../analytics';
 import createLogger from '../../createLogger';
 import curriedHandleInlineQuery from '../handleInlineQuery';
 import sozdikApi from '../../sozdikApi';
@@ -14,12 +14,12 @@ jest.mock('crypto', () => ({
 }));
 
 const answerInlineQuery = jest.fn();
-const { getTranslationsForQuery } = sozdikApi('telegram');
+const {getTranslationsForQuery} = sozdikApi('telegram');
 const logger = createLogger('test');
 
 const sampleHandleInlineQueryConfig = {
   id: '123',
-  from: { id: '123' },
+  from: {id: '123'},
 };
 
 describe('handleInlineQuery', () => {
@@ -51,7 +51,9 @@ describe('handleInlineQuery', () => {
 
     expect(getTranslationsForQuery).toHaveBeenCalledWith(query.toLowerCase());
     expect(trackUser).toHaveBeenCalledWith(sampleHandleInlineQueryConfig.from);
-    expect(trackEvent).toHaveBeenCalledWith(
+    expect(
+      trackEvent,
+    ).toHaveBeenCalledWith(
       sampleHandleInlineQueryConfig.from.id,
       'Sent an inline query',
       {
@@ -62,17 +64,19 @@ describe('handleInlineQuery', () => {
     );
     expect(answerInlineQuery).toHaveBeenCalledWith({
       inlineQueryId: sampleHandleInlineQueryConfig.id,
-      results: [{
-        description: 'text',
-        id: '123',
-        input_message_content: {
-          disable_web_page_preview: true,
-          message_text: 'title:\ntext',
-          parse_mode: 'Markdown',
+      results: [
+        {
+          description: 'text',
+          id: '123',
+          input_message_content: {
+            disable_web_page_preview: true,
+            message_text: 'title:\ntext',
+            parse_mode: 'Markdown',
+          },
+          title: 'title',
+          type: 'article',
         },
-        title: 'title',
-        type: 'article',
-      }],
+      ],
     });
   });
 
@@ -88,7 +92,7 @@ describe('handleInlineQuery', () => {
     expect(answerInlineQuery).not.toHaveBeenCalled();
   });
 
-  it('doesn\'t track an event if no translations were found', async () => {
+  it("doesn't track an event if no translations were found", async () => {
     await handleInlineQuery({
       ...sampleHandleInlineQueryConfig,
       query: 'Блаблабла',

@@ -2,25 +2,30 @@
 
 import _ from 'lodash/fp';
 
-import { trackUser, trackEvent } from '../analytics';
+import {trackUser, trackEvent} from '../analytics';
 import env from '../env';
-import type { Logger } from '../createLogger';
-import type { Message } from './types';
-import type { SendMessageFn, SendChatActionFn } from './telegramBotApi';
-import type { Translation, GetTranslationForQueryFn } from '../sozdikApi';
+import type {Logger} from '../createLogger';
+import type {Message} from './types';
+import type {SendMessageFn, SendChatActionFn} from './telegramBotApi';
+import type {Translation, GetTranslationForQueryFn} from '../sozdikApi';
 
-const { helpText, startText, noTranslationsFoundText, errorText } = env;
+const {helpText, startText, noTranslationsFoundText, errorText} = env;
 
 /* eslint-disable max-statements */
 const handleMessage = (
-  { sendMessage, sendChatAction, getTranslationsForQuery, logger }: {
+  {
+    sendMessage,
+    sendChatAction,
+    getTranslationsForQuery,
+    logger,
+  }: {
     sendMessage: SendMessageFn,
     sendChatAction: SendChatActionFn,
     getTranslationsForQuery: GetTranslationForQueryFn,
     logger: Logger,
   },
 ) => async (
-  { text, from: user, chat }: Message,
+  {text, from: user, chat}: Message,
 ): Promise<?(Message | Array<Message>)> => {
   if (!text || text.length === 0) return null;
 
@@ -76,31 +81,33 @@ const handleMessage = (
 
         const [translations] = await Promise.all([
           getTranslationsForQuery(text.toLowerCase()),
-          sendChatAction({ chat, action: 'typing' }),
+          sendChatAction({chat, action: 'typing'}),
         ]);
 
         await Promise.all([
           trackUser(user),
           trackEvent(user.id, 'Requested translations', {
             query: text,
-            kk_translation: !!_.find({ toLang: 'kk' }, translations),
-            ru_translation: !!_.find({ toLang: 'ru' }, translations),
+            kk_translation: !!_.find({toLang: 'kk'}, translations),
+            ru_translation: !!_.find({toLang: 'ru'}, translations),
           }),
         ]);
 
         if (translations.length > 0) {
-          return await Promise.all(_.map(
-            (translation: Translation) => sendMessage({
-              chat,
-              text: `${translation.title}:\n${translation.text}`,
-              parse_mode: 'Markdown',
-              disable_web_page_preview: true,
-            }),
-            translations,
-          ));
+          return await Promise.all(
+            _.map(
+              (translation: Translation) => sendMessage({
+                chat,
+                text: `${translation.title}:\n${translation.text}`,
+                parse_mode: 'Markdown',
+                disable_web_page_preview: true,
+              }),
+              translations,
+            ),
+          );
         }
 
-        return await sendMessage({ chat, text: noTranslationsFoundText });
+        return await sendMessage({chat, text: noTranslationsFoundText});
       }
     }
   } catch (err) {
@@ -109,7 +116,7 @@ const handleMessage = (
       err.message,
     );
 
-    return sendMessage({ chat, text: errorText });
+    return sendMessage({chat, text: errorText});
   }
 };
 /* eslint-enable max-statements */

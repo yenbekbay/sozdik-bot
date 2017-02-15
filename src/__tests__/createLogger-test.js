@@ -2,7 +2,7 @@
 
 import _ from 'lodash/fp';
 
-import createLogger, { __winstonLogger } from '../createLogger';
+import createLogger, {__winstonLogger} from '../createLogger';
 
 jest.unmock('../createLogger');
 jest.mock('winston', () => ({
@@ -40,8 +40,10 @@ describe('createLogger', () => {
       (level: string) => {
         expect(__winstonLogger[level]).toHaveBeenCalledTimes(1);
         // $FlowMissingDefinition
-        expect(__winstonLogger[level])
-          .toHaveBeenLastCalledWith('[test]', `${level} message`);
+        expect(__winstonLogger[level]).toHaveBeenLastCalledWith(
+          '[test]',
+          `${level} message`,
+        );
       },
       logLevels,
     );

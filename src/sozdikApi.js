@@ -20,7 +20,7 @@ export type Translation = {
 export type GetTranslationFn = (
   query: string,
   fromLang: Language,
-  toLang: Language
+  toLang: Language,
 ) => Promise<?Translation>;
 export type GetTranslationForQueryFn = (
   query: string,
@@ -33,7 +33,7 @@ const formattedLanguageMappings = {
   kk: 'по-казахски',
 };
 const request = rp.defaults({
-  headers: { 'User-Agent': 'sozdik-bot' },
+  headers: {'User-Agent': 'sozdik-bot'},
   gzip: true,
   json: true,
 });
@@ -69,19 +69,23 @@ const sozdikApi = (client: 'telegram' | 'facebook') => {
 
     if (json.message !== 'Found' || !json.translation) return null;
 
-    const converters = [{
-      filter: 'abbr',
-      replacement: (content: string) => `_${content}_`,
-    }, {
-      filter: (node: Object) => node.nodeName === 'A'
-        && node.getAttribute('href')
-        && !/^https?:\/\//.test(node.getAttribute('href')),
-      replacement: (content: string, node: Object) =>
-        `[${content}](https://sozdik.kz/ru${node.getAttribute('href')}` +
-        `${node.title ? ` "${node.title}"` : ''})`,
-    }];
+    const converters = [
+      {
+        filter: 'abbr',
+        replacement: (content: string) => `_${content}_`,
+      },
+      {
+        filter: (node: Object) =>
+          node.nodeName === 'A' &&
+            node.getAttribute('href') &&
+            !/^https?:\/\//.test(node.getAttribute('href')),
+        replacement: (content: string, node: Object) =>
+          `[${content}](https://sozdik.kz/ru${node.getAttribute('href')}` +
+            `${node.title ? ` "${node.title}"` : ''})`,
+      },
+    ];
 
-    const text = toMarkdown(json.translation, { converters })
+    const text = toMarkdown(json.translation, {converters})
       .replace(/(\d+)\\./g, '$1.')
       .replace(/<\/?span>/g, '');
 
@@ -100,17 +104,19 @@ const sozdikApi = (client: 'telegram' | 'facebook') => {
   const getTranslationsForQuery = async (
     query: string,
   ): Promise<Array<Translation>> => {
-    const translations = _.compact(await Promise.all([
-      getTranslation(query, 'kk', 'ru'),
-      !/[әіңғүұқөһ]/i.test(query) && getTranslation(query, 'ru', 'kk'),
-    ]));
+    const translations = _.compact(
+      await Promise.all([
+        getTranslation(query, 'kk', 'ru'),
+        !/[әіңғүұқөһ]/i.test(query) && getTranslation(query, 'ru', 'kk'),
+      ]),
+    );
 
     if (translations.length > 0) {
       _.forEach(
         (translation: Translation) => {
           logger.debug(
             `Found a ${translation.toLang === 'ru' ? 'Russian' : 'Kazakh'} ` +
-            `translation for "${query}"`,
+              `translation for "${query}"`,
           );
         },
         translations,
@@ -122,8 +128,8 @@ const sozdikApi = (client: 'telegram' | 'facebook') => {
     return translations;
   };
 
-  return { getTranslation, getTranslationsForQuery };
+  return {getTranslation, getTranslationsForQuery};
 };
 
 export default sozdikApi;
-export { logger as __logger };
+export {logger as __logger};

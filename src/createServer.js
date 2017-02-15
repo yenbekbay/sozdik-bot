@@ -3,14 +3,14 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import morgan from 'morgan';
-import type { $Request, $Response } from 'express';
+import type {$Request, $Response} from 'express';
 
-import { createTelegramBot } from './telegram';
-import { createMessengerBot } from './messenger';
+import {createTelegramBot} from './telegram';
+import {createMessengerBot} from './messenger';
 import env from './env';
-import type { Logger } from './createLogger';
+import type {Logger} from './createLogger';
 
-const { telegramWebhookUrl, messengerWebhookUrl } = env;
+const {telegramWebhookUrl, messengerWebhookUrl} = env;
 
 const createServer = (logger: Logger) => {
   const server = express();
@@ -18,18 +18,19 @@ const createServer = (logger: Logger) => {
   const messengerBot = createMessengerBot();
 
   server.use(bodyParser.json());
-  server.use(bodyParser.urlencoded({ extended: true }));
-  server.use(morgan(
-    ':method :url HTTP/:http-version :status - :response-time ms',
-    { stream: logger.stream },
-  ));
+  server.use(bodyParser.urlencoded({extended: true}));
+  server.use(
+    morgan(':method :url HTTP/:http-version :status - :response-time ms', {
+      stream: logger.stream,
+    }),
+  );
 
-  server.post(telegramWebhookUrl, ({ body }: $Request, res: $Response) => {
+  server.post(telegramWebhookUrl, ({body}: $Request, res: $Response) => {
     telegramBot.handleUpdate((body: any));
     res.sendStatus(200);
   });
 
-  server.get(messengerWebhookUrl, ({ query }: $Request, res: $Response) => {
+  server.get(messengerWebhookUrl, ({query}: $Request, res: $Response) => {
     if (messengerBot.verifyWebhook(query)) {
       res.send(query['hub.challenge']);
     } else {
@@ -37,7 +38,7 @@ const createServer = (logger: Logger) => {
     }
   });
 
-  server.post(messengerWebhookUrl, ({ body }: $Request, res: $Response) => {
+  server.post(messengerWebhookUrl, ({body}: $Request, res: $Response) => {
     messengerBot.handleWebhookCallback((body: any));
     res.sendStatus(200);
   });

@@ -30,7 +30,7 @@ describe('telegramBotApi', () => {
 
   it('sends a message', async () => {
     await botApi.sendMessage({
-      chat: { id: '123', type: 'private' },
+      chat: {id: '123', type: 'private'},
       text: 'test',
       parse_mode: 'Markdown',
     });
@@ -51,7 +51,7 @@ describe('telegramBotApi', () => {
     request.post.mockImplementationOnce(() => Promise.reject(new Error()));
 
     await botApi.sendMessage({
-      chat: { id: '123', type: 'private' },
+      chat: {id: '123', type: 'private'},
       text: 'test',
       parse_mode: 'Markdown',
     });
@@ -61,7 +61,7 @@ describe('telegramBotApi', () => {
 
   it('sends a chat action', async () => {
     await botApi.sendChatAction({
-      chat: { id: '123', type: 'private' },
+      chat: {id: '123', type: 'private'},
       action: 'typing',
     });
 
@@ -80,7 +80,7 @@ describe('telegramBotApi', () => {
     request.post.mockImplementationOnce(() => Promise.reject(new Error()));
 
     await botApi.sendChatAction({
-      chat: { id: '123', type: 'private' },
+      chat: {id: '123', type: 'private'},
       action: 'typing',
     });
 
@@ -122,7 +122,7 @@ describe('telegramBotApi', () => {
     // $FlowMissingDefinition
     expect(request.post).toHaveBeenLastCalledWith({
       url: urlForTelegramApiMethod('setWebhook'),
-      form: { url: 'https://test.com' },
+      form: {url: 'https://test.com'},
     });
   });
 

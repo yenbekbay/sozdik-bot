@@ -2,4 +2,4 @@
 
 import createTelegramBot from './createTelegramBot';
 
-export { createTelegramBot };
+export {createTelegramBot};

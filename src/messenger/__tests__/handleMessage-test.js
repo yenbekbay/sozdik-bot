@@ -1,12 +1,12 @@
 /* @flow */
 
-import { trackUser, trackEvent } from '../../analytics';
+import {trackUser, trackEvent} from '../../analytics';
 import createLogger from '../../createLogger';
 import curriedHandleMessage from '../handleMessage';
 import env from '../../env';
 import sozdikApi from '../../sozdikApi';
 
-const { noTranslationsFoundText, errorText } = env;
+const {noTranslationsFoundText, errorText} = env;
 const sampleHandleMessageConfig = {
   recipientId: '123',
 };
@@ -18,7 +18,7 @@ const sampleUserProfile = {
 const sendTextMessage = jest.fn();
 const sendSenderAction = jest.fn();
 const getUserProfile = jest.fn(() => Promise.resolve(sampleUserProfile));
-const { getTranslationsForQuery } = sozdikApi('facebook');
+const {getTranslationsForQuery} = sozdikApi('facebook');
 const logger = createLogger('test');
 
 describe('handleMessage', () => {
@@ -49,11 +49,12 @@ describe('handleMessage', () => {
 
     await handleMessage({
       ...sampleHandleMessageConfig,
-      message: { text },
+      message: {text},
     });
 
-    expect(getUserProfile)
-      .toHaveBeenCalledWith(sampleHandleMessageConfig.recipientId);
+    expect(getUserProfile).toHaveBeenCalledWith(
+      sampleHandleMessageConfig.recipientId,
+    );
     expect(getTranslationsForQuery).toHaveBeenCalledWith(text.toLowerCase());
     expect(sendSenderAction).toHaveBeenCalledWith({
       recipientId: sampleHandleMessageConfig.recipientId,
@@ -63,7 +64,9 @@ describe('handleMessage', () => {
       id: sampleHandleMessageConfig.recipientId,
       ...sampleUserProfile,
     });
-    expect(trackEvent).toHaveBeenCalledWith(
+    expect(
+      trackEvent,
+    ).toHaveBeenCalledWith(
       sampleHandleMessageConfig.recipientId,
       'Requested translations',
       {
@@ -81,7 +84,7 @@ describe('handleMessage', () => {
   it('returns early for an ineligible query', async () => {
     await handleMessage({
       ...sampleHandleMessageConfig,
-      message: { text: '' },
+      message: {text: ''},
     });
 
     expect(getUserProfile).not.toHaveBeenCalled();
@@ -95,7 +98,7 @@ describe('handleMessage', () => {
   it('sends a predefined message if no translations were found', async () => {
     await handleMessage({
       ...sampleHandleMessageConfig,
-      message: { text: 'Блаблабла' },
+      message: {text: 'Блаблабла'},
     });
 
     expect(sendTextMessage).toHaveBeenCalledWith({
@@ -111,7 +114,7 @@ describe('handleMessage', () => {
 
     await handleMessage({
       ...sampleHandleMessageConfig,
-      message: { text: 'Блаблабла' },
+      message: {text: 'Блаблабла'},
     });
 
     expect(logger.error).toHaveBeenCalled();

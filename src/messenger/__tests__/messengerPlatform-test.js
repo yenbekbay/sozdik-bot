@@ -34,8 +34,8 @@ describe('messengerPlatform', () => {
     expect(request.post).toHaveBeenLastCalledWith({
       url: sendApiUrl,
       form: {
-        recipient: { id: '123' },
-        message: { text: 'test' },
+        recipient: {id: '123'},
+        message: {text: 'test'},
       },
     });
   });
@@ -62,7 +62,7 @@ describe('messengerPlatform', () => {
     expect(request.post).toHaveBeenLastCalledWith({
       url: sendApiUrl,
       form: {
-        recipient: { id: '123' },
+        recipient: {id: '123'},
         sender_action: 'typing_on',
       },
     });
@@ -88,7 +88,7 @@ describe('messengerPlatform', () => {
       url: threadSettingsUrl,
       form: {
         setting_type: 'greeting',
-        greeting: { text: 'test' },
+        greeting: {text: 'test'},
       },
     });
   });
@@ -114,8 +114,12 @@ describe('messengerPlatform', () => {
       url: urlForUserProfileRequest('123'),
       qs: {
         fields: JSON.stringify([
-          'first_name', 'last_name', 'profile_pic',
-          'locale', 'timezone', 'gender',
+          'first_name',
+          'last_name',
+          'profile_pic',
+          'locale',
+          'timezone',
+          'gender',
         ]),
       },
     });

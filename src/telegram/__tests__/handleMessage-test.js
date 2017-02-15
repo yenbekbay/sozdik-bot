@@ -1,20 +1,20 @@
 /* @flow */
 
-import { trackUser, trackEvent } from '../../analytics';
+import {trackUser, trackEvent} from '../../analytics';
 import createLogger from '../../createLogger';
 import curriedHandleMessage from '../handleMessage';
 import env from '../../env';
 import sozdikApi from '../../sozdikApi';
 
-const { helpText, startText, noTranslationsFoundText, errorText } = env;
+const {helpText, startText, noTranslationsFoundText, errorText} = env;
 const sampleHandleMessageConfig = {
-  from: { id: '123' },
-  chat: { id: '123', type: 'private' },
+  from: {id: '123'},
+  chat: {id: '123', type: 'private'},
 };
 
 const sendMessage = jest.fn();
 const sendChatAction = jest.fn();
-const { getTranslationsForQuery } = sozdikApi('telegram');
+const {getTranslationsForQuery} = sozdikApi('telegram');
 const logger = createLogger('test');
 
 describe('handleMessage', () => {
@@ -93,7 +93,9 @@ describe('handleMessage', () => {
       action: 'typing',
     });
     expect(trackUser).toHaveBeenCalledWith(sampleHandleMessageConfig.from);
-    expect(trackEvent).toHaveBeenCalledWith(
+    expect(
+      trackEvent,
+    ).toHaveBeenCalledWith(
       sampleHandleMessageConfig.from.id,
       'Requested translations',
       {

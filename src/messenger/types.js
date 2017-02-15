@@ -4,6 +4,6 @@ export type Message = {
   text: string,
 };
 export type Messaging = {
-  sender: { id: string },
+  sender: {id: string},
   message?: Message,
 };

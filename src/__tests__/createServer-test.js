@@ -20,7 +20,7 @@ jest.mock('../messenger', () => ({
   }),
 }));
 
-const { telegramWebhookUrl, messengerWebhookUrl } = env;
+const {telegramWebhookUrl, messengerWebhookUrl} = env;
 const logger = createLogger('test');
 
 describe('createServer', () => {
@@ -29,7 +29,7 @@ describe('createServer', () => {
   let messengerBot;
 
   beforeAll(() => {
-    ({ server, telegramBot, messengerBot } = createServer(logger));
+    ({server, telegramBot, messengerBot} = createServer(logger));
   });
 
   beforeEach(() => {
@@ -39,7 +39,7 @@ describe('createServer', () => {
   });
 
   it('handles telegram bot updates', async () => {
-    const sampleUpdate = { message: {} };
+    const sampleUpdate = {message: {}};
 
     await request(server)
       .post(telegramWebhookUrl)
@@ -50,7 +50,7 @@ describe('createServer', () => {
   });
 
   it('handles successful messenger bot webhook verification', async () => {
-    const sampleQuery = { 'hub.challenge': '123456789' };
+    const sampleQuery = {'hub.challenge': '123456789'};
 
     const res = await request(server)
       .get(messengerWebhookUrl)
@@ -64,22 +64,21 @@ describe('createServer', () => {
   it('handles failed messenger bot webhook verification', async () => {
     (messengerBot.verifyWebhook: any).mockImplementationOnce(() => false);
 
-    await request(server)
-      .get(messengerWebhookUrl)
-      .expect(400);
+    await request(server).get(messengerWebhookUrl).expect(400);
 
     expect(messengerBot.verifyWebhook).toHaveBeenCalled();
   });
 
   it('handles messenger bot webhook callbacks', async () => {
-    const sampleCallback = { entry: [] };
+    const sampleCallback = {entry: []};
 
     await request(server)
       .post(messengerWebhookUrl)
       .send(sampleCallback)
       .expect(200);
 
-    expect(messengerBot.handleWebhookCallback)
-      .toHaveBeenCalledWith(sampleCallback);
+    expect(messengerBot.handleWebhookCallback).toHaveBeenCalledWith(
+      sampleCallback,
+    );
   });
 });
