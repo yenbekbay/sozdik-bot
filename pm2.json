@@ -1,7 +1,7 @@
 {
   "apps": [{
     "name": "sozdik-bot",
-    "script": "build/index.js",
+    "script": "build/server.js",
     "node_args": "-r dotenv/config",
     "env": {
       "NODE_ENV": "production"

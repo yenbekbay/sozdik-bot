@@ -16,7 +16,7 @@
   },
   "scripts": {
     "deploy": "sh ./scripts/deploy.sh",
-    "start": "nodemon src/index.js",
+    "start": "nodemon src/server.js",
     "build": "npm run clean && babel --out-dir ./build --ignore **/__tests__,**/__mocks__ ./src",
     "clean": "rimraf build && mkdir build",
     "test": "npm-run-all --parallel typecheck lint jest",
