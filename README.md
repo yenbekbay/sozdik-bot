@@ -4,7 +4,6 @@
 [![Coverage Status](https://img.shields.io/codecov/c/github/anvilabs/sozdik-bot.svg)](https://codecov.io/gh/anvilabs/sozdik-bot)
 [![Dependency Status](https://img.shields.io/david/anvilabs/sozdik-bot.svg)](https://david-dm.org/anvilabs/sozdik-bot)
 [![devDependency Status](https://img.shields.io/david/dev/anvilabs/sozdik-bot.svg)](https://david-dm.org/anvilabs/sozdik-bot?type=dev)
-[![Commitizen Friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli)
 
 [Telegram](https://telegram.me/SozdikBot) and [Messenger](https://m.me/sozdikbot) bot for Sozdik, a Russian to Kazakh dictionary
 
