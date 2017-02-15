@@ -11,7 +11,6 @@ const sampleTranslation = {
   url: 'url',
 };
 
-/* eslint-disable quote-props */
 const translations = {
   'машина': [{
     ...sampleTranslation,
@@ -37,7 +36,6 @@ const translations = {
     toLang: 'ru',
   }],
 };
-/* eslint-enable quote-props */
 
 const sozdikApi = () => ({
   getTranslation: jest.fn((

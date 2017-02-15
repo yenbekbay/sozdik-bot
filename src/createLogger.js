@@ -47,7 +47,6 @@ const winstonLogger = new winston.Logger({
 const logLevels = ['error', 'warn', 'debug', 'info'];
 const createLogger = (source: string): Logger => {
   const logger = _.flow(
-    // eslint-disable-next-line fp/no-rest-parameters
     _.map((level: string): LogFn => (...data: Array<any>) => {
       winstonLogger[level](`[${source}]`, ...data);
     }),
