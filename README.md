@@ -12,7 +12,7 @@
 
 ## Development
 
-1. Copy env-example to .env and set the variables
+1. Copy .env.example to .env and set the variables
 2. Install npm modules: `$ npm run install`
 3. Start the app: `$ npm run start`
 
