@@ -42,18 +42,18 @@ const handleMessage = (
           JSON.stringify(chatInfo),
         );
 
-        return await Promise
-          .all([
-            sendMessage({
-              chat,
-              text: startText,
-              parse_mode: 'Markdown',
-              disable_web_page_preview: true,
-            }),
-            trackUser(user),
-            trackEvent(user.id, 'Requested the start message'),
-          ])
-          .then(([message]: [?Message]) => message);
+        const [message]: [?Message, any, any] = await Promise.all([
+          sendMessage({
+            chat,
+            text: startText,
+            parse_mode: 'Markdown',
+            disable_web_page_preview: true,
+          }),
+          trackUser(user),
+          trackEvent(user.id, 'Requested the start message'),
+        ]);
+
+        return message;
       }
       case '/help': {
         logger.info(
@@ -61,17 +61,17 @@ const handleMessage = (
           JSON.stringify(chatInfo),
         );
 
-        return await Promise
-          .all([
-            sendMessage({
-              chat,
-              text: helpText,
-              parse_mode: 'Markdown',
-            }),
-            trackUser(user),
-            trackEvent(user.id, 'Requested the help message'),
-          ])
-          .then(([message]: [?Message]) => message);
+        const [message]: [?Message, any, any] = await Promise.all([
+          sendMessage({
+            chat,
+            text: helpText,
+            parse_mode: 'Markdown',
+          }),
+          trackUser(user),
+          trackEvent(user.id, 'Requested the help message'),
+        ]);
+
+        return message;
       }
       default: {
         logger.info(

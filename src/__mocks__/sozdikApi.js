@@ -12,7 +12,8 @@ const sampleTranslation = {
 };
 
 const translations = {
-  машина: [
+  // prettier-ignore
+  'машина': [
     {
       ...sampleTranslation,
       query: 'машина',
@@ -26,7 +27,8 @@ const translations = {
       toLang: 'kk',
     },
   ],
-  словарь: [
+  // prettier-ignore
+  'словарь': [
     {
       ...sampleTranslation,
       query: 'словарь',
@@ -34,7 +36,8 @@ const translations = {
       toLang: 'kk',
     },
   ],
-  лұғат: [
+  // prettier-ignore
+  'лұғат': [
     {
       ...sampleTranslation,
       query: 'лұғат',
