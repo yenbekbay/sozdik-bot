@@ -12,8 +12,7 @@
     "url": "http://yenbekbay.me"
   },
   "engines": {
-    "node": ">=6.0",
-    "npm": ">=3.0"
+    "node": ">=6.0.0"
   },
   "scripts": {
     "deploy": "sh ./scripts/deploy.sh",
@@ -31,6 +30,9 @@
     "prepush": "npm test"
   },
   "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
     "coverageReporters": [
       "lcov"
     ],
@@ -41,10 +43,7 @@
     "testPathDirs": [
       "<rootDir>/src"
     ],
-    "testRegex": "/__tests__/.*-test\\.js$",
-    "collectCoverageFrom": [
-      "src/**/*.js"
-    ]
+    "testRegex": "/__tests__/.*-test\\.js$"
   },
   "config": {
     "validate-commit-msg": {
