@@ -15,19 +15,19 @@
     "node": ">=6.0.0"
   },
   "scripts": {
-    "deploy": "sh ./scripts/deploy.sh",
-    "start": "nodemon src/server.js",
-    "build": "npm run clean && babel --out-dir ./build --ignore **/__tests__,**/__mocks__ ./src",
-    "clean": "rimraf build && mkdir build",
-    "test": "npm-run-all --parallel typecheck lint jest",
-    "test:ci": "npm-run-all --parallel typecheck lint jest:coverage && codecov",
-    "jest": "jest",
-    "jest:coverage": "jest --coverage",
+    "typecheck": "flow check ./src",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
-    "typecheck": "flow check ./src",
+    "jest": "jest",
+    "jest:coverage": "jest --coverage",
+    "test": "npm-run-all --parallel typecheck lint jest",
+    "test:ci": "npm-run-all --parallel typecheck lint jest:coverage && codecov",
+    "start": "nodemon src/server.js",
     "commitmsg": "validate-commit-msg",
-    "prepush": "npm test"
+    "prepush": "npm test",
+    "clean": "rimraf build && mkdir build",
+    "build": "npm run clean && babel --out-dir ./build --ignore **/__tests__,**/__mocks__ ./src",
+    "deploy": "sh ./scripts/deploy.sh"
   },
   "jest": {
     "collectCoverageFrom": [
