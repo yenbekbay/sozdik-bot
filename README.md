@@ -11,9 +11,21 @@
 
 ## Development
 
-1. Copy .env.example to .env and set the variables
-2. Install npm modules: `$ npm run install`
-3. Start the app: `$ npm run start`
+1. **Install node/npm/yarn.** The app has been tested with node v6 and v7.
+
+2. **Clone and install dependencies:**
+```bash
+$ git clone https://github.com/anvilabs/sozdik-bot.git
+$ cd sozdik-bot
+$ yarn # npm install
+```
+
+3. **Add environment variables:** `cp .env.example .env` and edit with your values.
+
+4. **Run the server**
+```bash
+$ yarn start # npm start
+```
 
 ## Deployment
 
