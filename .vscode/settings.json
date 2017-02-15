@@ -1,13 +1,11 @@
 {
-  "files.associations": {
-    ".flowconfig": "ini",
-    "*.js.flow": "javascript",
-    "yarn.lock": "yaml"
-  },
-
-  "editor.renderWhitespace": "boundary",
+  "editor.insertSpaces": true,
   "editor.rulers": [80],
   "editor.tabSize": 2,
+
+  "eslint.autoFixOnSave": true,
+
+  "flow.useNPMPackagedFlow": true,
 
   "javascript.validate.enable": false
 }
