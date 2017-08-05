@@ -17,11 +17,9 @@ export type UserProfile = {
 
 type SendApiMethodConfig = {recipientId: string};
 type SendTextMessageConfig = SendApiMethodConfig & {text: string};
-type SendSenderActionConfig =
-  & SendApiMethodConfig
-  & {
-    action: 'mark_seen' | 'typing_on' | 'typing_off',
-  };
+type SendSenderActionConfig = SendApiMethodConfig & {
+  action: 'mark_seen' | 'typing_on' | 'typing_off',
+};
 
 export type SendTextMessageFn = (
   config: SendTextMessageConfig,
@@ -96,52 +94,57 @@ const messengerPlatform = (logger: Logger) => ({
         );
       },
     ),
-  setGreetingText: (text: string) => threadSettingsRequest('greeting', {
-    greeting: {text},
-  }).then(
-    (response: JSON) => {
-      logger.debug(`Updated greeting text thread settings to "${text}"`);
-
-      return response;
-    },
-    (err: Error) => {
-      logger.error(
-        `Failed to update greeting text thread setting to "${text}":`,
-        err.message,
-      );
-
-      throw err;
-    },
-  ),
-  getUserProfile: (userId: string) => request
-    .get({
-      url: urlForUserProfileRequest(userId),
-      qs: {
-        fields: JSON.stringify([
-          'first_name',
-          'last_name',
-          'profile_pic',
-          'locale',
-          'timezone',
-          'gender',
-        ]),
-      },
-    })
-    .then(
+  setGreetingText: (text: string) =>
+    threadSettingsRequest('greeting', {
+      greeting: {text},
+    }).then(
       (response: JSON) => {
-        logger.debug(
-          `Got profile for user ${userId}:`,
-          JSON.stringify(response),
-        );
+        logger.debug(`Updated greeting text thread settings to "${text}"`);
 
         return response;
       },
       (err: Error) => {
-        logger.error(`Failed to get profile for user ${userId}:`, err.message);
+        logger.error(
+          `Failed to update greeting text thread setting to "${text}":`,
+          err.message,
+        );
 
-        return null;
+        throw err;
       },
     ),
+  getUserProfile: (userId: string) =>
+    request
+      .get({
+        url: urlForUserProfileRequest(userId),
+        qs: {
+          fields: JSON.stringify([
+            'first_name',
+            'last_name',
+            'profile_pic',
+            'locale',
+            'timezone',
+            'gender',
+          ]),
+        },
+      })
+      .then(
+        (response: JSON) => {
+          logger.debug(
+            `Got profile for user ${userId}:`,
+            JSON.stringify(response),
+          );
+
+          return response;
+        },
+        (err: Error) => {
+          logger.error(
+            `Failed to get profile for user ${userId}:`,
+            err.message,
+          );
+
+          return null;
+        },
+      ),
 });
 
 export {request, sendApiUrl, threadSettingsUrl, urlForUserProfileRequest};
