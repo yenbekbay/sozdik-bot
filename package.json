@@ -15,9 +15,9 @@
     "node": ">=6.0.0"
   },
   "scripts": {
-    "typecheck": "flow check ./src",
-    "lint": "eslint ./src",
-    "lint:fix": "eslint --fix ./src",
+    "typecheck": "flow .",
+    "lint": "eslint --cache .",
+    "lint:fix": "eslint --cache --fix .",
     "jest": "jest",
     "jest:coverage": "jest --coverage",
     "test": "npm-run-all --parallel typecheck lint jest",

@@ -8,6 +8,11 @@
 
   "eslint.autoFixOnSave": true,
 
+  "files.exclude": {
+    "build/": true,
+    ".eslintcache": true
+  },
+
   "flow.runOnEdit": false,
   "flow.useNPMPackagedFlow": true,
 

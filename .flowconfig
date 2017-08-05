@@ -3,13 +3,14 @@
 .*/node_modules/.*/__tests__/
 .*/node_modules/.*/test/
 .*/node_modules/.*/tests/
+<PROJECT_ROOT>/build/
+
+[libs]
+flow-typed/
 
 [lints]
 sketchy-null=error
 untyped-type-import=error
-
-[libs]
-flow-typed/
 
 [options]
 emoji=true
