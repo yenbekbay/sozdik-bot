@@ -29,20 +29,16 @@
     "build": "npm run clean && babel --out-dir ./build --ignore **/__tests__,**/__mocks__ ./src",
     "deploy": "sh ./scripts/deploy.sh"
   },
+  "lint-staged": {
+    "{*.js,{scripts,src}/**/*.js}": ["eslint --cache --fix", "git add"],
+    "{*.json,.vscode/*.json}": ["prettier --write", "git add"]
+  },
   "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.js"
-    ],
-    "coverageReporters": [
-      "lcov"
-    ],
-    "setupFiles": [
-      "./scripts/jest-env.js"
-    ],
+    "collectCoverageFrom": ["src/**/*.js"],
+    "coverageReporters": ["lcov"],
+    "setupFiles": ["./scripts/jest-env.js"],
     "testEnvironment": "node",
-    "testPathDirs": [
-      "<rootDir>/src"
-    ],
+    "testPathDirs": ["<rootDir>/src"],
     "testRegex": "/__tests__/.*-test\\.js$"
   },
   "config": {
