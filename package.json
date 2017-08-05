@@ -32,14 +32,28 @@
     "deploy": "sh scripts/deploy.sh"
   },
   "lint-staged": {
-    "{*.js,{scripts,src}/**/*.js}": ["eslint --cache --fix", "git add"],
-    "{*.json,.vscode/*.json}": ["prettier --write", "git add"]
+    "{*.js,{scripts,src}/**/*.js}": [
+      "eslint --cache --fix",
+      "git add"
+    ],
+    "{*.json,.vscode/*.json}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "jest": {
-    "collectCoverageFrom": ["src/**/*.js"],
-    "coverageReporters": ["lcov"],
-    "roots": ["<rootDir>/src"],
-    "setupFiles": ["./scripts/jest-env.js"],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coverageReporters": [
+      "lcov"
+    ],
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "setupFiles": [
+      "./scripts/jest-env.js"
+    ],
     "testEnvironment": "node",
     "testRegex": "/__tests__/.*-test\\.js$"
   },
@@ -77,7 +91,7 @@
     "cache-loader": "^1.0.3",
     "codecov": "^2.3.0",
     "eslint": "^4.3.0",
-    "eslint-config-anvilabs": "^10.2.0",
+    "eslint-config-anvilabs": "^11.0.0",
     "flow-bin": "^0.52.0",
     "husky": "^0.14.3",
     "jest": "^20.0.4",

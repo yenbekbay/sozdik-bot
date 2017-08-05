@@ -6,26 +6,26 @@ import _ from 'lodash/fp';
 import removeMarkdown from 'remove-markdown';
 
 import {trackUser, trackEvent} from '../analytics';
-import type {AnswerInlineQueryFn} from './telegramBotApi';
-import type {InlineQuery, InlineQueryResult} from './types';
-import type {Logger} from '../createLogger';
-import type {Translation, GetTranslationForQueryFn} from '../sozdikApi';
+import type {AnswerInlineQueryFnType} from './makeTelegramBotApi';
+import type {InlineQueryType, InlineQueryResultType} from './types';
+import type {LoggerType} from '../createLogger';
+import type {TranslationType, GetTranslationForQueryFnType} from '../sozdikApi';
 
-const handleInlineQuery = ({
+const makeHandleInlineQuery = ({
   answerInlineQuery,
   getTranslationsForQuery,
   logger,
 }: {
-  answerInlineQuery: AnswerInlineQueryFn,
-  getTranslationsForQuery: GetTranslationForQueryFn,
-  logger: Logger,
-}) => async ({id, from: user, query}: InlineQuery): Promise<?JSON> => {
-  if (!query || query.length < 2) return null;
+  answerInlineQuery: AnswerInlineQueryFnType,
+  getTranslationsForQuery: GetTranslationForQueryFnType,
+  logger: LoggerType,
+}) => async ({id, from: user, query}: InlineQueryType) => {
+  if (!query || query.length < 2) return null; // eslint-disable-line no-magic-numbers
 
   try {
     const translations = await getTranslationsForQuery(query.toLowerCase());
     const results = _.map(
-      ({text, title}: Translation): InlineQueryResult => ({
+      ({text, title}: TranslationType): InlineQueryResultType => ({
         type: 'article',
         id: crypto.createHash('md5').update(text, 'utf8').digest('hex'),
         title: removeMarkdown(title),
@@ -39,7 +39,7 @@ const handleInlineQuery = ({
       translations,
     );
 
-    const [response]: [?JSON, any, any] = await Promise.all([
+    const [response] = await Promise.all([
       answerInlineQuery({inlineQueryId: id, results}),
       trackUser(user),
       translations.length
@@ -62,4 +62,4 @@ const handleInlineQuery = ({
   }
 };
 
-export default handleInlineQuery;
+export default makeHandleInlineQuery;

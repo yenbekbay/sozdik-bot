@@ -2,14 +2,14 @@
 
 import createTelegramBot from '../createTelegramBot';
 
-jest.mock('../telegramBotApi', () => () => ({
+jest.mock('../makeTelegramBotApi', () => () => ({
   sendMessage: jest.fn(),
   sendChatAction: jest.fn(),
   answerInlineQuery: jest.fn(),
   setWebhook: jest.fn(),
 }));
-jest.mock('../handleInlineQuery', () => () => jest.fn());
-jest.mock('../handleMessage', () => () => jest.fn());
+jest.mock('../makeHandleInlineQuery', () => () => jest.fn());
+jest.mock('../makeHandleMessage', () => () => jest.fn());
 
 describe('createTelegramBot', () => {
   let telegramBot;

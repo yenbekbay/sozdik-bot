@@ -6,35 +6,35 @@ import removeMarkdown from 'remove-markdown';
 import {trackUser, trackEvent} from '../analytics';
 import env from '../env';
 import type {
-  SendTextMessageFn,
-  SendSenderActionFn,
-  GetUserProfileFn,
+  SendTextMessageFnType,
+  SendSenderActionFnType,
+  GetUserProfileFnType,
 } from './messengerPlatform';
-import type {Logger} from '../createLogger';
-import type {Message} from './types';
-import type {Translation, GetTranslationForQueryFn} from '../sozdikApi';
+import type {LoggerType} from '../createLogger';
+import type {MessageType} from './types';
+import type {TranslationType, GetTranslationForQueryFnType} from '../sozdikApi';
 
 const {noTranslationsFoundText, errorText} = env;
 
-const handleMessage = ({
+const makeHandleMessage = ({
   sendTextMessage,
   sendSenderAction,
   getUserProfile,
   getTranslationsForQuery,
   logger,
 }: {
-  sendTextMessage: SendTextMessageFn,
-  sendSenderAction: SendSenderActionFn,
-  getUserProfile: GetUserProfileFn,
-  getTranslationsForQuery: GetTranslationForQueryFn,
-  logger: Logger,
+  sendTextMessage: SendTextMessageFnType,
+  sendSenderAction: SendSenderActionFnType,
+  getUserProfile: GetUserProfileFnType,
+  getTranslationsForQuery: GetTranslationForQueryFnType,
+  logger: LoggerType,
 }) => async ({
   recipientId,
   message: {text},
 }: {
   recipientId: string,
-  message: Message,
-}): Promise<?JSON> => {
+  message: MessageType,
+}) => {
   if (!text || text.length === 0) return null;
 
   try {
@@ -66,7 +66,7 @@ const handleMessage = ({
     return translations.length
       ? await Promise.all(
           _.map(
-            (translation: Translation) =>
+            (translation: TranslationType) =>
               sendTextMessage({
                 recipientId,
                 text: _.truncate(
@@ -88,4 +88,4 @@ const handleMessage = ({
   }
 };
 
-export default handleMessage;
+export default makeHandleMessage;

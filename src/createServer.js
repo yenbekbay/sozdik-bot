@@ -8,11 +8,11 @@ import type {$Request, $Response} from 'express';
 import {createTelegramBot} from './telegram';
 import {createMessengerBot} from './messenger';
 import env from './env';
-import type {Logger} from './createLogger';
+import type {LoggerType} from './createLogger';
 
 const {telegramWebhookUrl, messengerWebhookUrl} = env;
 
-const createServer = (logger: Logger) => {
+const createServer = (logger: LoggerType) => {
   const server = express();
   const telegramBot = createTelegramBot();
   const messengerBot = createMessengerBot();
@@ -27,20 +27,20 @@ const createServer = (logger: Logger) => {
 
   server.post(telegramWebhookUrl, ({body}: $Request, res: $Response) => {
     telegramBot.handleUpdate((body: any));
-    res.sendStatus(200);
+    res.sendStatus(200); // eslint-disable-line no-magic-numbers
   });
 
   server.get(messengerWebhookUrl, ({query}: $Request, res: $Response) => {
     if (messengerBot.verifyWebhook(query)) {
       res.send(query['hub.challenge']);
     } else {
-      res.sendStatus(400);
+      res.sendStatus(400); // eslint-disable-line no-magic-numbers
     }
   });
 
   server.post(messengerWebhookUrl, ({body}: $Request, res: $Response) => {
     messengerBot.handleWebhookCallback((body: any));
-    res.sendStatus(200);
+    res.sendStatus(200); // eslint-disable-line no-magic-numbers
   });
 
   return {

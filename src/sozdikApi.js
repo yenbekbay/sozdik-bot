@@ -9,22 +9,22 @@ import toMarkdown from 'to-markdown';
 import createLogger from './createLogger';
 import env from './env';
 
-export type Language = 'ru' | 'kk';
-export type Translation = {
-  toLang: Language,
-  fromLang: Language,
+export type LanguageType = 'ru' | 'kk';
+export type TranslationType = {
+  toLang: LanguageType,
+  fromLang: LanguageType,
   text: string,
   url: string,
   title: string,
 };
-export type GetTranslationFn = (
+export type GetTranslationFnType = (
   query: string,
-  fromLang: Language,
-  toLang: Language,
-) => Promise<?Translation>;
-export type GetTranslationForQueryFn = (
+  fromLang: LanguageType,
+  toLang: LanguageType,
+) => Promise<?TranslationType>;
+export type GetTranslationForQueryFnType = (
   query: string,
-) => Promise<Array<Translation>>;
+) => Promise<Array<TranslationType>>;
 
 const logger = createLogger('sozdik-api');
 
@@ -43,9 +43,9 @@ const sozdikApi = (client: 'telegram' | 'facebook') => {
 
   const getTranslation = async (
     query: string,
-    fromLang: Language,
-    toLang: Language,
-  ): Promise<?Translation> => {
+    fromLang: LanguageType,
+    toLang: LanguageType,
+  ) => {
     const hash = crypto
       .createHash('md5')
       .update(`${client}${apiKey}${fromLang}${toLang}${query}`, 'utf8')
@@ -75,11 +75,11 @@ const sozdikApi = (client: 'telegram' | 'facebook') => {
         replacement: (content: string) => `_${content}_`,
       },
       {
-        filter: (node: Object) =>
+        filter: (node: any) =>
           node.nodeName === 'A' &&
           node.getAttribute('href') &&
           !/^https?:\/\//.test(node.getAttribute('href')),
-        replacement: (content: string, node: Object) =>
+        replacement: (content: string, node: any) =>
           `[${content}](https://sozdik.kz/ru${node.getAttribute('href')}` +
           `${node.title ? ` "${node.title}"` : ''})`,
       },
@@ -91,7 +91,7 @@ const sozdikApi = (client: 'telegram' | 'facebook') => {
 
     if (!text) return null;
 
-    return {
+    const translation: TranslationType = {
       query,
       text,
       fromLang,
@@ -99,12 +99,12 @@ const sozdikApi = (client: 'telegram' | 'facebook') => {
       url: json.url_short,
       title: `*"${query}" ${formattedLanguageMappings[toLang]}*`,
     };
+
+    return translation;
   };
 
-  const getTranslationsForQuery = async (
-    query: string,
-  ): Promise<Array<Translation>> => {
-    const translations = _.compact(
+  const getTranslationsForQuery = async (query: string) => {
+    const translations: Array<TranslationType> = _.compact(
       await Promise.all([
         getTranslation(query, 'kk', 'ru'),
         !/[әіңғүұқөһ]/i.test(query) && getTranslation(query, 'ru', 'kk'),
@@ -112,7 +112,7 @@ const sozdikApi = (client: 'telegram' | 'facebook') => {
     );
 
     if (translations.length > 0) {
-      _.forEach((translation: Translation) => {
+      _.forEach((translation: TranslationType) => {
         logger.debug(
           `Found a ${translation.toLang === 'ru' ? 'Russian' : 'Kazakh'} ` +
             `translation for "${query}"`,

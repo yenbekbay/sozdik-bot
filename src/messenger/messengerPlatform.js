@@ -3,10 +3,10 @@
 import rp from 'request-promise';
 
 import env from '../env';
-import type {Logger} from '../createLogger';
+import type {LoggerType} from '../createLogger';
 
-export type ThreadSettingType = 'greeting' | 'call_to_actions';
-export type UserProfile = {
+export type ThreadSettingTypeType = 'greeting' | 'call_to_actions';
+export type UserProfileType = {
   first_name?: ?string,
   last_name?: ?string,
   profile_pic?: ?string,
@@ -15,20 +15,24 @@ export type UserProfile = {
   gender?: ?string,
 };
 
-type SendApiMethodConfig = {recipientId: string};
-type SendTextMessageConfig = SendApiMethodConfig & {text: string};
-type SendSenderActionConfig = SendApiMethodConfig & {
+type SendApiMethodConfigType = {recipientId: string};
+type SendTextMessageConfigType = SendApiMethodConfigType & {text: string};
+type SendSenderActionConfigType = SendApiMethodConfigType & {
   action: 'mark_seen' | 'typing_on' | 'typing_off',
 };
 
-export type SendTextMessageFn = (
-  config: SendTextMessageConfig,
-) => Promise<?JSON>;
-export type SendSenderActionFn = (
-  config: SendSenderActionConfig,
-) => Promise<?JSON>;
-export type SetGreetingTextFn = (text: string) => Promise<JSON>;
-export type GetUserProfileFn = (userId: string) => Promise<?UserProfile>;
+export type SendTextMessageFnType = (
+  config: SendTextMessageConfigType,
+) => Promise<?{[key: string]: any}>;
+export type SendSenderActionFnType = (
+  config: SendSenderActionConfigType,
+) => Promise<?{[key: string]: any}>;
+export type SetGreetingTextFnType = (
+  text: string,
+) => Promise<{[key: string]: any}>;
+export type GetUserProfileFnType = (
+  userId: string,
+) => Promise<?UserProfileType>;
 
 const {fbPageAccessToken} = env;
 const graphApiUrl = 'https://graph.facebook.com/v2.6';
@@ -44,8 +48,8 @@ const request = rp.defaults({
 });
 const sendApiRequest = (
   recipientId: string,
-  payload: {[key: string]: mixed},
-): Promise<JSON> =>
+  payload: {[key: string]: any},
+): Promise<{[key: string]: any}> =>
   request.post({
     url: sendApiUrl,
     form: {
@@ -54,9 +58,9 @@ const sendApiRequest = (
     },
   });
 const threadSettingsRequest = (
-  settingType: ThreadSettingType,
-  payload: {[key: string]: mixed},
-): Promise<JSON> =>
+  settingType: ThreadSettingTypeType,
+  payload: {[key: string]: any},
+): Promise<{[key: string]: any}> =>
   request.post({
     url: threadSettingsUrl,
     form: {
@@ -65,56 +69,65 @@ const threadSettingsRequest = (
     },
   });
 
-const messengerPlatform = (logger: Logger) => ({
-  sendTextMessage: ({recipientId, text}: SendTextMessageConfig) =>
-    sendApiRequest(recipientId, {message: {text}}).then(
-      (response: JSON) => {
-        logger.debug(`Sent a message to user ${recipientId}`);
+const messengerPlatform = (logger: LoggerType) => ({
+  sendTextMessage: async ({recipientId, text}: SendTextMessageConfigType) => {
+    try {
+      const response = await sendApiRequest(recipientId, {message: {text}});
 
-        return response;
-      },
-      (err: Error) => {
-        logger.error(
-          `Failed to send a message to user ${recipientId}:`,
-          err.message,
-        );
-      },
-    ),
-  sendSenderAction: ({recipientId, action}: SendSenderActionConfig) =>
-    sendApiRequest(recipientId, {sender_action: action}).then(
-      (response: JSON) => {
-        logger.debug(`Sent a ${action} action to user ${recipientId}`);
+      logger.debug(`Sent a message to user ${recipientId}`);
 
-        return response;
-      },
-      (err: Error) => {
-        logger.error(
-          `Failed to send a ${action} action to user ${recipientId}:`,
-          err.message,
-        );
-      },
-    ),
-  setGreetingText: (text: string) =>
-    threadSettingsRequest('greeting', {
-      greeting: {text},
-    }).then(
-      (response: JSON) => {
-        logger.debug(`Updated greeting text thread settings to "${text}"`);
+      return response;
+    } catch (err) {
+      logger.error(
+        `Failed to send a message to user ${recipientId}:`,
+        err.message,
+      );
 
-        return response;
-      },
-      (err: Error) => {
-        logger.error(
-          `Failed to update greeting text thread setting to "${text}":`,
-          err.message,
-        );
+      return null;
+    }
+  },
+  sendSenderAction: async ({
+    recipientId,
+    action,
+  }: SendSenderActionConfigType) => {
+    try {
+      const response = await sendApiRequest(recipientId, {
+        sender_action: action,
+      });
 
-        throw err;
-      },
-    ),
-  getUserProfile: (userId: string) =>
-    request
-      .get({
+      logger.debug(`Sent a ${action} action to user ${recipientId}`);
+
+      return response;
+    } catch (err) {
+      logger.error(
+        `Failed to send a ${action} action to user ${recipientId}:`,
+        err.message,
+      );
+
+      return null;
+    }
+  },
+  setGreetingText: async (text: string) => {
+    try {
+      const response = await threadSettingsRequest('greeting', {
+        greeting: {text},
+      });
+
+      logger.debug(`Updated greeting text thread settings to "${text}"`);
+
+      return response;
+    } catch (err) {
+      logger.error(
+        `Failed to update greeting text thread setting to "${text}":`,
+        err.message,
+      );
+
+      throw err;
+    }
+  },
+  getUserProfile: async (userId: string) => {
+    try {
+      const response = await request.get({
         url: urlForUserProfileRequest(userId),
         qs: {
           fields: JSON.stringify([
@@ -126,25 +139,17 @@ const messengerPlatform = (logger: Logger) => ({
             'gender',
           ]),
         },
-      })
-      .then(
-        (response: JSON) => {
-          logger.debug(
-            `Got profile for user ${userId}:`,
-            JSON.stringify(response),
-          );
+      });
 
-          return response;
-        },
-        (err: Error) => {
-          logger.error(
-            `Failed to get profile for user ${userId}:`,
-            err.message,
-          );
+      logger.debug(`Got profile for user ${userId}:`, JSON.stringify(response));
 
-          return null;
-        },
-      ),
+      return response;
+    } catch (err) {
+      logger.error(`Failed to get profile for user ${userId}:`, err.message);
+
+      return null;
+    }
+  },
 });
 
 export {request, sendApiUrl, threadSettingsUrl, urlForUserProfileRequest};

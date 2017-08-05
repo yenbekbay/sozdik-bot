@@ -44,7 +44,7 @@ describe('createServer', () => {
     await request(server)
       .post(telegramWebhookUrl)
       .send(sampleUpdate)
-      .expect(200);
+      .expect(200); // eslint-disable-line no-magic-numbers
 
     expect(telegramBot.handleUpdate).toHaveBeenCalledWith(sampleUpdate);
   });
@@ -55,7 +55,7 @@ describe('createServer', () => {
     const res = await request(server)
       .get(messengerWebhookUrl)
       .query(sampleQuery)
-      .expect(200);
+      .expect(200); // eslint-disable-line no-magic-numbers
 
     expect(res.text).toBe(sampleQuery['hub.challenge']);
     expect(messengerBot.verifyWebhook).toHaveBeenCalledWith(sampleQuery);
@@ -64,7 +64,7 @@ describe('createServer', () => {
   it('handles failed messenger bot webhook verification', async () => {
     (messengerBot.verifyWebhook: any).mockImplementationOnce(() => false);
 
-    await request(server).get(messengerWebhookUrl).expect(400);
+    await request(server).get(messengerWebhookUrl).expect(400); // eslint-disable-line no-magic-numbers
 
     expect(messengerBot.verifyWebhook).toHaveBeenCalled();
   });
@@ -75,7 +75,7 @@ describe('createServer', () => {
     await request(server)
       .post(messengerWebhookUrl)
       .send(sampleCallback)
-      .expect(200);
+      .expect(200); // eslint-disable-line no-magic-numbers
 
     expect(messengerBot.handleWebhookCallback).toHaveBeenCalledWith(
       sampleCallback,

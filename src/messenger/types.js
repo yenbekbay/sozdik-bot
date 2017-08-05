@@ -1,9 +1,9 @@
 /* @flow */
 
-export type Message = {
+export type MessageType = {
   text: string,
 };
-export type Messaging = {
+export type MessagingType = {
   sender: {id: string},
-  message?: Message,
+  message?: MessageType,
 };

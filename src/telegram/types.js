@@ -1,12 +1,12 @@
 /* @flow */
 
-export type User = {
+export type UserType = {
   id: string,
   first_name?: ?string,
   last_name?: ?string,
   username?: string,
 };
-export type Chat = {
+export type ChatType = {
   id: string,
   type: 'private' | 'group' | 'supergroup' | 'channel',
   title?: string,
@@ -14,24 +14,24 @@ export type Chat = {
   last_name?: string,
   username?: string,
 };
-export type ParseMode = 'Markdown' | 'HTML';
-export type Message = {
-  from: User,
-  chat: Chat,
+export type ParseModeType = 'Markdown' | 'HTML';
+export type MessageType = {
+  from: UserType,
+  chat: ChatType,
   text?: string,
 };
-export type InlineQuery = {
+export type InlineQueryType = {
   id: string,
-  from: User,
+  from: UserType,
   query: string,
 };
-export type InlineQueryResult = {
+export type InlineQueryResultType = {
   type: 'article',
   id: string,
   title: string,
   input_message_content: {
     message_text: string,
-    parse_mode?: ParseMode,
+    parse_mode?: ParseModeType,
     disable_web_page_preview?: boolean,
   },
   url?: string,

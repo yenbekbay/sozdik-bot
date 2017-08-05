@@ -3,14 +3,14 @@
 import _ from 'lodash/fp';
 
 import createLogger from '../createLogger';
-import curriedHandleMessage from './handleMessage';
+import curriedmakeHandleMessage from './makeHandleMessage';
 import env from '../env';
 import messengerPlatform from './messengerPlatform';
 import sozdikApi from '../sozdikApi';
-import type {Messaging} from './types';
+import type {MessagingType} from './types';
 
-type WebhookCallback = {
-  entry: Array<{messaging: Array<Messaging>}>,
+type WebhookCallbackType = {
+  entry: Array<{messaging: Array<MessagingType>}>,
 };
 
 const {fbWebhookVerifyToken} = env;
@@ -26,7 +26,7 @@ const createMessengerBot = () => {
     getUserProfile,
   } = platform;
 
-  const handleMessage = curriedHandleMessage({
+  const makeHandleMessage = curriedmakeHandleMessage({
     sendTextMessage,
     sendSenderAction,
     getUserProfile,
@@ -35,15 +35,15 @@ const createMessengerBot = () => {
   });
 
   return {
-    verifyWebhook: (query: Object) =>
+    verifyWebhook: (query: {[key: string]: any}) =>
       query['hub.mode'] === 'subscribe' &&
       query['hub.verify_token'] === fbWebhookVerifyToken,
-    handleWebhookCallback: (callback: WebhookCallback) =>
+    handleWebhookCallback: (callback: WebhookCallbackType) =>
       _.flow(
         _.flatMap('messaging'),
-        _.forEach((messaging: Messaging) => {
+        _.forEach((messaging: MessagingType) => {
           if (messaging.message) {
-            handleMessage({
+            makeHandleMessage({
               recipientId: messaging.sender.id,
               message: messaging.message,
             });
@@ -54,7 +54,7 @@ const createMessengerBot = () => {
       setGreetingText('Просто введи слово, фразу или число, и я переведу.');
     },
     __platform: platform,
-    __handleMessage: handleMessage,
+    __handleMessage: makeHandleMessage,
   };
 };
 

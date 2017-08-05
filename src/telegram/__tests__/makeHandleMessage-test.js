@@ -2,8 +2,8 @@
 
 import {trackUser, trackEvent} from '../../analytics';
 import createLogger from '../../createLogger';
-import curriedHandleMessage from '../handleMessage';
 import env from '../../env';
+import makeHandleMessage from '../makeHandleMessage';
 import sozdikApi from '../../sozdikApi';
 
 const {helpText, startText, noTranslationsFoundText, errorText} = env;
@@ -17,11 +17,11 @@ const sendChatAction = jest.fn();
 const {getTranslationsForQuery} = sozdikApi('telegram');
 const logger = createLogger('test');
 
-describe('handleMessage', () => {
+describe('makeHandleMessage', () => {
   let handleMessage;
 
   beforeAll(() => {
-    handleMessage = curriedHandleMessage({
+    handleMessage = makeHandleMessage({
       sendMessage,
       sendChatAction,
       getTranslationsForQuery,

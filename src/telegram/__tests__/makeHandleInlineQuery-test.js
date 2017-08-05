@@ -2,7 +2,7 @@
 
 import {trackUser, trackEvent} from '../../analytics';
 import createLogger from '../../createLogger';
-import curriedHandleInlineQuery from '../handleInlineQuery';
+import makeHandleInlineQuery from '../makeHandleInlineQuery';
 import sozdikApi from '../../sozdikApi';
 
 jest.mock('crypto', () => ({
@@ -26,7 +26,7 @@ describe('handleInlineQuery', () => {
   let handleInlineQuery;
 
   beforeAll(() => {
-    handleInlineQuery = curriedHandleInlineQuery({
+    handleInlineQuery = makeHandleInlineQuery({
       answerInlineQuery,
       getTranslationsForQuery,
       logger,

@@ -1,42 +1,42 @@
 /* @flow */
 
 import createLogger from '../createLogger';
-import curriedHandleInlineQuery from './handleInlineQuery';
-import curriedHandleMessage from './handleMessage';
+import makeHandleInlineQuery from './makeHandleInlineQuery';
+import makeHandleMessage from './makeHandleMessage';
+import makeTelegramBotApi from './makeTelegramBotApi';
 import sozdikApi from '../sozdikApi';
-import telegramBotApi from './telegramBotApi';
-import type {Message, InlineQuery} from './types';
+import type {MessageType, InlineQueryType} from './types';
 
-type Update = {
-  message?: Message,
-  inline_query?: InlineQuery,
+type UpdateType = {
+  message?: MessageType,
+  inline_query?: InlineQueryType,
 };
 
 const {getTranslationsForQuery} = sozdikApi('telegram');
 const logger = createLogger('telegram');
 
 const createTelegramBot = () => {
-  const botApi = telegramBotApi(logger);
+  const botApi = makeTelegramBotApi(logger);
   const {sendMessage, sendChatAction, answerInlineQuery, setWebhook} = botApi;
 
-  const handleMessage = curriedHandleMessage({
+  const handleMessage = makeHandleMessage({
     sendMessage,
     sendChatAction,
     getTranslationsForQuery,
     logger,
   });
-  const handleInlineQuery = curriedHandleInlineQuery({
+  const handleInlineQuery = makeHandleInlineQuery({
     answerInlineQuery,
     getTranslationsForQuery,
     logger,
   });
 
   return {
-    handleUpdate: (update: Update) => {
+    handleUpdate: (update: UpdateType) => {
       if (update.message) {
-        handleMessage(((update.message: any): Message));
+        handleMessage(update.message);
       } else if (update.inline_query) {
-        handleInlineQuery(((update.inline_query: any): InlineQuery));
+        handleInlineQuery(update.inline_query);
       }
     },
     setUp: (webhookUrl: string) => setWebhook(webhookUrl),

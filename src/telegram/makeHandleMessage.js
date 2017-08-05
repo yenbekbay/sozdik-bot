@@ -4,30 +4,29 @@ import _ from 'lodash/fp';
 
 import {trackUser, trackEvent} from '../analytics';
 import env from '../env';
-import type {Logger} from '../createLogger';
-import type {Message} from './types';
-import type {SendMessageFn, SendChatActionFn} from './telegramBotApi';
-import type {Translation, GetTranslationForQueryFn} from '../sozdikApi';
+import type {LoggerType} from '../createLogger';
+import type {MessageType} from './types';
+import type {
+  SendMessageFnType,
+  SendChatActionFnType,
+} from './makeTelegramBotApi';
+import type {TranslationType, GetTranslationForQueryFnType} from '../sozdikApi';
 
 const {helpText, startText, noTranslationsFoundText, errorText} = env;
 
 /* eslint-disable max-statements */
-const handleMessage = ({
+const makeHandleMessage = ({
   sendMessage,
   sendChatAction,
   getTranslationsForQuery,
   logger,
 }: {
-  sendMessage: SendMessageFn,
-  sendChatAction: SendChatActionFn,
-  getTranslationsForQuery: GetTranslationForQueryFn,
-  logger: Logger,
-}) => async ({
-  text,
-  from: user,
-  chat,
-}: Message): Promise<?(Message | Array<Message>)> => {
-  if (!text || text.length === 0) return null;
+  sendMessage: SendMessageFnType,
+  sendChatAction: SendChatActionFnType,
+  getTranslationsForQuery: GetTranslationForQueryFnType,
+  logger: LoggerType,
+}) => async ({text, from: user, chat}: MessageType) => {
+  if (text === null || text === undefined || text.length === 0) return null;
 
   const chatInfo = _.pick(
     ['id', 'type', 'title', 'username', 'first_name', 'last_name'],
@@ -42,7 +41,7 @@ const handleMessage = ({
           JSON.stringify(chatInfo),
         );
 
-        const [message]: [?Message, any, any] = await Promise.all([
+        const [message] = await Promise.all([
           sendMessage({
             chat,
             text: startText,
@@ -61,7 +60,7 @@ const handleMessage = ({
           JSON.stringify(chatInfo),
         );
 
-        const [message]: [?Message, any, any] = await Promise.all([
+        const [message] = await Promise.all([
           sendMessage({
             chat,
             text: helpText,
@@ -96,7 +95,7 @@ const handleMessage = ({
         if (translations.length > 0) {
           return await Promise.all(
             _.map(
-              (translation: Translation) =>
+              (translation: TranslationType) =>
                 sendMessage({
                   chat,
                   text: `${translation.title}:\n${translation.text}`,
@@ -122,4 +121,4 @@ const handleMessage = ({
 };
 /* eslint-enable max-statements */
 
-export default handleMessage;
+export default makeHandleMessage;

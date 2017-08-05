@@ -5,7 +5,6 @@ module.exports = {
     /* eslint-disable no-param-reassign */
     config.entry.main = path.resolve(__dirname, 'src/main.js');
     config.devtool = env === 'production' ? false : 'inline-source-map';
-    // prettier-ignore
     config.module.rules = config.module.rules.map(
       rule =>
         rule.loader === 'babel-loader'
@@ -50,7 +49,7 @@ module.exports = {
                 },
               ],
             }
-          : rule
+          : rule // eslint-disable-line prettier/prettier
     );
     /* eslint-enable no-param-reassign */
 

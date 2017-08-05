@@ -9,7 +9,7 @@ jest.mock('../messengerPlatform', () => () => ({
   setGreetingText: jest.fn(),
   getUserProfile: jest.fn(),
 }));
-jest.mock('../handleMessage', () => () => jest.fn());
+jest.mock('../makeHandleMessage', () => () => jest.fn());
 
 describe('createMessengerBot', () => {
   let messengerBot;

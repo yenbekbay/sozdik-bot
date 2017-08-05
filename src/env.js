@@ -29,7 +29,7 @@ const noTranslationsFoundText = 'К сожалению, я не знаю, как
 const errorText =
   'Что-то пошло не так. Пожалуйста, попробуйте еще раз чуть позже.';
 
-export default {
+const env = {
   fbPageAccessToken: requiredEnvVariable('FB_PAGE_ACCESS_TOKEN'),
   fbWebhookVerifyToken: requiredEnvVariable('FB_WEBHOOK_VERIFY_TOKEN'),
   mixpanelToken: requiredEnvVariable('MIXPANEL_TOKEN'),
@@ -53,3 +53,5 @@ export default {
   noTranslationsFoundText,
   errorText,
 };
+
+export default env;
