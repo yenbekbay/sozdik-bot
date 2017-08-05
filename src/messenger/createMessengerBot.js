@@ -3,7 +3,7 @@
 import _ from 'lodash/fp';
 
 import createLogger from 'src/createLogger';
-import env from 'src/env';
+import config from 'src/config';
 import sozdikApi from 'src/sozdikApi';
 
 import curriedmakeHandleMessage from './makeHandleMessage';
@@ -14,7 +14,6 @@ type WebhookCallbackType = {
   entry: Array<{messaging: Array<MessagingType>}>,
 };
 
-const {fbWebhookVerifyToken} = env;
 const {getTranslationsForQuery} = sozdikApi('facebook');
 const logger = createLogger('messenger');
 
@@ -38,7 +37,7 @@ const createMessengerBot = () => {
   return {
     verifyWebhook: (query: {[key: string]: any}) =>
       query['hub.mode'] === 'subscribe' &&
-      query['hub.verify_token'] === fbWebhookVerifyToken,
+      query['hub.verify_token'] === config.fbWebhookVerifyToken,
     handleWebhookCallback: (callback: WebhookCallbackType) =>
       _.flow(
         _.flatMap('messaging'),

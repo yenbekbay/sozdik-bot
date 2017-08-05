@@ -3,7 +3,7 @@
 import request from 'supertest-as-promised';
 
 import createLogger from 'src/createLogger';
-import env from 'src/env';
+import config from 'src/config';
 
 import createServer from '../createServer';
 
@@ -21,7 +21,6 @@ jest.mock('../messenger', () => ({
   }),
 }));
 
-const {telegramWebhookUrl, messengerWebhookUrl} = env;
 const logger = createLogger('test');
 
 describe('createServer', () => {
@@ -43,7 +42,7 @@ describe('createServer', () => {
     const sampleUpdate = {message: {}};
 
     await request(server)
-      .post(telegramWebhookUrl)
+      .post(config.telegramWebhookUrl)
       .send(sampleUpdate)
       .expect(200); // eslint-disable-line no-magic-numbers
 
@@ -54,7 +53,7 @@ describe('createServer', () => {
     const sampleQuery = {'hub.challenge': '123456789'};
 
     const res = await request(server)
-      .get(messengerWebhookUrl)
+      .get(config.messengerWebhookUrl)
       .query(sampleQuery)
       .expect(200); // eslint-disable-line no-magic-numbers
 
@@ -65,7 +64,7 @@ describe('createServer', () => {
   it('handles failed messenger bot webhook verification', async () => {
     (messengerBot.verifyWebhook: any).mockImplementationOnce(() => false);
 
-    await request(server).get(messengerWebhookUrl).expect(400); // eslint-disable-line no-magic-numbers
+    await request(server).get(config.messengerWebhookUrl).expect(400); // eslint-disable-line no-magic-numbers
 
     expect(messengerBot.verifyWebhook).toHaveBeenCalled();
   });
@@ -74,7 +73,7 @@ describe('createServer', () => {
     const sampleCallback = {entry: []};
 
     await request(server)
-      .post(messengerWebhookUrl)
+      .post(config.messengerWebhookUrl)
       .send(sampleCallback)
       .expect(200); // eslint-disable-line no-magic-numbers
 

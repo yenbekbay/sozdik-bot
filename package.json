@@ -32,14 +32,28 @@
     "deploy": "sh scripts/deploy.sh"
   },
   "lint-staged": {
-    "{*.js,{scripts,src}/**/*.js}": ["eslint --cache --fix", "git add"],
-    "{*.json,.vscode/*.json}": ["prettier --write", "git add"]
+    "{*.js,{scripts,src}/**/*.js}": [
+      "eslint --cache --fix",
+      "git add"
+    ],
+    "{*.json,.vscode/*.json}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "jest": {
-    "collectCoverageFrom": ["src/**/*.js"],
-    "coverageReporters": ["lcov"],
-    "roots": ["<rootDir>/src"],
-    "setupFiles": ["<rootDir>/jest.setup.js"],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coverageReporters": [
+      "lcov"
+    ],
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "setupFiles": [
+      "<rootDir>/jest.setup.js"
+    ],
     "testEnvironment": "node",
     "testRegex": "/__tests__/.*-test\\.js$"
   },
@@ -51,7 +65,7 @@
   },
   "dependencies": {
     "body-parser": "^1.17.2",
-    "dotenv": "^4.0.0",
+    "dotenv-safe": "^4.0.4",
     "express": "^4.15.3",
     "localtunnel": "^1.8.3",
     "lodash": "^4.17.4",

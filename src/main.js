@@ -4,36 +4,44 @@ import localtunnel from 'localtunnel';
 
 import createLogger from 'src/createLogger';
 import createServer from 'src/createServer';
-import env from 'src/env';
+import config from 'src/config';
 
-const {port, tunnelOptions, telegramWebhookUrl, prodUrl, isProd} = env;
 const logger = createLogger('server');
 const {server, telegramBot, messengerBot} = createServer(logger);
 
-const setUpBots = (serverUrl: string) => {
-  telegramBot.setUp(`${serverUrl}${telegramWebhookUrl}`).catch((err: Error) => {
+const setUpBots = async (serverUrl: string) => {
+  try {
+    await telegramBot.setUp(`${serverUrl}${config.telegramWebhookUrl}`);
+    messengerBot.setUp();
+  } catch (err) {
     throw err;
-  });
-  messengerBot.setUp();
+  }
 };
 
-server.listen(port, () => {
-  logger.info(`Started server on port ${port}`);
+server.listen(config.port, () => {
+  logger.info(`Started server on port ${config.port}`);
 
-  if (isProd) {
-    setUpBots(prodUrl);
+  if (config.isProduction) {
+    setUpBots(config.productionUrl);
   } else {
-    const tunnel = localtunnel(port, tunnelOptions, (err: ?Error) => {
-      if (err) {
-        logger.error('Failed to request a tunnel for the server:', err.message);
+    const tunnel = localtunnel(
+      config.port,
+      config.tunnelOptions,
+      (err: ?Error) => {
+        if (err) {
+          logger.error(
+            'Failed to request a tunnel for the server:',
+            err.message,
+          );
 
-        throw err;
-      }
+          throw err;
+        }
 
-      logger.info(`Created a tunnel to server at ${tunnel.url}`);
+        logger.info(`Created a tunnel to server at ${tunnel.url}`);
 
-      setUpBots(tunnel.url.replace(/^http:/, 'https:'));
-    });
+        setUpBots(tunnel.url.replace(/^http:/, 'https:'));
+      },
+    );
 
     tunnel.on('close', () => {
       logger.error('Tunnel to server closed');

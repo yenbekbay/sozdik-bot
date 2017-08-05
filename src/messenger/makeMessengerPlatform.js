@@ -2,7 +2,7 @@
 
 import rp from 'request-promise';
 
-import env from 'src/env';
+import config from 'src/config';
 import type {LoggerType} from 'src/createLogger';
 
 export type ThreadSettingTypeType = 'greeting' | 'call_to_actions';
@@ -34,7 +34,6 @@ export type GetUserProfileFnType = (
   userId: string,
 ) => Promise<?UserProfileType>;
 
-const {fbPageAccessToken} = env;
 const graphApiUrl = 'https://graph.facebook.com/v2.6';
 const sendApiUrl = `${graphApiUrl}/me/messages`;
 const threadSettingsUrl = `${graphApiUrl}/me/thread_settings`;
@@ -42,7 +41,7 @@ const urlForUserProfileRequest = (userId: string) => `${graphApiUrl}/${userId}`;
 
 const request = rp.defaults({
   headers: {'User-Agent': 'sozdik-bot'},
-  qs: {access_token: fbPageAccessToken},
+  qs: {access_token: config.fbPageAccessToken},
   gzip: true,
   json: true,
 });

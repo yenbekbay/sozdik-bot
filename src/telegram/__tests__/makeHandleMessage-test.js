@@ -2,12 +2,11 @@
 
 import {trackUser, trackEvent} from 'src/analytics';
 import createLogger from 'src/createLogger';
-import env from 'src/env';
+import config from 'src/config';
 import sozdikApi from 'src/sozdikApi';
 
 import makeHandleMessage from '../makeHandleMessage';
 
-const {helpText, startText, noTranslationsFoundText, errorText} = env;
 const sampleHandleMessageConfig = {
   from: {id: '123'},
   chat: {id: '123', type: 'private'},
@@ -56,7 +55,7 @@ describe('makeHandleMessage', () => {
       chat: sampleHandleMessageConfig.chat,
       parse_mode: 'Markdown',
       disable_web_page_preview: true,
-      text: startText,
+      text: config.startText,
     });
   });
 
@@ -76,7 +75,7 @@ describe('makeHandleMessage', () => {
     expect(sendMessage).toHaveBeenCalledWith({
       chat: sampleHandleMessageConfig.chat,
       parse_mode: 'Markdown',
-      text: helpText,
+      text: config.helpText,
     });
   });
 
@@ -132,7 +131,7 @@ describe('makeHandleMessage', () => {
 
     expect(sendMessage).toHaveBeenCalledWith({
       chat: sampleHandleMessageConfig.chat,
-      text: noTranslationsFoundText,
+      text: config.noTranslationsFoundText,
     });
   });
 
@@ -149,7 +148,7 @@ describe('makeHandleMessage', () => {
     expect(logger.error).toHaveBeenCalled();
     expect(sendMessage).toHaveBeenCalledWith({
       chat: sampleHandleMessageConfig.chat,
-      text: errorText,
+      text: config.errorText,
     });
   });
 });

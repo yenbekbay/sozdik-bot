@@ -11,6 +11,7 @@ module.exports = {
     },
   },
   rules: {
+    'no-process-env': 'error',
     'no-underscore-dangle': 'off',
   },
   overrides: [

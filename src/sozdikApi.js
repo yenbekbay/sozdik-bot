@@ -7,7 +7,7 @@ import rp from 'request-promise';
 import toMarkdown from 'to-markdown';
 
 import createLogger from 'src/createLogger';
-import env from 'src/env';
+import config from 'src/config';
 
 export type LanguageType = 'ru' | 'kk';
 export type TranslationType = {
@@ -39,7 +39,7 @@ const request = rp.defaults({
 });
 
 const sozdikApi = (client: 'telegram' | 'facebook') => {
-  const apiKey = env.sozdikApiKey[client];
+  const apiKey = config.sozdikApiKey[client];
 
   const getTranslation = async (
     query: string,

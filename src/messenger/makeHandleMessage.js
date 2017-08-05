@@ -4,7 +4,7 @@ import _ from 'lodash/fp';
 import removeMarkdown from 'remove-markdown';
 
 import {trackUser, trackEvent} from 'src/analytics';
-import env from 'src/env';
+import config from 'src/config';
 import type {LoggerType} from 'src/createLogger';
 import type {
   TranslationType,
@@ -17,8 +17,6 @@ import type {
   GetUserProfileFnType,
 } from './makeMessengerPlatform';
 import type {MessageType} from './types';
-
-const {noTranslationsFoundText, errorText} = env;
 
 const makeHandleMessage = ({
   sendTextMessage,
@@ -81,14 +79,17 @@ const makeHandleMessage = ({
             translations,
           ),
         )
-      : await sendTextMessage({recipientId, text: noTranslationsFoundText});
+      : await sendTextMessage({
+          recipientId,
+          text: config.noTranslationsFoundText,
+        });
   } catch (err) {
     logger.error(
       `Failed to reply to a message from user ${recipientId}:`,
       err.message,
     );
 
-    return sendTextMessage({recipientId, text: errorText});
+    return sendTextMessage({recipientId, text: config.errorText});
   }
 };
 

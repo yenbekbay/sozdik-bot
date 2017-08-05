@@ -1,6 +1,6 @@
 /* @flow */
 
-import env from 'src/env';
+import config from 'src/config';
 
 import createMessengerBot from '../createMessengerBot';
 
@@ -38,7 +38,7 @@ describe('createMessengerBot', () => {
     expect(
       messengerBot.verifyWebhook({
         'hub.mode': 'subscribe',
-        'hub.verify_token': env.fbWebhookVerifyToken,
+        'hub.verify_token': config.fbWebhookVerifyToken,
       }),
     ).toBe(true);
   });

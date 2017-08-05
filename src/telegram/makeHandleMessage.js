@@ -3,7 +3,7 @@
 import _ from 'lodash/fp';
 
 import {trackUser, trackEvent} from 'src/analytics';
-import env from 'src/env';
+import config from 'src/config';
 import type {LoggerType} from 'src/createLogger';
 import type {
   TranslationType,
@@ -15,8 +15,6 @@ import type {
   SendMessageFnType,
   SendChatActionFnType,
 } from './makeTelegramBotApi';
-
-const {helpText, startText, noTranslationsFoundText, errorText} = env;
 
 /* eslint-disable max-statements */
 const makeHandleMessage = ({
@@ -48,7 +46,7 @@ const makeHandleMessage = ({
         const [message] = await Promise.all([
           sendMessage({
             chat,
-            text: startText,
+            text: config.startText,
             parse_mode: 'Markdown',
             disable_web_page_preview: true,
           }),
@@ -67,7 +65,7 @@ const makeHandleMessage = ({
         const [message] = await Promise.all([
           sendMessage({
             chat,
-            text: helpText,
+            text: config.helpText,
             parse_mode: 'Markdown',
           }),
           trackUser(user),
@@ -111,7 +109,7 @@ const makeHandleMessage = ({
           );
         }
 
-        return await sendMessage({chat, text: noTranslationsFoundText});
+        return await sendMessage({chat, text: config.noTranslationsFoundText});
       }
     }
   } catch (err) {
@@ -120,7 +118,7 @@ const makeHandleMessage = ({
       err.message,
     );
 
-    return sendMessage({chat, text: errorText});
+    return sendMessage({chat, text: config.errorText});
   }
 };
 /* eslint-enable max-statements */

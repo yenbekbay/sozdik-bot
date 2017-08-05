@@ -7,10 +7,8 @@ import type {$Request, $Response} from 'express';
 
 import {createTelegramBot} from 'src/telegram';
 import {createMessengerBot} from 'src/messenger';
-import env from 'src/env';
+import config from 'src/config';
 import type {LoggerType} from 'src/createLogger';
-
-const {telegramWebhookUrl, messengerWebhookUrl} = env;
 
 const createServer = (logger: LoggerType) => {
   const server = express();
@@ -25,23 +23,29 @@ const createServer = (logger: LoggerType) => {
     }),
   );
 
-  server.post(telegramWebhookUrl, ({body}: $Request, res: $Response) => {
+  server.post(config.telegramWebhookUrl, ({body}: $Request, res: $Response) => {
     telegramBot.handleUpdate((body: any));
     res.sendStatus(200); // eslint-disable-line no-magic-numbers
   });
 
-  server.get(messengerWebhookUrl, ({query}: $Request, res: $Response) => {
-    if (messengerBot.verifyWebhook(query)) {
-      res.send(query['hub.challenge']);
-    } else {
-      res.sendStatus(400); // eslint-disable-line no-magic-numbers
-    }
-  });
+  server.get(
+    config.messengerWebhookUrl,
+    ({query}: $Request, res: $Response) => {
+      if (messengerBot.verifyWebhook(query)) {
+        res.send(query['hub.challenge']);
+      } else {
+        res.sendStatus(400); // eslint-disable-line no-magic-numbers
+      }
+    },
+  );
 
-  server.post(messengerWebhookUrl, ({body}: $Request, res: $Response) => {
-    messengerBot.handleWebhookCallback((body: any));
-    res.sendStatus(200); // eslint-disable-line no-magic-numbers
-  });
+  server.post(
+    config.messengerWebhookUrl,
+    ({body}: $Request, res: $Response) => {
+      messengerBot.handleWebhookCallback((body: any));
+      res.sendStatus(200); // eslint-disable-line no-magic-numbers
+    },
+  );
 
   return {
     server,

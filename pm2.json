@@ -3,7 +3,6 @@
     {
       "name": "sozdik-bot",
       "script": "build/main.js",
-      "node_args": "-r dotenv/config",
       "env": {
         "NODE_ENV": "production"
       }

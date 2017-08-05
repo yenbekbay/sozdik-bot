@@ -2,12 +2,11 @@
 
 import {trackUser, trackEvent} from 'src/analytics';
 import createLogger from 'src/createLogger';
-import env from 'src/env';
+import config from 'src/config';
 import sozdikApi from 'src/sozdikApi';
 
 import makeHandleMessage from '../makeHandleMessage';
 
-const {noTranslationsFoundText, errorText} = env;
 const sampleHandleMessageConfig = {
   recipientId: '123',
 };
@@ -104,7 +103,7 @@ describe('makeHandleMessage', () => {
 
     expect(sendTextMessage).toHaveBeenCalledWith({
       recipientId: sampleHandleMessageConfig.recipientId,
-      text: noTranslationsFoundText,
+      text: config.noTranslationsFoundText,
     });
   });
 
@@ -121,7 +120,7 @@ describe('makeHandleMessage', () => {
     expect(logger.error).toHaveBeenCalled();
     expect(sendTextMessage).toHaveBeenCalledWith({
       recipientId: sampleHandleMessageConfig.recipientId,
-      text: errorText,
+      text: config.errorText,
     });
   });
 });

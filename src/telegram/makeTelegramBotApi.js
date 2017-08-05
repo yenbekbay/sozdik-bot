@@ -3,7 +3,7 @@
 import _ from 'lodash/fp';
 import rp from 'request-promise';
 
-import env from 'src/env';
+import config from 'src/config';
 import type {LoggerType} from 'src/createLogger';
 
 import type {
@@ -48,9 +48,8 @@ export type AnswerInlineQueryFnType = (
   config: AnswerInlineQueryConfigType,
 ) => Promise<?{[key: string]: any}>;
 
-const {telegramBotToken} = env;
 const urlForTelegramApiMethod = (method: ApiMethodType) =>
-  `https://api.telegram.org/bot${telegramBotToken}/${method}`;
+  `https://api.telegram.org/bot${config.telegramBotToken}/${method}`;
 
 const request = rp.defaults({
   headers: {'User-Agent': 'sozdik-bot'},

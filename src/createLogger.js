@@ -4,9 +4,7 @@ import {Papertrail} from 'winston-papertrail';
 import _ from 'lodash/fp';
 import winston from 'winston';
 
-import env from 'src/env';
-
-const {papertrailOptions} = env;
+import config from 'src/config';
 
 export type LogFnType = (...data: Array<any>) => void;
 export type LoggerType = {
@@ -18,6 +16,10 @@ export type LoggerType = {
     write: (message: string) => void,
   },
 };
+
+const papertrailEnabled =
+  typeof config.papertrailOptions.host === 'string' &&
+  typeof config.papertrailOptions.port === 'string';
 
 const winstonLogger = new winston.Logger({
   rewriters: [
@@ -33,12 +35,9 @@ const winstonLogger = new winston.Logger({
       level: 'debug',
       colorize: true,
     }),
-    papertrailOptions.host !== undefined &&
-      papertrailOptions.host !== null &&
-      papertrailOptions.port !== undefined &&
-      papertrailOptions.port !== null &&
+    papertrailEnabled &&
       new Papertrail({
-        ...papertrailOptions,
+        ...config.papertrailOptions,
         hostname: 'sozdik-bot',
         inlineMeta: true,
         logFormat: (level: string, message: string): string =>

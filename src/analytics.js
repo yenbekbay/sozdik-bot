@@ -3,11 +3,11 @@
 import _ from 'lodash/fp';
 import Mixpanel from 'mixpanel';
 
-import env from 'src/env';
+import config from 'src/config';
 import createLogger from 'src/createLogger';
 
 const logger = createLogger('analytics');
-const mixpanel = Mixpanel.init(env.mixpanelToken);
+const mixpanel = Mixpanel.init(config.mixpanelToken);
 
 const trackUser = async (user: {
   id: string,
