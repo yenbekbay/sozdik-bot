@@ -3,8 +3,11 @@
   "version": "0.0.0",
   "description": "Telegram and Messenger bot for Sozdik, a Russian to Kazakh dictionary",
   "private": true,
-  "homepage": "https://github.com/anvilabs/sozdik-bot",
   "repository": "anvilabs/sozdik-bot",
+  "homepage": "https://github.com/anvilabs/sozdik-bot#readme",
+  "bugs": {
+    "url": "https://github.com/anvilabs/sozdik-bot/issues"
+  },
   "license": "GPL-3.0",
   "author": {
     "name": "Ayan Yenbekbay",
@@ -20,14 +23,14 @@
     "lint:fix": "eslint --cache --fix .",
     "jest": "jest",
     "jest:coverage": "jest --coverage",
-    "test": "npm-run-all --parallel typecheck lint jest",
-    "test:ci": "npm-run-all --parallel typecheck lint jest:coverage && codecov",
+    "test": "run-p --silent typecheck lint jest",
+    "test:ci": "run-p --silent typecheck lint jest:coverage && codecov",
     "start": "nodemon src/server.js",
     "commitmsg": "validate-commit-msg",
-    "prepush": "npm test",
+    "prepush": "yarn test",
     "clean": "rimraf build && mkdir build",
-    "build": "npm run clean && babel --out-dir ./build --ignore **/__tests__,**/__mocks__ ./src",
-    "deploy": "sh ./scripts/deploy.sh"
+    "build": "yarn clean && babel --out-dir ./build --ignore **/__tests__,**/__mocks__ ./src",
+    "deploy": "sh scripts/deploy.sh"
   },
   "lint-staged": {
     "{*.js,{scripts,src}/**/*.js}": ["eslint --cache --fix", "git add"],
