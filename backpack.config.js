@@ -43,6 +43,14 @@ module.exports = {
                         },
                       ],
                       'lodash',
+                      [
+                        'module-resolver',
+                        {
+                          alias: {
+                            src: './src',
+                          },
+                        },
+                      ],
                     ],
                     cacheDirectory: false,
                   },

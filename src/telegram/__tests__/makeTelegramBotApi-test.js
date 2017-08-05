@@ -1,6 +1,7 @@
 /* @flow */
 
-import createLogger from '../../createLogger';
+import createLogger from 'src/createLogger';
+
 import makeTelegramBotApi, {
   request,
   urlForTelegramApiMethod,

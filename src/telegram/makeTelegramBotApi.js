@@ -3,14 +3,15 @@
 import _ from 'lodash/fp';
 import rp from 'request-promise';
 
-import env from '../env';
+import env from 'src/env';
+import type {LoggerType} from 'src/createLogger';
+
 import type {
   ChatType,
   ParseModeType,
   MessageType,
   InlineQueryResultType,
 } from './types';
-import type {LoggerType} from '../createLogger';
 
 type ApiMethodType =
   | 'sendMessage'

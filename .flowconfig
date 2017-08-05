@@ -17,6 +17,8 @@ emoji=true
 
 experimental.const_params=true
 
+module.name_mapper='^src\/\(.*\)$' -> '<PROJECT_ROOT>/src/\1'
+
 munge_underscores=true
 
 [version]

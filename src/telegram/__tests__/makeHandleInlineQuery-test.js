@@ -1,9 +1,10 @@
 /* @flow */
 
-import {trackUser, trackEvent} from '../../analytics';
-import createLogger from '../../createLogger';
+import {trackUser, trackEvent} from 'src/analytics';
+import createLogger from 'src/createLogger';
+import sozdikApi from 'src/sozdikApi';
+
 import makeHandleInlineQuery from '../makeHandleInlineQuery';
-import sozdikApi from '../../sozdikApi';
 
 jest.mock('crypto', () => ({
   createHash: () => ({

@@ -1,10 +1,11 @@
 /* @flow */
 
-import createLogger from '../createLogger';
+import createLogger from 'src/createLogger';
+import sozdikApi from 'src/sozdikApi';
+
 import makeHandleInlineQuery from './makeHandleInlineQuery';
 import makeHandleMessage from './makeHandleMessage';
 import makeTelegramBotApi from './makeTelegramBotApi';
-import sozdikApi from '../sozdikApi';
 import type {MessageType, InlineQueryType} from './types';
 
 type UpdateType = {

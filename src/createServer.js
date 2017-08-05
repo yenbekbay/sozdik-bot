@@ -5,10 +5,10 @@ import express from 'express';
 import morgan from 'morgan';
 import type {$Request, $Response} from 'express';
 
-import {createTelegramBot} from './telegram';
-import {createMessengerBot} from './messenger';
-import env from './env';
-import type {LoggerType} from './createLogger';
+import {createTelegramBot} from 'src/telegram';
+import {createMessengerBot} from 'src/messenger';
+import env from 'src/env';
+import type {LoggerType} from 'src/createLogger';
 
 const {telegramWebhookUrl, messengerWebhookUrl} = env;
 

@@ -2,9 +2,10 @@
 
 import request from 'supertest-as-promised';
 
-import createLogger from '../createLogger';
+import createLogger from 'src/createLogger';
+import env from 'src/env';
+
 import createServer from '../createServer';
-import env from '../env';
 
 jest.mock('../telegram', () => ({
   createTelegramBot: () => ({

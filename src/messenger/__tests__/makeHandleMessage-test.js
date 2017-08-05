@@ -1,10 +1,11 @@
 /* @flow */
 
-import {trackUser, trackEvent} from '../../analytics';
-import createLogger from '../../createLogger';
-import env from '../../env';
+import {trackUser, trackEvent} from 'src/analytics';
+import createLogger from 'src/createLogger';
+import env from 'src/env';
+import sozdikApi from 'src/sozdikApi';
+
 import makeHandleMessage from '../makeHandleMessage';
-import sozdikApi from '../../sozdikApi';
 
 const {noTranslationsFoundText, errorText} = env;
 const sampleHandleMessageConfig = {

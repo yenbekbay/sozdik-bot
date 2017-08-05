@@ -5,6 +5,11 @@ module.exports = {
     'anvilabs/flowtype',
     'anvilabs/lodash',
   ],
+  settings: {
+    'import/resolver': {
+      'babel-module': {},
+    },
+  },
   rules: {
     'no-underscore-dangle': 'off',
   },

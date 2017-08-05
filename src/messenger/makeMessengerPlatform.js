@@ -2,8 +2,8 @@
 
 import rp from 'request-promise';
 
-import env from '../env';
-import type {LoggerType} from '../createLogger';
+import env from 'src/env';
+import type {LoggerType} from 'src/createLogger';
 
 export type ThreadSettingTypeType = 'greeting' | 'call_to_actions';
 export type UserProfileType = {
@@ -69,7 +69,7 @@ const threadSettingsRequest = (
     },
   });
 
-const messengerPlatform = (logger: LoggerType) => ({
+const makeMessengerPlatform = (logger: LoggerType) => ({
   sendTextMessage: async ({recipientId, text}: SendTextMessageConfigType) => {
     try {
       const response = await sendApiRequest(recipientId, {message: {text}});
@@ -153,4 +153,4 @@ const messengerPlatform = (logger: LoggerType) => ({
 });
 
 export {request, sendApiUrl, threadSettingsUrl, urlForUserProfileRequest};
-export default messengerPlatform;
+export default makeMessengerPlatform;

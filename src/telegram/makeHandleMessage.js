@@ -2,15 +2,19 @@
 
 import _ from 'lodash/fp';
 
-import {trackUser, trackEvent} from '../analytics';
-import env from '../env';
-import type {LoggerType} from '../createLogger';
+import {trackUser, trackEvent} from 'src/analytics';
+import env from 'src/env';
+import type {LoggerType} from 'src/createLogger';
+import type {
+  TranslationType,
+  GetTranslationForQueryFnType,
+} from 'src/sozdikApi';
+
 import type {MessageType} from './types';
 import type {
   SendMessageFnType,
   SendChatActionFnType,
 } from './makeTelegramBotApi';
-import type {TranslationType, GetTranslationForQueryFnType} from '../sozdikApi';
 
 const {helpText, startText, noTranslationsFoundText, errorText} = env;
 

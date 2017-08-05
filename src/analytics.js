@@ -3,8 +3,8 @@
 import _ from 'lodash/fp';
 import Mixpanel from 'mixpanel';
 
-import env from './env';
-import createLogger from './createLogger';
+import env from 'src/env';
+import createLogger from 'src/createLogger';
 
 const logger = createLogger('analytics');
 const mixpanel = Mixpanel.init(env.mixpanelToken);

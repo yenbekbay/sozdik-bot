@@ -19,6 +19,14 @@
         "useBuiltIns": true
       }
     ],
-    "lodash"
+    "lodash",
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "src": "./src"
+        }
+      }
+    ]
   ]
 }

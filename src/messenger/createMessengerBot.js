@@ -2,11 +2,12 @@
 
 import _ from 'lodash/fp';
 
-import createLogger from '../createLogger';
+import createLogger from 'src/createLogger';
+import env from 'src/env';
+import sozdikApi from 'src/sozdikApi';
+
 import curriedmakeHandleMessage from './makeHandleMessage';
-import env from '../env';
-import messengerPlatform from './messengerPlatform';
-import sozdikApi from '../sozdikApi';
+import makeMessengerPlatform from './makeMessengerPlatform';
 import type {MessagingType} from './types';
 
 type WebhookCallbackType = {
@@ -18,7 +19,7 @@ const {getTranslationsForQuery} = sozdikApi('facebook');
 const logger = createLogger('messenger');
 
 const createMessengerBot = () => {
-  const platform = messengerPlatform(logger);
+  const platform = makeMessengerPlatform(logger);
   const {
     sendTextMessage,
     sendSenderAction,

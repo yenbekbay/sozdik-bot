@@ -1,20 +1,21 @@
 /* @flow */
 
-import createLogger from '../../createLogger';
-import messengerPlatform, {
+import createLogger from 'src/createLogger';
+
+import makeMessengerPlatform, {
   request,
   sendApiUrl,
   threadSettingsUrl,
   urlForUserProfileRequest,
-} from '../messengerPlatform';
+} from '../makeMessengerPlatform';
 
 const logger = createLogger('test');
 
-describe('messengerPlatform', () => {
+describe('makeMessengerPlatform', () => {
   let platform;
 
   beforeAll(() => {
-    platform = messengerPlatform(logger);
+    platform = makeMessengerPlatform(logger);
   });
 
   beforeEach(() => {

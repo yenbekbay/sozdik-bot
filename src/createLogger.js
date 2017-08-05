@@ -4,7 +4,7 @@ import {Papertrail} from 'winston-papertrail';
 import _ from 'lodash/fp';
 import winston from 'winston';
 
-import env from './env';
+import env from 'src/env';
 
 const {papertrailOptions} = env;
 

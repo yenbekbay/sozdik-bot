@@ -3,16 +3,20 @@
 import _ from 'lodash/fp';
 import removeMarkdown from 'remove-markdown';
 
-import {trackUser, trackEvent} from '../analytics';
-import env from '../env';
+import {trackUser, trackEvent} from 'src/analytics';
+import env from 'src/env';
+import type {LoggerType} from 'src/createLogger';
+import type {
+  TranslationType,
+  GetTranslationForQueryFnType,
+} from 'src/sozdikApi';
+
 import type {
   SendTextMessageFnType,
   SendSenderActionFnType,
   GetUserProfileFnType,
-} from './messengerPlatform';
-import type {LoggerType} from '../createLogger';
+} from './makeMessengerPlatform';
 import type {MessageType} from './types';
-import type {TranslationType, GetTranslationForQueryFnType} from '../sozdikApi';
 
 const {noTranslationsFoundText, errorText} = env;
 

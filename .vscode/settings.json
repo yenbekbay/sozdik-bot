@@ -19,5 +19,9 @@
 
   "javascript.validate.enable": false,
 
+  "path-intellisense.mappings": {
+    "src": "${workspaceRoot}/src"
+  },
+
   "prettier.javascriptEnable": []
 }

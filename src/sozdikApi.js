@@ -6,8 +6,8 @@ import _ from 'lodash/fp';
 import rp from 'request-promise';
 import toMarkdown from 'to-markdown';
 
-import createLogger from './createLogger';
-import env from './env';
+import createLogger from 'src/createLogger';
+import env from 'src/env';
 
 export type LanguageType = 'ru' | 'kk';
 export type TranslationType = {

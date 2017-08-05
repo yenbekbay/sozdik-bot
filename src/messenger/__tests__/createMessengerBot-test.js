@@ -1,9 +1,10 @@
 /* @flow */
 
-import createMessengerBot from '../createMessengerBot';
-import env from '../../env';
+import env from 'src/env';
 
-jest.mock('../messengerPlatform', () => () => ({
+import createMessengerBot from '../createMessengerBot';
+
+jest.mock('../makeMessengerPlatform', () => () => ({
   sendTextMessage: jest.fn(),
   sendSenderAction: jest.fn(),
   setGreetingText: jest.fn(),

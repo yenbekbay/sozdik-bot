@@ -2,9 +2,9 @@
 
 import localtunnel from 'localtunnel';
 
-import createLogger from './createLogger';
-import createServer from './createServer';
-import env from './env';
+import createLogger from 'src/createLogger';
+import createServer from 'src/createServer';
+import env from 'src/env';
 
 const {port, tunnelOptions, telegramWebhookUrl, prodUrl, isProd} = env;
 const logger = createLogger('server');

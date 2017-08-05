@@ -5,11 +5,15 @@ import crypto from 'crypto';
 import _ from 'lodash/fp';
 import removeMarkdown from 'remove-markdown';
 
-import {trackUser, trackEvent} from '../analytics';
+import {trackUser, trackEvent} from 'src/analytics';
+import type {LoggerType} from 'src/createLogger';
+import type {
+  TranslationType,
+  GetTranslationForQueryFnType,
+} from 'src/sozdikApi';
+
 import type {AnswerInlineQueryFnType} from './makeTelegramBotApi';
 import type {InlineQueryType, InlineQueryResultType} from './types';
-import type {LoggerType} from '../createLogger';
-import type {TranslationType, GetTranslationForQueryFnType} from '../sozdikApi';
 
 const makeHandleInlineQuery = ({
   answerInlineQuery,
