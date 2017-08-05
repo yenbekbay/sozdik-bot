@@ -1,5 +1,5 @@
 *
-!build
+!build/
 !pm2.json
 !package.json
 !.env

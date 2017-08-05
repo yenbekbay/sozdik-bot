@@ -1,18 +1,25 @@
-# OSX
+# macOS
 #
 .DS_Store
 
 # node.js
 #
-node_modules/
-npm-debug.log
+/node_modules/
+/npm-debug.log
+/yarn-error.log
 
-# VSCode
+# Compiled files
 #
-typings/
+/build/
 
-# App
+# Private environment variables
 #
-build/
-coverage/
-.env
+/.env
+
+# Cache Loader
+#
+/.cache-loader/
+
+# ESLint
+#
+/.eslintcache
