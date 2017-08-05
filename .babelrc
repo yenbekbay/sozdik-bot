@@ -1,11 +1,23 @@
 {
   "presets": [
-    "es2015",
-    "stage-0"
+    [
+      "env",
+      {
+        "targets": {
+          "node": "8.0"
+        }
+      }
+    ],
+    "flow"
   ],
   "plugins": [
-    "transform-flow-strip-types",
-    "lodash",
-    "transform-runtime"
+    "transform-class-properties",
+    [
+      "transform-object-rest-spread",
+      {
+        "useBuiltIns": true
+      }
+    ],
+    "lodash"
   ]
 }
