@@ -1,17 +1,17 @@
 language: node_js
 node_js:
-  - "6"
-script:
-- yarn test:ci
+  - node
 cache:
   yarn: true
   directories:
     - node_modules
 branches:
   only:
-  - master
+    - master
 notifications:
   email: false
   slack:
     on_pull_requests: false
     secure: H5FZ3Z90K7i9zuXgU9W/gxl7+m8y+qjQ/Wm7M5dPoSi225ddtB0pB1EHQS4npdqE6z1IWHfzX9uOuIH46J5y0zf9qi/SFIvWE1mNJFXjNycyPbZ3gwK5x4+CbAxlbnUwLNFQnILPmmSDlJzmMpK2i3Ptf7VVT+yoh+nnrs0qNfIO+G4+NzvtUaB1D31HLse40wCTIDpTa9Azi0ZXILDCzZ1j3Jq1A5DayRtuCFi4xXaomwnASAHGICnTP2X5Yg30Ykm6SpQ7IXPIORg32XqvUu9YCxFFLHKAMYBD3ekQIYJdwRPvZysZmRAUPXS2n56UoWWh9yo0h/2ZmCsudOn87u9ohbsm/HdfceCnlxws2UtKIIuhm7/FJJ4zXAULorb02EtSaYEQYncVM19b4QqOa0gtNvEELjz3H+jAABfigjJZXoE9quZko/yZAgbnazTN6oMcxB0trz4c+UQPkPTQgHj+wqoWQojZro20QeN4udYGN+Wbd4XNEjtMdf60oyAdYQFhQcuZ3UCwYK361cmiLZoL6owFMil5p4gopqYw3yZFGZx08wYuwPY33M214MVDMhMoMu3E3rREL66RHxVjaLI4gizIoy2PftdZyjereM3sB4VGGxiEUpG/5XF0Sy7zzeD42QJNi+aETXyObsJ94eTYWsjf/RBDru0jM1S9LPA=
+script:
+  - yarn test:ci
