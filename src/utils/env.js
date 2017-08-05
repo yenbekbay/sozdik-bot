@@ -25,8 +25,8 @@ const env = {
 
 if (!('CI' in process.env)) {
   dotenvSafe.load({
-    path: path.resolve(__dirname, '../.env'),
-    sample: path.resolve(__dirname, '../.env.example'),
+    path: path.resolve(__dirname, '../../.env'),
+    sample: path.resolve(__dirname, '../../.env.example'),
   });
 }
 /* eslint-enable no-process-env */

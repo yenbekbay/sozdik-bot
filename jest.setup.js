@@ -1,5 +1,5 @@
 jest.mock('request-promise');
 
-jest.mock('./src/makeLogger');
-jest.mock('./src/analytics');
-jest.mock('./src/getSozdikApi');
+jest.mock('./src/services/Analytics');
+jest.mock('./src/services/getSozdikApi');
+jest.mock('./src/utils/makeLogger');

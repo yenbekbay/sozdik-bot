@@ -2,32 +2,19 @@
 
 import _ from 'lodash/fp';
 
-import {trackUser, trackEvent} from 'src/analytics';
+import Analytics from 'src/services/Analytics';
 import config from 'src/config';
-import type {LoggerType} from 'src/makeLogger';
-import type {
-  TranslationType,
-  GetTranslationForQueryFnType,
-} from 'src/getSozdikApi';
+import getSozdikApi from 'src/services/getSozdikApi';
+import makeLogger from 'src/utils/makeLogger';
+import TelegramBotApi from 'src/services/TelegramBotApi';
+import type {TelegramMessageType} from 'src/services/TelegramBotApi';
+import type {TranslationType} from 'src/services/getSozdikApi';
 
-import type {MessageType} from './types';
-import type {
-  SendMessageFnType,
-  SendChatActionFnType,
-} from './makeTelegramBotApi';
+const logger = makeLogger('telegram/handleMessage');
+const sozdikApi = getSozdikApi('telegram');
 
 /* eslint-disable max-statements */
-const makeHandleMessage = ({
-  sendMessage,
-  sendChatAction,
-  getTranslationsForQuery,
-  logger,
-}: {|
-  sendMessage: SendMessageFnType,
-  sendChatAction: SendChatActionFnType,
-  getTranslationsForQuery: GetTranslationForQueryFnType,
-  logger: LoggerType,
-|}) => async ({text, from: user, chat}: MessageType) => {
+const handleMessage = async ({text, from: user, chat}: TelegramMessageType) => {
   if (text === null || text === undefined || text.length === 0) return null;
 
   const chatInfo = _.pick(
@@ -43,14 +30,14 @@ const makeHandleMessage = ({
         );
 
         const [message] = await Promise.all([
-          sendMessage({
+          TelegramBotApi.sendMessage({
             chat,
-            text: config.startText,
+            text: config.telegramStartText,
             parse_mode: 'Markdown',
             disable_web_page_preview: true,
           }),
-          trackUser(user),
-          trackEvent(user.id, 'Requested the start message'),
+          Analytics.trackUser(user),
+          Analytics.trackEvent(user.id, 'Requested the start message'),
         ]);
 
         return message;
@@ -61,13 +48,13 @@ const makeHandleMessage = ({
         );
 
         const [message] = await Promise.all([
-          sendMessage({
+          TelegramBotApi.sendMessage({
             chat,
-            text: config.helpText,
+            text: config.telegramHelpText,
             parse_mode: 'Markdown',
           }),
-          trackUser(user),
-          trackEvent(user.id, 'Requested the help message'),
+          Analytics.trackUser(user),
+          Analytics.trackEvent(user.id, 'Requested the help message'),
         ]);
 
         return message;
@@ -80,13 +67,13 @@ const makeHandleMessage = ({
         );
 
         const [translations] = await Promise.all([
-          getTranslationsForQuery(text.toLowerCase()),
-          sendChatAction({chat, action: 'typing'}),
+          sozdikApi.getTranslationsForQuery(text.toLowerCase()),
+          TelegramBotApi.sendChatAction({chat, action: 'typing'}),
         ]);
 
         await Promise.all([
-          trackUser(user),
-          trackEvent(user.id, 'Requested translations', {
+          Analytics.trackUser(user),
+          Analytics.trackEvent(user.id, 'Requested translations', {
             query: text,
             kk_translation: !!_.find({toLang: 'kk'}, translations),
             ru_translation: !!_.find({toLang: 'ru'}, translations),
@@ -97,7 +84,7 @@ const makeHandleMessage = ({
           return await Promise.all(
             _.map(
               (translation: TranslationType) =>
-                sendMessage({
+                TelegramBotApi.sendMessage({
                   chat,
                   text: `${translation.title}:\n${translation.text}`,
                   parse_mode: 'Markdown',
@@ -108,7 +95,10 @@ const makeHandleMessage = ({
           );
         }
 
-        return await sendMessage({chat, text: config.noTranslationsFoundText});
+        return await TelegramBotApi.sendMessage({
+          chat,
+          text: config.noTranslationsFoundText,
+        });
       }
     }
   } catch (err) {
@@ -118,9 +108,10 @@ const makeHandleMessage = ({
       )}: ${err.message}`,
     );
 
-    return sendMessage({chat, text: config.errorText});
+    return TelegramBotApi.sendMessage({chat, text: config.errorText});
   }
 };
 /* eslint-enable max-statements */
 
-export default makeHandleMessage;
+export default handleMessage;
+export {logger as __logger};

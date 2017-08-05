@@ -47,7 +47,7 @@ const translations = {
   ],
 };
 
-const getSozdikApi = () => ({
+const sozdikApi = {
   getTranslation: jest.fn(
     (query: string, fromLang: LanguageType, toLang: LanguageType) =>
       _.find({toLang, fromLang}, translations[query]),
@@ -55,6 +55,8 @@ const getSozdikApi = () => ({
   getTranslationsForQuery: jest.fn(
     (query: string) => translations[query] || [],
   ),
-});
+};
+
+const getSozdikApi = () => sozdikApi;
 
 export default getSozdikApi;

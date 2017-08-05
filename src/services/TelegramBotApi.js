@@ -4,52 +4,67 @@ import _ from 'lodash/fp';
 import rp from 'request-promise';
 
 import config from 'src/config';
-import type {LoggerType} from 'src/makeLogger';
+import makeLogger from 'src/utils/makeLogger';
 
-import type {
-  ChatType,
-  ParseModeType,
-  MessageType,
-  InlineQueryResultType,
-} from './types';
+type TelegramUserType = {
+  id: string,
+  first_name?: ?string,
+  last_name?: ?string,
+  username?: string,
+};
+type TelegramChatType = {
+  id: string,
+  type: 'private' | 'group' | 'supergroup' | 'channel',
+  title?: string,
+  first_name?: string,
+  last_name?: string,
+  username?: string,
+};
+type TelegramParseModeType = 'Markdown' | 'HTML';
+
+export type TelegramMessageType = {
+  from: TelegramUserType,
+  chat: TelegramChatType,
+  text?: string,
+};
+export type TelegramInlineQueryType = {
+  id: string,
+  from: TelegramUserType,
+  query: string,
+};
+export type TelegramInlineQueryResultType = {
+  type: 'article',
+  id: string,
+  title: string,
+  input_message_content: {
+    message_text: string,
+    parse_mode?: TelegramParseModeType,
+    disable_web_page_preview?: boolean,
+  },
+  url?: string,
+  hide_url?: boolean,
+  description?: string,
+  thumb_url?: string,
+  thumb_width?: number,
+  thumb_height?: number,
+};
+export type TelegramUpdateType = {
+  message?: TelegramMessageType,
+  inline_query?: TelegramInlineQueryType,
+};
 
 type ApiMethodType =
   | 'sendMessage'
   | 'sendChatAction'
   | 'answerInlineQuery'
   | 'setWebhook';
-type SendMessageConfigType = {|
-  chat: ChatType,
-  text: string,
-  parse_mode?: ParseModeType,
-  disable_web_page_preview?: boolean,
-  disable_notification?: boolean,
-  reply_to_message_id?: number,
-  reply_markup?: {
-    force_reply?: boolean,
-  },
-|};
-type SendChatActionConfigType = {|
-  chat: ChatType,
-  action: 'typing',
-|};
-type AnswerInlineQueryConfigType = {|
-  inlineQueryId: string,
-  results: Array<InlineQueryResultType>,
-|};
 
-export type SendMessageFnType = (
-  config: SendMessageConfigType,
-) => Promise<?MessageType>;
-export type SendChatActionFnType = (
-  config: SendChatActionConfigType,
-) => Promise<?{[key: string]: any}>;
-export type AnswerInlineQueryFnType = (
-  config: AnswerInlineQueryConfigType,
-) => Promise<?{[key: string]: any}>;
+const TELEGRAM_API_URL = 'https://api.telegram.org';
+
+const logger = makeLogger('telegram/TelegramBotApi');
 
 const urlForTelegramApiMethod = (method: ApiMethodType) =>
-  `https://api.telegram.org/bot${config.telegramBotToken}/${method}`;
+  `${TELEGRAM_API_URL}/bot${config.telegramBotToken}/${method}`;
 
 const request = rp.defaults({
   headers: {'User-Agent': 'sozdik-bot'},
@@ -65,10 +80,24 @@ const apiRequest = (
     form: params,
   });
 
-const makeTelegramBotApi = (logger: LoggerType) => ({
-  sendMessage: async ({chat, text, ...options}: SendMessageConfigType) => {
+const TelegramBotApi = {
+  sendMessage: async ({
+    chat,
+    text,
+    ...options
+  }: {|
+    chat: TelegramChatType,
+    text: string,
+    parse_mode?: TelegramParseModeType,
+    disable_web_page_preview?: boolean,
+    disable_notification?: boolean,
+    reply_to_message_id?: number,
+    reply_markup?: {
+      force_reply?: boolean,
+    },
+  |}) => {
     try {
-      const response: MessageType = await apiRequest('sendMessage', {
+      const response: TelegramMessageType = await apiRequest('sendMessage', {
         chat_id: chat.id,
         text,
         ...options,
@@ -90,7 +119,13 @@ const makeTelegramBotApi = (logger: LoggerType) => ({
       return null;
     }
   },
-  sendChatAction: async ({chat, action}: SendChatActionConfigType) => {
+  sendChatAction: async ({
+    chat,
+    action,
+  }: {|
+    chat: TelegramChatType,
+    action: 'typing',
+  |}) => {
     try {
       const response = await apiRequest('sendChatAction', {
         chat_id: chat.id,
@@ -111,7 +146,10 @@ const makeTelegramBotApi = (logger: LoggerType) => ({
   answerInlineQuery: async ({
     inlineQueryId,
     results,
-  }: AnswerInlineQueryConfigType) => {
+  }: {|
+    inlineQueryId: string,
+    results: Array<TelegramInlineQueryResultType>,
+  |}) => {
     try {
       const response = await apiRequest('answerInlineQuery', {
         inline_query_id: inlineQueryId,
@@ -144,7 +182,11 @@ const makeTelegramBotApi = (logger: LoggerType) => ({
       throw err;
     }
   },
-});
+};
 
-export {request, urlForTelegramApiMethod};
-export default makeTelegramBotApi;
+export default TelegramBotApi;
+export {
+  logger as __logger,
+  request as __request,
+  urlForTelegramApiMethod as __urlForTelegramApiMethod,
+};

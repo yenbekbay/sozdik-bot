@@ -1,5 +1,5 @@
 /* @flow */
 
-import createMessengerBot from './createMessengerBot';
+import messengerBot from './messengerBot';
 
-export {createMessengerBot};
+export {messengerBot};

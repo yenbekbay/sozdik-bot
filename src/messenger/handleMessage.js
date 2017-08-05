@@ -3,47 +3,31 @@
 import _ from 'lodash/fp';
 import removeMarkdown from 'remove-markdown';
 
-import {trackUser, trackEvent} from 'src/analytics';
+import Analytics from 'src/services/Analytics';
 import config from 'src/config';
-import type {LoggerType} from 'src/makeLogger';
-import type {
-  TranslationType,
-  GetTranslationForQueryFnType,
-} from 'src/getSozdikApi';
+import getSozdikApi from 'src/services/getSozdikApi';
+import makeLogger from 'src/utils/makeLogger';
+import MessengerPlatform from 'src/services/MessengerPlatform';
+import type {MessengerMessageType} from 'src/services/MessengerPlatform';
+import type {TranslationType} from 'src/services/getSozdikApi';
 
-import type {
-  SendTextMessageFnType,
-  SendSenderActionFnType,
-  GetUserProfileFnType,
-} from './makeMessengerPlatform';
-import type {MessageType} from './types';
+const logger = makeLogger('messenger/handleMessage');
+const sozdikApi = getSozdikApi('telegram');
 
-const makeHandleMessage = ({
-  sendTextMessage,
-  sendSenderAction,
-  getUserProfile,
-  getTranslationsForQuery,
-  logger,
-}: {|
-  sendTextMessage: SendTextMessageFnType,
-  sendSenderAction: SendSenderActionFnType,
-  getUserProfile: GetUserProfileFnType,
-  getTranslationsForQuery: GetTranslationForQueryFnType,
-  logger: LoggerType,
-|}) => async ({
+const handleMessage = async ({
   recipientId,
   message: {text},
 }: {|
   recipientId: string,
-  message: MessageType,
+  message: MessengerMessageType,
 |}) => {
   if (!text || text.length === 0) return null;
 
   try {
     const [user, translations] = await Promise.all([
-      getUserProfile(recipientId),
-      getTranslationsForQuery(text.toLowerCase()),
-      sendSenderAction({recipientId, action: 'typing_on'}),
+      MessengerPlatform.getUserProfile(recipientId),
+      sozdikApi.getTranslationsForQuery(text.toLowerCase()),
+      MessengerPlatform.sendSenderAction({recipientId, action: 'typing_on'}),
     ]);
 
     const userInfo = {
@@ -57,8 +41,8 @@ const makeHandleMessage = ({
     );
 
     await Promise.all([
-      trackUser({id: recipientId, ...user}),
-      trackEvent(recipientId, 'Requested translations', {
+      Analytics.trackUser({id: recipientId, ...user}),
+      Analytics.trackEvent(recipientId, 'Requested translations', {
         query: text,
         kk_translation: !!_.find({toLang: 'kk'}, translations),
         ru_translation: !!_.find({toLang: 'ru'}, translations),
@@ -69,7 +53,7 @@ const makeHandleMessage = ({
       ? await Promise.all(
           _.map(
             (translation: TranslationType) =>
-              sendTextMessage({
+              MessengerPlatform.sendTextMessage({
                 recipientId,
                 text: _.truncate(
                   {length: 320, omission: `...\n${translation.url}`},
@@ -81,7 +65,7 @@ const makeHandleMessage = ({
             translations,
           ),
         )
-      : await sendTextMessage({
+      : await MessengerPlatform.sendTextMessage({
           recipientId,
           text: config.noTranslationsFoundText,
         });
@@ -90,8 +74,12 @@ const makeHandleMessage = ({
       `Failed to reply to a message from user ${recipientId}: ${err.message}`,
     );
 
-    return sendTextMessage({recipientId, text: config.errorText});
+    return MessengerPlatform.sendTextMessage({
+      recipientId,
+      text: config.errorText,
+    });
   }
 };
 
-export default makeHandleMessage;
+export default handleMessage;
+export {logger as __logger};

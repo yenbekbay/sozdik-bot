@@ -2,12 +2,13 @@
 
 import localtunnel from 'localtunnel';
 
-import makeLogger from 'src/makeLogger';
-import createServer from 'src/createServer';
+import {telegramBot} from 'src/telegram';
+import {messengerBot} from 'src/messenger';
+import makeLogger from 'src/utils/makeLogger';
+import server from 'src/server';
 import config from 'src/config';
 
-const logger = makeLogger('server');
-const {server, telegramBot, messengerBot} = createServer(logger);
+const logger = makeLogger('main');
 
 const setUpBots = async (serverUrl: string) => {
   try {

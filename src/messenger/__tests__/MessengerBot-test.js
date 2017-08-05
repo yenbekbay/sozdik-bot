@@ -1,26 +1,17 @@
 /* @flow */
 
 import config from 'src/config';
+import MessengerPlatform from 'src/services/MessengerPlatform';
 
-import createMessengerBot from '../createMessengerBot';
+import messengerBot from '../messengerBot';
+import handleMessage from '../handleMessage';
 
-jest.mock('../makeMessengerPlatform', () => () => ({
-  sendTextMessage: jest.fn(),
-  sendSenderAction: jest.fn(),
-  setGreetingText: jest.fn(),
-  getUserProfile: jest.fn(),
-}));
-jest.mock('../makeHandleMessage', () => () => jest.fn());
+jest.mock('../../services/MessengerPlatform');
+jest.mock('../handleMessage', () => jest.fn(() => Promise.resolve()));
 
-describe('createMessengerBot', () => {
-  let messengerBot;
-
-  beforeAll(() => {
-    messengerBot = createMessengerBot();
-  });
-
+describe('messengerBot', () => {
   beforeEach(() => {
-    (messengerBot.__handleMessage: any).mockClear();
+    (handleMessage: $FlowFixMe).mockClear();
   });
 
   it('handles webhook verification', () => {
@@ -59,7 +50,7 @@ describe('createMessengerBot', () => {
       ],
     });
 
-    expect(messengerBot.__handleMessage).toHaveBeenCalledTimes(1);
+    expect(handleMessage).toHaveBeenCalledTimes(1);
   });
 
   it("doesn't handle unsupported webhook callbacks", () => {
@@ -75,12 +66,12 @@ describe('createMessengerBot', () => {
       ],
     });
 
-    expect(messengerBot.__handleMessage).not.toHaveBeenCalled();
+    expect(handleMessage).not.toHaveBeenCalled();
   });
 
   it('runs setup', () => {
     messengerBot.setUp();
 
-    expect(messengerBot.__platform.setGreetingText).toHaveBeenCalled();
+    expect(MessengerPlatform.setGreetingText).toHaveBeenCalled();
   });
 });

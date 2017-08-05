@@ -18,8 +18,9 @@ export type LoggerType = {|
 |};
 
 const papertrailEnabled =
-  typeof config.papertrailOptions.host === 'string' &&
-  typeof config.papertrailOptions.port === 'string';
+  config.isProduction &&
+  typeof config.papertrailHost === 'string' &&
+  typeof config.papertrailPort === 'string';
 
 const winstonLogger = new winston.Logger({
   rewriters: [
@@ -33,7 +34,8 @@ const winstonLogger = new winston.Logger({
     }),
     papertrailEnabled &&
       new Papertrail({
-        ...config.papertrailOptions,
+        host: config.papertrailHost,
+        port: config.papertrailPort,
         hostname: 'sozdik-bot',
         inlineMeta: true,
         logFormat: (level: string, message: string): string =>
@@ -43,6 +45,7 @@ const winstonLogger = new winston.Logger({
 });
 
 const logLevels = ['error', 'warn', 'debug', 'info'];
+
 const makeLogger = (source: string): LoggerType => {
   const logger = _.flow(
     _.map((level: string): LogFnType => (...data: Array<any>) => {

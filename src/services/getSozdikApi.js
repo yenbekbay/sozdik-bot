@@ -6,7 +6,7 @@ import _ from 'lodash/fp';
 import rp from 'request-promise';
 import toMarkdown from 'to-markdown';
 
-import makeLogger from 'src/makeLogger';
+import makeLogger from 'src/utils/makeLogger';
 import config from 'src/config';
 
 export type LanguageType = 'ru' | 'kk';
@@ -27,7 +27,7 @@ export type GetTranslationForQueryFnType = (
   query: string,
 ) => Promise<Array<TranslationType>>;
 
-const logger = makeLogger('sozdik-api');
+const logger = makeLogger('services/SozdikApi');
 
 const formattedLanguageMappings = {
   ru: 'по-русски',
@@ -40,7 +40,7 @@ const request = rp.defaults({
 });
 
 const getSozdikApi = (client: 'telegram' | 'facebook') => {
-  const apiKey = config.getSozdikApiKey[client];
+  const apiKey = config.sozdikApiKey[client];
 
   const getTranslation = async (
     query: string,
@@ -76,11 +76,11 @@ const getSozdikApi = (client: 'telegram' | 'facebook') => {
         replacement: (content: string) => `_${content}_`,
       },
       {
-        filter: (node: any) =>
+        filter: (node: $FlowFixMe) =>
           node.nodeName === 'A' &&
           node.getAttribute('href') &&
           !/^https?:\/\//.test(node.getAttribute('href')),
-        replacement: (content: string, node: any) =>
+        replacement: (content: string, node: $FlowFixMe) =>
           `[${content}](https://sozdik.kz/ru${node.getAttribute('href')}` +
           `${node.title ? ` "${node.title}"` : ''})`,
       },

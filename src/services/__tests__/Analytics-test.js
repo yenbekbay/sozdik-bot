@@ -1,8 +1,8 @@
 /* @flow */
 
-import {trackUser, trackEvent, __logger, __mixpanel} from '../analytics';
+import Analytics, {__logger, __mixpanel} from '../Analytics';
 
-jest.unmock('../analytics');
+jest.unmock('../Analytics');
 jest.mock('mixpanel', () => ({
   init: () => ({
     people: {
@@ -28,7 +28,7 @@ jest.mock('mixpanel', () => ({
   }),
 }));
 
-describe('analytics', () => {
+describe('Analytics', () => {
   beforeEach(() => {
     __mixpanel.people.set.mockClear();
     __mixpanel.track.mockClear();
@@ -36,7 +36,7 @@ describe('analytics', () => {
   });
 
   it('tracks a user', async () => {
-    await trackUser({id: '123'});
+    await Analytics.trackUser({id: '123'});
 
     expect(__mixpanel.people.set).toHaveBeenCalled();
     expect(__mixpanel.track).not.toHaveBeenCalled();
@@ -53,13 +53,13 @@ describe('analytics', () => {
       },
     );
 
-    await trackUser({id: '123'});
+    await Analytics.trackUser({id: '123'});
 
     expect(__logger.error).toHaveBeenCalled();
   });
 
   it('tracks an event ', async () => {
-    await trackEvent('123', 'test');
+    await Analytics.trackEvent('123', 'test');
 
     expect(__mixpanel.people.set).not.toHaveBeenCalled();
     expect(__mixpanel.track).toHaveBeenCalled();
@@ -76,7 +76,7 @@ describe('analytics', () => {
       },
     );
 
-    await trackEvent('123', 'test');
+    await Analytics.trackEvent('123', 'test');
 
     expect(__logger.error).toHaveBeenCalled();
   });

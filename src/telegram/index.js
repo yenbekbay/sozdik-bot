@@ -1,5 +1,5 @@
 /* @flow */
 
-import createTelegramBot from './createTelegramBot';
+import telegramBot from './telegramBot';
 
-export {createTelegramBot};
+export {telegramBot};

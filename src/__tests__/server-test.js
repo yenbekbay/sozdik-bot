@@ -2,40 +2,31 @@
 
 import request from 'supertest-as-promised';
 
-import makeLogger from 'src/makeLogger';
 import config from 'src/config';
 
-import createServer from '../createServer';
+import {messengerBot} from '../messenger';
+import {telegramBot} from '../telegram';
+import server from '../server';
 
 jest.mock('../telegram', () => ({
-  createTelegramBot: () => ({
+  telegramBot: {
     setWebhook: jest.fn(() => Promise.resolve()),
     handleUpdate: jest.fn(),
-  }),
+  },
 }));
 jest.mock('../messenger', () => ({
-  createMessengerBot: () => ({
+  messengerBot: {
     setGreetingText: jest.fn(() => Promise.resolve()),
     verifyWebhook: jest.fn(() => true),
     handleWebhookCallback: jest.fn(),
-  }),
+  },
 }));
 
-const logger = makeLogger('test');
-
-describe('createServer', () => {
-  let server;
-  let telegramBot;
-  let messengerBot;
-
-  beforeAll(() => {
-    ({server, telegramBot, messengerBot} = createServer(logger));
-  });
-
+describe('server', () => {
   beforeEach(() => {
-    (telegramBot.handleUpdate: any).mockClear();
-    (messengerBot.verifyWebhook: any).mockClear();
-    (messengerBot.handleWebhookCallback: any).mockClear();
+    (telegramBot.handleUpdate: $FlowFixMe).mockClear();
+    (messengerBot.verifyWebhook: $FlowFixMe).mockClear();
+    (messengerBot.handleWebhookCallback: $FlowFixMe).mockClear();
   });
 
   it('handles telegram bot updates', async () => {
@@ -62,7 +53,9 @@ describe('createServer', () => {
   });
 
   it('handles failed messenger bot webhook verification', async () => {
-    (messengerBot.verifyWebhook: any).mockImplementationOnce(() => false);
+    (messengerBot.verifyWebhook: $FlowFixMe).mockImplementationOnce(
+      () => false,
+    );
 
     await request(server).get(config.messengerWebhookUrl).expect(400); // eslint-disable-line no-magic-numbers
 

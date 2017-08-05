@@ -3,10 +3,10 @@
 import rp from 'request-promise';
 
 import config from 'src/config';
-import type {LoggerType} from 'src/makeLogger';
+import makeLogger from 'src/utils/makeLogger';
 
-export type ThreadSettingTypeType = 'greeting' | 'call_to_actions';
-export type UserProfileType = {
+type ThreadSettingTypeType = 'greeting' | 'call_to_actions';
+type UserProfileType = {
   first_name?: ?string,
   last_name?: ?string,
   profile_pic?: ?string,
@@ -15,29 +15,25 @@ export type UserProfileType = {
   gender?: ?string,
 };
 
-type SendApiMethodConfigType = {recipientId: string};
-type SendTextMessageConfigType = SendApiMethodConfigType & {text: string};
-type SendSenderActionConfigType = SendApiMethodConfigType & {
-  action: 'mark_seen' | 'typing_on' | 'typing_off',
+export type MessengerMessageType = {
+  text: string,
+};
+export type MessengerMessagingType = {
+  sender: {id: string},
+  message?: MessengerMessageType,
+};
+export type MessengerWebhookCallbackType = {
+  entry: Array<{messaging: Array<MessengerMessagingType>}>,
 };
 
-export type SendTextMessageFnType = (
-  config: SendTextMessageConfigType,
-) => Promise<?{[key: string]: any}>;
-export type SendSenderActionFnType = (
-  config: SendSenderActionConfigType,
-) => Promise<?{[key: string]: any}>;
-export type SetGreetingTextFnType = (
-  text: string,
-) => Promise<{[key: string]: any}>;
-export type GetUserProfileFnType = (
-  userId: string,
-) => Promise<?UserProfileType>;
+const FACEBOOK_GRAPH_QPI_URL = 'https://graph.facebook.com/v2.6';
 
-const graphApiUrl = 'https://graph.facebook.com/v2.6';
-const sendApiUrl = `${graphApiUrl}/me/messages`;
-const threadSettingsUrl = `${graphApiUrl}/me/thread_settings`;
-const urlForUserProfileRequest = (userId: string) => `${graphApiUrl}/${userId}`;
+const logger = makeLogger('messenger/MessengerPlatform');
+
+const sendApiUrl = `${FACEBOOK_GRAPH_QPI_URL}/me/messages`;
+const threadSettingsUrl = `${FACEBOOK_GRAPH_QPI_URL}/me/thread_settings`;
+const urlForUserProfileRequest = (userId: string) =>
+  `${FACEBOOK_GRAPH_QPI_URL}/${userId}`;
 
 const request = rp.defaults({
   headers: {'User-Agent': 'sozdik-bot'},
@@ -68,8 +64,14 @@ const threadSettingsRequest = (
     },
   });
 
-const makeMessengerPlatform = (logger: LoggerType) => ({
-  sendTextMessage: async ({recipientId, text}: SendTextMessageConfigType) => {
+const MessengerPlatform = {
+  sendTextMessage: async ({
+    recipientId,
+    text,
+  }: {|
+    recipientId: string,
+    text: string,
+  |}) => {
     try {
       const response = await sendApiRequest(recipientId, {message: {text}});
 
@@ -87,7 +89,10 @@ const makeMessengerPlatform = (logger: LoggerType) => ({
   sendSenderAction: async ({
     recipientId,
     action,
-  }: SendSenderActionConfigType) => {
+  }: {|
+    recipientId: string,
+    action: 'mark_seen' | 'typing_on' | 'typing_off',
+  |}) => {
     try {
       const response = await sendApiRequest(recipientId, {
         sender_action: action,
@@ -123,7 +128,7 @@ const makeMessengerPlatform = (logger: LoggerType) => ({
   },
   getUserProfile: async (userId: string) => {
     try {
-      const response = await request.get({
+      const response: UserProfileType = await request.get({
         url: urlForUserProfileRequest(userId),
         qs: {
           fields: JSON.stringify([
@@ -146,7 +151,13 @@ const makeMessengerPlatform = (logger: LoggerType) => ({
       return null;
     }
   },
-});
+};
 
-export {request, sendApiUrl, threadSettingsUrl, urlForUserProfileRequest};
-export default makeMessengerPlatform;
+export default MessengerPlatform;
+export {
+  logger as __logger,
+  request as __request,
+  sendApiUrl as __sendApiUrl,
+  threadSettingsUrl as __threadSettingsUrl,
+  urlForUserProfileRequest as __urlForUserProfileRequest,
+};
