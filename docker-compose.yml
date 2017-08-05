@@ -1,13 +1,20 @@
-server:
-  build: .
-
-caddy:
-  image: zzrot/alpine-caddy
-  links:
-    - server
-  volumes:
-    - /root/.caddy:/root/.caddy
-    - /opt/data/sozdikbot/Caddyfile:/etc/Caddyfile
-  ports:
-    - "80:80"
-    - "443:443"
+version: "3"
+services:
+  server:
+    build:
+      context: .
+      args:
+        - APP_DIR=/opt/sozdik-bot/app
+    environment:
+      - NODE_ENV=production
+      - APP_DIR=/opt/sozdik-bot/app
+  caddy:
+    image: zzrot/alpine-caddy
+    depends_on:
+      - server
+    volumes:
+      - /opt/sozdik-bot/data/caddy:/root/.caddy
+      - /opt/sozdik-bot/app/Caddyfile:/etc/Caddyfile
+    ports:
+      - "80:80"
+      - "443:443"

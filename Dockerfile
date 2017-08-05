@@ -1,21 +1,34 @@
-FROM keymetrics/pm2-docker-alpine:latest
+FROM node:8.0-alpine
 
-# Set environment variables
-ENV NPM_CONFIG_LOGLEVEL warn
-ENV appDir /opt/app
+# Install dumb-init (https://github.com/Yelp/dumb-init)
+RUN apk add --no-cache --virtual .build-deps-dumb-init \
+    python \
+    python-dev \
+    py-pip \
+    build-base \
+  && pip install dumb-init \
+  && apk del .build-deps-dumb-init
+
+# Disable yarn progress bar
+RUN yarn config set no-progress true
+
+# Install pm2
+RUN yarn global add pm2
 
 # Set the work directory
-RUN mkdir -p ${appDir}
-WORKDIR ${appDir}
+ARG APP_DIR
+RUN mkdir -p ${APP_DIR}
+WORKDIR ${APP_DIR}
 
-# Add our package.json and install *before* adding our application files
-ADD package.json ./
-RUN npm i --production
+# Copy our package.json and yarn.lock and install *before* adding our application files
+COPY package.json yarn.lock ./
+RUN yarn install --pure-lockfile --production
 
-# Add application files
-ADD . ./
+# Copy application files
+COPY build ./build/
+COPY .env Caddyfile pm2.json ./
 
-# Expose the port
-EXPOSE 8080
+# Runs "dumb-init -- <CMD>"
+ENTRYPOINT ["dumb-init", "--"]
 
 CMD ["pm2-docker", "start", "pm2.json"]

@@ -1,7 +1,6 @@
 sozdikbot.anvilabs.co {
   proxy / server:8080 {
-    header_upstream +Host {host}
-    header_upstream +X-Forwarded-Proto {scheme}
+    transparent
   }
 
   gzip
