@@ -36,9 +36,9 @@
   "jest": {
     "collectCoverageFrom": ["src/**/*.js"],
     "coverageReporters": ["lcov"],
+    "roots": ["<rootDir>/src"],
     "setupFiles": ["./scripts/jest-env.js"],
     "testEnvironment": "node",
-    "testPathDirs": ["<rootDir>/src"],
     "testRegex": "/__tests__/.*-test\\.js$"
   },
   "config": {
