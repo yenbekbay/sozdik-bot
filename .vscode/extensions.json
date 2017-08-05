@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "christian-kohler.path-intellisense",
+    "dbaeumer.vscode-eslint",
+    "EditorConfig.editorconfig",
+    "esbenp.prettier-vscode",
+    "flowtype.flow-for-vscode",
+    "PeterJausovec.vscode-docker"
+  ]
+}
