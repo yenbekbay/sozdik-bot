@@ -6,6 +6,6 @@ if (!('CI' in process.env)) {
 
 jest.mock('request-promise');
 
-jest.mock('../src/createLogger');
-jest.mock('../src/analytics');
-jest.mock('../src/sozdikApi');
+jest.mock('./src/createLogger');
+jest.mock('./src/analytics');
+jest.mock('./src/sozdikApi');

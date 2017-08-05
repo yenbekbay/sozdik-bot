@@ -16,7 +16,7 @@ module.exports = {
   overrides: [
     Object.assign(
       {
-        files: ['**/__tests__/*-test.js', '**/__mocks__/*.js'],
+        files: ['jest.setup.js', '**/__tests__/*-test.js', '**/__mocks__/*.js'],
       },
       require('eslint-config-anvilabs/jest') // eslint-disable-line global-require, import/no-extraneous-dependencies, prettier/prettier
     ),
