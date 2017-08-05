@@ -27,34 +27,20 @@
     "test": "run-p --silent typecheck lint jest",
     "test:ci": "run-p --silent typecheck lint jest:coverage && codecov",
     "build": "backpack build",
-    "dev": "backpack",
+    "dev": "backpack --inspect",
     "commitmsg": "validate-commit-msg",
     "prepush": "yarn test",
     "deploy": "sh scripts/deploy.sh"
   },
   "lint-staged": {
-    "{*.js,{scripts,src}/**/*.js}": [
-      "eslint --cache --fix",
-      "git add"
-    ],
-    "{*.json,.vscode/*.json}": [
-      "prettier --write",
-      "git add"
-    ]
+    "{*.js,{scripts,src}/**/*.js}": ["eslint --cache --fix", "git add"],
+    "{*.json,.vscode/*.json}": ["prettier --write", "git add"]
   },
   "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.js"
-    ],
-    "coverageReporters": [
-      "lcov"
-    ],
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "setupFiles": [
-      "<rootDir>/jest.setup.js"
-    ],
+    "collectCoverageFrom": ["src/**/*.js"],
+    "coverageReporters": ["lcov"],
+    "roots": ["<rootDir>/src"],
+    "setupFiles": ["<rootDir>/jest.setup.js"],
     "testEnvironment": "node",
     "testRegex": "/__tests__/.*-test\\.js$"
   },
