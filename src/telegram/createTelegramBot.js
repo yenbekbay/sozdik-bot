@@ -17,12 +17,7 @@ const logger = createLogger('telegram');
 
 const createTelegramBot = () => {
   const botApi = telegramBotApi(logger);
-  const {
-    sendMessage,
-    sendChatAction,
-    answerInlineQuery,
-    setWebhook,
-  } = botApi;
+  const {sendMessage, sendChatAction, answerInlineQuery, setWebhook} = botApi;
 
   const handleMessage = curriedHandleMessage({
     sendMessage,

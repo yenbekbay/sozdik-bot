@@ -93,9 +93,7 @@ describe('handleMessage', () => {
       action: 'typing',
     });
     expect(trackUser).toHaveBeenCalledWith(sampleHandleMessageConfig.from);
-    expect(
-      trackEvent,
-    ).toHaveBeenCalledWith(
+    expect(trackEvent).toHaveBeenCalledWith(
       sampleHandleMessageConfig.from.id,
       'Requested translations',
       {
@@ -138,8 +136,8 @@ describe('handleMessage', () => {
   });
 
   it('catches errors from telegram bot api', async () => {
-    (getTranslationsForQuery: any).mockImplementationOnce(
-      () => Promise.reject(new Error()),
+    (getTranslationsForQuery: any).mockImplementationOnce(() =>
+      Promise.reject(new Error()),
     );
 
     await handleMessage({

@@ -59,10 +59,9 @@ const telegramBotApi = (logger: Logger) => ({
       chat_id: chat.id,
       text,
       ...options,
-      ...(_.includes('group', chat.type) &&
-        {
-          reply_markup: {force_reply: true},
-        }),
+      ...(_.includes('group', chat.type) && {
+        reply_markup: {force_reply: true},
+      }),
     }).then(
       (response: JSON) => {
         logger.debug(`Sent a message to chat ${chat.id}`);
@@ -107,21 +106,22 @@ const telegramBotApi = (logger: Logger) => ({
         );
       },
     ),
-  setWebhook: (url: string) => apiRequest('setWebhook', {url}).then(
-    (response: JSON) => {
-      logger.debug(`Updated telegram bot webhook url to ${url}`);
+  setWebhook: (url: string) =>
+    apiRequest('setWebhook', {url}).then(
+      (response: JSON) => {
+        logger.debug(`Updated telegram bot webhook url to ${url}`);
 
-      return response;
-    },
-    (err: Error) => {
-      logger.error(
-        `Failed to update telegram webhook url to ${url}:`,
-        err.message,
-      );
+        return response;
+      },
+      (err: Error) => {
+        logger.error(
+          `Failed to update telegram webhook url to ${url}:`,
+          err.message,
+        );
 
-      throw err;
-    },
-  ),
+        throw err;
+      },
+    ),
 });
 
 export {request, urlForTelegramApiMethod};

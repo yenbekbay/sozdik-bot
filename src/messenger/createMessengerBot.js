@@ -37,18 +37,19 @@ const createMessengerBot = () => {
   return {
     verifyWebhook: (query: Object) =>
       query['hub.mode'] === 'subscribe' &&
-        query['hub.verify_token'] === fbWebhookVerifyToken,
-    handleWebhookCallback: (callback: WebhookCallback) => _.flow(
-      _.flatMap('messaging'),
-      _.forEach((messaging: Messaging) => {
-        if (messaging.message) {
-          handleMessage({
-            recipientId: messaging.sender.id,
-            message: messaging.message,
-          });
-        }
-      }),
-    )(callback.entry),
+      query['hub.verify_token'] === fbWebhookVerifyToken,
+    handleWebhookCallback: (callback: WebhookCallback) =>
+      _.flow(
+        _.flatMap('messaging'),
+        _.forEach((messaging: Messaging) => {
+          if (messaging.message) {
+            handleMessage({
+              recipientId: messaging.sender.id,
+              message: messaging.message,
+            });
+          }
+        }),
+      )(callback.entry),
     setUp: () => {
       setGreetingText('Просто введи слово, фразу или число, и я переведу.');
     },

@@ -51,9 +51,7 @@ describe('handleInlineQuery', () => {
 
     expect(getTranslationsForQuery).toHaveBeenCalledWith(query.toLowerCase());
     expect(trackUser).toHaveBeenCalledWith(sampleHandleInlineQueryConfig.from);
-    expect(
-      trackEvent,
-    ).toHaveBeenCalledWith(
+    expect(trackEvent).toHaveBeenCalledWith(
       sampleHandleInlineQueryConfig.from.id,
       'Sent an inline query',
       {
@@ -105,8 +103,8 @@ describe('handleInlineQuery', () => {
   });
 
   it('catches errors from bot api', async () => {
-    (getTranslationsForQuery: any).mockImplementationOnce(
-      () => Promise.reject(new Error()),
+    (getTranslationsForQuery: any).mockImplementationOnce(() =>
+      Promise.reject(new Error()),
     );
 
     await handleInlineQuery({

@@ -108,8 +108,8 @@ describe('handleMessage', () => {
   });
 
   it('catches errors from messenger platform', async () => {
-    (getTranslationsForQuery: any).mockImplementationOnce(
-      () => Promise.reject(new Error()),
+    (getTranslationsForQuery: any).mockImplementationOnce(() =>
+      Promise.reject(new Error()),
     );
 
     await handleMessage({

@@ -16,23 +16,25 @@ import type {Translation, GetTranslationForQueryFn} from '../sozdikApi';
 
 const {noTranslationsFoundText, errorText} = env;
 
-const handleMessage = (
-  {
-    sendTextMessage,
-    sendSenderAction,
-    getUserProfile,
-    getTranslationsForQuery,
-    logger,
-  }: {
-    sendTextMessage: SendTextMessageFn,
-    sendSenderAction: SendSenderActionFn,
-    getUserProfile: GetUserProfileFn,
-    getTranslationsForQuery: GetTranslationForQueryFn,
-    logger: Logger,
-  },
-) => async (
-  {recipientId, message: {text}}: {recipientId: string, message: Message},
-): Promise<?JSON> => {
+const handleMessage = ({
+  sendTextMessage,
+  sendSenderAction,
+  getUserProfile,
+  getTranslationsForQuery,
+  logger,
+}: {
+  sendTextMessage: SendTextMessageFn,
+  sendSenderAction: SendSenderActionFn,
+  getUserProfile: GetUserProfileFn,
+  getTranslationsForQuery: GetTranslationForQueryFn,
+  logger: Logger,
+}) => async ({
+  recipientId,
+  message: {text},
+}: {
+  recipientId: string,
+  message: Message,
+}): Promise<?JSON> => {
   if (!text || text.length === 0) return null;
 
   try {
@@ -64,13 +66,14 @@ const handleMessage = (
     return translations.length
       ? await Promise.all(
           _.map(
-            (translation: Translation) => sendTextMessage({
-              recipientId,
-              text: _.truncate(
-                {length: 320, omission: `...\n${translation.url}`},
-                removeMarkdown(`${translation.title}:\n${translation.text}`),
-              ),
-            }),
+            (translation: Translation) =>
+              sendTextMessage({
+                recipientId,
+                text: _.truncate(
+                  {length: 320, omission: `...\n${translation.url}`},
+                  removeMarkdown(`${translation.title}:\n${translation.text}`),
+                ),
+              }),
             translations,
           ),
         )

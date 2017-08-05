@@ -6,21 +6,25 @@ jest.unmock('../analytics');
 jest.mock('mixpanel', () => ({
   init: () => ({
     people: {
-      set: jest.fn((
-        distinctId: string,
+      set: jest.fn(
+        (
+          distinctId: string,
+          props: {[key: string]: mixed},
+          callback: (err: ?Error) => void,
+        ) => {
+          callback();
+        },
+      ),
+    },
+    track: jest.fn(
+      (
+        event: string,
         props: {[key: string]: mixed},
         callback: (err: ?Error) => void,
       ) => {
         callback();
-      }),
-    },
-    track: jest.fn((
-      event: string,
-      props: {[key: string]: mixed},
-      callback: (err: ?Error) => void,
-    ) => {
-      callback();
-    }),
+      },
+    ),
   }),
 }));
 
@@ -39,13 +43,15 @@ describe('analytics', () => {
   });
 
   it('catches error if tracking a user fails', async () => {
-    __mixpanel.people.set.mockImplementationOnce((
-      distinctId: string,
-      props: {[key: string]: mixed},
-      callback: (err: ?Error) => void,
-    ) => {
-      callback(new Error());
-    });
+    __mixpanel.people.set.mockImplementationOnce(
+      (
+        distinctId: string,
+        props: {[key: string]: mixed},
+        callback: (err: ?Error) => void,
+      ) => {
+        callback(new Error());
+      },
+    );
 
     await trackUser({id: '123'});
 
@@ -60,13 +66,15 @@ describe('analytics', () => {
   });
 
   it('catches error if tracking an event fails', async () => {
-    __mixpanel.track.mockImplementationOnce((
-      event: string,
-      props: {[key: string]: mixed},
-      callback: (err: ?Error) => void,
-    ) => {
-      callback(new Error());
-    });
+    __mixpanel.track.mockImplementationOnce(
+      (
+        event: string,
+        props: {[key: string]: mixed},
+        callback: (err: ?Error) => void,
+      ) => {
+        callback(new Error());
+      },
+    );
 
     await trackEvent('123', 'test');
 

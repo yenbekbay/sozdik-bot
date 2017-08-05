@@ -30,22 +30,16 @@ describe('createLogger', () => {
   it('passes log calls to winston', () => {
     const logLevels = ['error', 'warn', 'debug', 'info'];
 
-    _.forEach(
-      (level: string) => {
-        logger[level](`${level} message`);
-      },
-      logLevels,
-    );
-    _.forEach(
-      (level: string) => {
-        expect(__winstonLogger[level]).toHaveBeenCalledTimes(1);
-        // $FlowMissingDefinition
-        expect(__winstonLogger[level]).toHaveBeenLastCalledWith(
-          '[test]',
-          `${level} message`,
-        );
-      },
-      logLevels,
-    );
+    _.forEach((level: string) => {
+      logger[level](`${level} message`);
+    }, logLevels);
+    _.forEach((level: string) => {
+      expect(__winstonLogger[level]).toHaveBeenCalledTimes(1);
+      // $FlowMissingDefinition
+      expect(__winstonLogger[level]).toHaveBeenLastCalledWith(
+        '[test]',
+        `${level} message`,
+      );
+    }, logLevels);
   });
 });

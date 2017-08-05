@@ -11,17 +11,15 @@ import type {InlineQuery, InlineQueryResult} from './types';
 import type {Logger} from '../createLogger';
 import type {Translation, GetTranslationForQueryFn} from '../sozdikApi';
 
-const handleInlineQuery = (
-  {
-    answerInlineQuery,
-    getTranslationsForQuery,
-    logger,
-  }: {
-    answerInlineQuery: AnswerInlineQueryFn,
-    getTranslationsForQuery: GetTranslationForQueryFn,
-    logger: Logger,
-  },
-) => async ({id, from: user, query}: InlineQuery): Promise<?JSON> => {
+const handleInlineQuery = ({
+  answerInlineQuery,
+  getTranslationsForQuery,
+  logger,
+}: {
+  answerInlineQuery: AnswerInlineQueryFn,
+  getTranslationsForQuery: GetTranslationForQueryFn,
+  logger: Logger,
+}) => async ({id, from: user, query}: InlineQuery): Promise<?JSON> => {
   if (!query || query.length < 2) return null;
 
   try {

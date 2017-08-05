@@ -12,21 +12,21 @@ import type {Translation, GetTranslationForQueryFn} from '../sozdikApi';
 const {helpText, startText, noTranslationsFoundText, errorText} = env;
 
 /* eslint-disable max-statements */
-const handleMessage = (
-  {
-    sendMessage,
-    sendChatAction,
-    getTranslationsForQuery,
-    logger,
-  }: {
-    sendMessage: SendMessageFn,
-    sendChatAction: SendChatActionFn,
-    getTranslationsForQuery: GetTranslationForQueryFn,
-    logger: Logger,
-  },
-) => async (
-  {text, from: user, chat}: Message,
-): Promise<?(Message | Array<Message>)> => {
+const handleMessage = ({
+  sendMessage,
+  sendChatAction,
+  getTranslationsForQuery,
+  logger,
+}: {
+  sendMessage: SendMessageFn,
+  sendChatAction: SendChatActionFn,
+  getTranslationsForQuery: GetTranslationForQueryFn,
+  logger: Logger,
+}) => async ({
+  text,
+  from: user,
+  chat,
+}: Message): Promise<?(Message | Array<Message>)> => {
   if (!text || text.length === 0) return null;
 
   const chatInfo = _.pick(
@@ -96,12 +96,13 @@ const handleMessage = (
         if (translations.length > 0) {
           return await Promise.all(
             _.map(
-              (translation: Translation) => sendMessage({
-                chat,
-                text: `${translation.title}:\n${translation.text}`,
-                parse_mode: 'Markdown',
-                disable_web_page_preview: true,
-              }),
+              (translation: Translation) =>
+                sendMessage({
+                  chat,
+                  text: `${translation.title}:\n${translation.text}`,
+                  parse_mode: 'Markdown',
+                  disable_web_page_preview: true,
+                }),
               translations,
             ),
           );

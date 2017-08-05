@@ -77,11 +77,11 @@ const sozdikApi = (client: 'telegram' | 'facebook') => {
       {
         filter: (node: Object) =>
           node.nodeName === 'A' &&
-            node.getAttribute('href') &&
-            !/^https?:\/\//.test(node.getAttribute('href')),
+          node.getAttribute('href') &&
+          !/^https?:\/\//.test(node.getAttribute('href')),
         replacement: (content: string, node: Object) =>
           `[${content}](https://sozdik.kz/ru${node.getAttribute('href')}` +
-            `${node.title ? ` "${node.title}"` : ''})`,
+          `${node.title ? ` "${node.title}"` : ''})`,
       },
     ];
 
@@ -112,15 +112,12 @@ const sozdikApi = (client: 'telegram' | 'facebook') => {
     );
 
     if (translations.length > 0) {
-      _.forEach(
-        (translation: Translation) => {
-          logger.debug(
-            `Found a ${translation.toLang === 'ru' ? 'Russian' : 'Kazakh'} ` +
-              `translation for "${query}"`,
-          );
-        },
-        translations,
-      );
+      _.forEach((translation: Translation) => {
+        logger.debug(
+          `Found a ${translation.toLang === 'ru' ? 'Russian' : 'Kazakh'} ` +
+            `translation for "${query}"`,
+        );
+      }, translations);
     } else {
       logger.debug(`No translations found for "${query}"`);
     }
