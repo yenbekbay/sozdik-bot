@@ -3,7 +3,7 @@
 import rp from 'request-promise';
 
 import config from 'src/config';
-import type {LoggerType} from 'src/createLogger';
+import type {LoggerType} from 'src/makeLogger';
 
 export type ThreadSettingTypeType = 'greeting' | 'call_to_actions';
 export type UserProfileType = {
@@ -78,8 +78,7 @@ const makeMessengerPlatform = (logger: LoggerType) => ({
       return response;
     } catch (err) {
       logger.error(
-        `Failed to send a message to user ${recipientId}:`,
-        err.message,
+        `Failed to send a message to user ${recipientId}: ${err.message}`,
       );
 
       return null;
@@ -99,8 +98,7 @@ const makeMessengerPlatform = (logger: LoggerType) => ({
       return response;
     } catch (err) {
       logger.error(
-        `Failed to send a ${action} action to user ${recipientId}:`,
-        err.message,
+        `Failed to send a ${action} action to user ${recipientId}: ${err.message}`,
       );
 
       return null;
@@ -117,8 +115,7 @@ const makeMessengerPlatform = (logger: LoggerType) => ({
       return response;
     } catch (err) {
       logger.error(
-        `Failed to update greeting text thread setting to "${text}":`,
-        err.message,
+        `Failed to update greeting text thread setting to "${text}": ${err.message}`,
       );
 
       throw err;
@@ -144,7 +141,7 @@ const makeMessengerPlatform = (logger: LoggerType) => ({
 
       return response;
     } catch (err) {
-      logger.error(`Failed to get profile for user ${userId}:`, err.message);
+      logger.error(`Failed to get profile for user ${userId}: ${err.message}`);
 
       return null;
     }

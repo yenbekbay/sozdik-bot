@@ -1,13 +1,13 @@
 /* @flow */
 
-import sozdikApi from '../sozdikApi';
+import getSozdikApi from '../getSozdikApi';
 
 jest.unmock('request-promise');
-jest.unmock('../sozdikApi');
+jest.unmock('../getSozdikApi');
 
-const {getTranslation, getTranslationsForQuery} = sozdikApi('facebook');
+const {getTranslation, getTranslationsForQuery} = getSozdikApi('facebook');
 
-describe('sozdikApi', () => {
+describe('getSozdikApi', () => {
   it('translates from ru to kk', async () => {
     expect(await getTranslation('словарь', 'ru', 'kk')).toMatchSnapshot();
   });

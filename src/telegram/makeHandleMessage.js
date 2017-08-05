@@ -4,11 +4,11 @@ import _ from 'lodash/fp';
 
 import {trackUser, trackEvent} from 'src/analytics';
 import config from 'src/config';
-import type {LoggerType} from 'src/createLogger';
+import type {LoggerType} from 'src/makeLogger';
 import type {
   TranslationType,
   GetTranslationForQueryFnType,
-} from 'src/sozdikApi';
+} from 'src/getSozdikApi';
 
 import type {MessageType} from './types';
 import type {
@@ -22,12 +22,12 @@ const makeHandleMessage = ({
   sendChatAction,
   getTranslationsForQuery,
   logger,
-}: {
+}: {|
   sendMessage: SendMessageFnType,
   sendChatAction: SendChatActionFnType,
   getTranslationsForQuery: GetTranslationForQueryFnType,
   logger: LoggerType,
-}) => async ({text, from: user, chat}: MessageType) => {
+|}) => async ({text, from: user, chat}: MessageType) => {
   if (text === null || text === undefined || text.length === 0) return null;
 
   const chatInfo = _.pick(
@@ -39,8 +39,7 @@ const makeHandleMessage = ({
     switch (text) {
       case '/start': {
         logger.info(
-          'Sending the start message for chat',
-          JSON.stringify(chatInfo),
+          `Sending the start message for chat ${JSON.stringify(chatInfo)}`,
         );
 
         const [message] = await Promise.all([
@@ -58,8 +57,7 @@ const makeHandleMessage = ({
       }
       case '/help': {
         logger.info(
-          'Sending the help message for chat',
-          JSON.stringify(chatInfo),
+          `Sending the help message for chat ${JSON.stringify(chatInfo)}`,
         );
 
         const [message] = await Promise.all([
@@ -76,8 +74,9 @@ const makeHandleMessage = ({
       }
       default: {
         logger.info(
-          `Translating "${text.toLowerCase()}" for chat`,
-          JSON.stringify(chatInfo),
+          `Translating "${text.toLowerCase()}" for chat ${JSON.stringify(
+            chatInfo,
+          )}`,
         );
 
         const [translations] = await Promise.all([
@@ -114,8 +113,9 @@ const makeHandleMessage = ({
     }
   } catch (err) {
     logger.error(
-      `Failed to reply to a message in chat ${chatInfo}:`,
-      err.message,
+      `Failed to reply to a message in chat ${JSON.stringify(
+        chatInfo,
+      )}: ${err.message}`,
     );
 
     return sendMessage({chat, text: config.errorText});

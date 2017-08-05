@@ -1,8 +1,8 @@
 /* @flow */
 
-import type {LoggerType} from '../createLogger';
+import type {LoggerType} from '../makeLogger';
 
-const createLogger = (): LoggerType => ({
+const makeLogger = (): LoggerType => ({
   error: jest.fn(),
   warn: jest.fn(),
   debug: jest.fn(),
@@ -10,4 +10,4 @@ const createLogger = (): LoggerType => ({
   stream: {write: jest.fn()},
 });
 
-export default createLogger;
+export default makeLogger;

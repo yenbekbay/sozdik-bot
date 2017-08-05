@@ -2,11 +2,11 @@
 
 import localtunnel from 'localtunnel';
 
-import createLogger from 'src/createLogger';
+import makeLogger from 'src/makeLogger';
 import createServer from 'src/createServer';
 import config from 'src/config';
 
-const logger = createLogger('server');
+const logger = makeLogger('server');
 const {server, telegramBot, messengerBot} = createServer(logger);
 
 const setUpBots = async (serverUrl: string) => {
@@ -30,8 +30,7 @@ server.listen(config.port, () => {
       (err: ?Error) => {
         if (err) {
           logger.error(
-            'Failed to request a tunnel for the server:',
-            err.message,
+            `Failed to request a tunnel for the server: ${err.message}`,
           );
 
           throw err;

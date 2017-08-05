@@ -1,6 +1,6 @@
 /* @flow */
 
-import createLogger from 'src/createLogger';
+import makeLogger from 'src/makeLogger';
 
 import makeTelegramBotApi, {
   request,
@@ -15,7 +15,7 @@ const sampleInlineQueryResult = {
     message_text: 'test',
   },
 };
-const logger = createLogger('test');
+const logger = makeLogger('test');
 
 describe('makeTelegramBotApi', () => {
   let botApi;

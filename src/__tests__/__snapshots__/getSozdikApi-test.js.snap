@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`sozdikApi returns all translations for an universal word 1`] = `
+exports[`getSozdikApi returns all translations for an universal word 1`] = `
 Array [
   Object {
     "fromLang": "kk",
@@ -22,7 +22,7 @@ Array [
 ]
 `;
 
-exports[`sozdikApi returns only a kk translation for a kk word 1`] = `
+exports[`getSozdikApi returns only a kk translation for a kk word 1`] = `
 Array [
   Object {
     "fromLang": "kk",
@@ -36,7 +36,7 @@ _син._ [сөздік](https://sozdik.kz/ru/dictionary/translate/kk/ru/сөз�
 ]
 `;
 
-exports[`sozdikApi returns only a ru translation for a ru word 1`] = `
+exports[`getSozdikApi returns only a ru translation for a ru word 1`] = `
 Array [
   Object {
     "fromLang": "ru",
@@ -49,7 +49,7 @@ Array [
 ]
 `;
 
-exports[`sozdikApi translates from kk to ru 1`] = `
+exports[`getSozdikApi translates from kk to ru 1`] = `
 Object {
   "fromLang": "kk",
   "query": "лұғат",
@@ -61,7 +61,7 @@ _син._ [сөздік](https://sozdik.kz/ru/dictionary/translate/kk/ru/сөз�
 }
 `;
 
-exports[`sozdikApi translates from ru to kk 1`] = `
+exports[`getSozdikApi translates from ru to kk 1`] = `
 Object {
   "fromLang": "ru",
   "query": "словарь",

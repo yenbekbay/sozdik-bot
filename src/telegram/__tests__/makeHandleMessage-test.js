@@ -1,9 +1,9 @@
 /* @flow */
 
 import {trackUser, trackEvent} from 'src/analytics';
-import createLogger from 'src/createLogger';
+import makeLogger from 'src/makeLogger';
 import config from 'src/config';
-import sozdikApi from 'src/sozdikApi';
+import getSozdikApi from 'src/getSozdikApi';
 
 import makeHandleMessage from '../makeHandleMessage';
 
@@ -14,8 +14,8 @@ const sampleHandleMessageConfig = {
 
 const sendMessage = jest.fn();
 const sendChatAction = jest.fn();
-const {getTranslationsForQuery} = sozdikApi('telegram');
-const logger = createLogger('test');
+const {getTranslationsForQuery} = getSozdikApi('telegram');
+const logger = makeLogger('test');
 
 describe('makeHandleMessage', () => {
   let handleMessage;

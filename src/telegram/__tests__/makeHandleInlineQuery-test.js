@@ -1,8 +1,8 @@
 /* @flow */
 
 import {trackUser, trackEvent} from 'src/analytics';
-import createLogger from 'src/createLogger';
-import sozdikApi from 'src/sozdikApi';
+import makeLogger from 'src/makeLogger';
+import getSozdikApi from 'src/getSozdikApi';
 
 import makeHandleInlineQuery from '../makeHandleInlineQuery';
 
@@ -15,8 +15,8 @@ jest.mock('crypto', () => ({
 }));
 
 const answerInlineQuery = jest.fn();
-const {getTranslationsForQuery} = sozdikApi('telegram');
-const logger = createLogger('test');
+const {getTranslationsForQuery} = getSozdikApi('telegram');
+const logger = makeLogger('test');
 
 const sampleHandleInlineQueryConfig = {
   id: '123',

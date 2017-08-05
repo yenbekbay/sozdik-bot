@@ -6,17 +6,18 @@ import _ from 'lodash/fp';
 import rp from 'request-promise';
 import toMarkdown from 'to-markdown';
 
-import createLogger from 'src/createLogger';
+import makeLogger from 'src/makeLogger';
 import config from 'src/config';
 
 export type LanguageType = 'ru' | 'kk';
-export type TranslationType = {
-  toLang: LanguageType,
-  fromLang: LanguageType,
+export type TranslationType = {|
+  query: string,
   text: string,
+  fromLang: LanguageType,
+  toLang: LanguageType,
   url: string,
   title: string,
-};
+|};
 export type GetTranslationFnType = (
   query: string,
   fromLang: LanguageType,
@@ -26,7 +27,7 @@ export type GetTranslationForQueryFnType = (
   query: string,
 ) => Promise<Array<TranslationType>>;
 
-const logger = createLogger('sozdik-api');
+const logger = makeLogger('sozdik-api');
 
 const formattedLanguageMappings = {
   ru: 'по-русски',
@@ -38,8 +39,8 @@ const request = rp.defaults({
   json: true,
 });
 
-const sozdikApi = (client: 'telegram' | 'facebook') => {
-  const apiKey = config.sozdikApiKey[client];
+const getSozdikApi = (client: 'telegram' | 'facebook') => {
+  const apiKey = config.getSozdikApiKey[client];
 
   const getTranslation = async (
     query: string,
@@ -112,12 +113,12 @@ const sozdikApi = (client: 'telegram' | 'facebook') => {
     );
 
     if (translations.length > 0) {
-      _.forEach((translation: TranslationType) => {
+      translations.forEach(translation => {
         logger.debug(
           `Found a ${translation.toLang === 'ru' ? 'Russian' : 'Kazakh'} ` +
             `translation for "${query}"`,
         );
-      }, translations);
+      });
     } else {
       logger.debug(`No translations found for "${query}"`);
     }
@@ -128,5 +129,5 @@ const sozdikApi = (client: 'telegram' | 'facebook') => {
   return {getTranslation, getTranslationsForQuery};
 };
 
-export default sozdikApi;
+export default getSozdikApi;
 export {logger as __logger};

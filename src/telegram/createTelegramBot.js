@@ -1,7 +1,7 @@
 /* @flow */
 
-import createLogger from 'src/createLogger';
-import sozdikApi from 'src/sozdikApi';
+import makeLogger from 'src/makeLogger';
+import getSozdikApi from 'src/getSozdikApi';
 
 import makeHandleInlineQuery from './makeHandleInlineQuery';
 import makeHandleMessage from './makeHandleMessage';
@@ -13,8 +13,8 @@ type UpdateType = {
   inline_query?: InlineQueryType,
 };
 
-const {getTranslationsForQuery} = sozdikApi('telegram');
-const logger = createLogger('telegram');
+const {getTranslationsForQuery} = getSozdikApi('telegram');
+const logger = makeLogger('telegram');
 
 const createTelegramBot = () => {
   const botApi = makeTelegramBotApi(logger);

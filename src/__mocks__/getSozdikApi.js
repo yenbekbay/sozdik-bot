@@ -2,7 +2,7 @@
 
 import _ from 'lodash/fp';
 
-import type {LanguageType} from '../sozdikApi';
+import type {LanguageType} from '../getSozdikApi';
 
 const sampleTranslation = {
   query: 'query',
@@ -47,7 +47,7 @@ const translations = {
   ],
 };
 
-const sozdikApi = () => ({
+const getSozdikApi = () => ({
   getTranslation: jest.fn(
     (query: string, fromLang: LanguageType, toLang: LanguageType) =>
       _.find({toLang, fromLang}, translations[query]),
@@ -57,4 +57,4 @@ const sozdikApi = () => ({
   ),
 });
 
-export default sozdikApi;
+export default getSozdikApi;

@@ -5,11 +5,11 @@ import removeMarkdown from 'remove-markdown';
 
 import {trackUser, trackEvent} from 'src/analytics';
 import config from 'src/config';
-import type {LoggerType} from 'src/createLogger';
+import type {LoggerType} from 'src/makeLogger';
 import type {
   TranslationType,
   GetTranslationForQueryFnType,
-} from 'src/sozdikApi';
+} from 'src/getSozdikApi';
 
 import type {
   SendTextMessageFnType,
@@ -24,19 +24,19 @@ const makeHandleMessage = ({
   getUserProfile,
   getTranslationsForQuery,
   logger,
-}: {
+}: {|
   sendTextMessage: SendTextMessageFnType,
   sendSenderAction: SendSenderActionFnType,
   getUserProfile: GetUserProfileFnType,
   getTranslationsForQuery: GetTranslationForQueryFnType,
   logger: LoggerType,
-}) => async ({
+|}) => async ({
   recipientId,
   message: {text},
-}: {
+}: {|
   recipientId: string,
   message: MessageType,
-}) => {
+|}) => {
   if (!text || text.length === 0) return null;
 
   try {
@@ -48,7 +48,7 @@ const makeHandleMessage = ({
 
     const userInfo = {
       id: recipientId,
-      ..._.pick(['first_name', 'last_name'], user),
+      ...(user ? _.pick(['first_name', 'last_name'], user) : {}),
     };
 
     logger.info(
@@ -73,7 +73,9 @@ const makeHandleMessage = ({
                 recipientId,
                 text: _.truncate(
                   {length: 320, omission: `...\n${translation.url}`},
-                  removeMarkdown(`${translation.title}:\n${translation.text}`),
+                  (removeMarkdown(
+                    `${translation.title}:\n${translation.text}`,
+                  ): string),
                 ),
               }),
             translations,
@@ -85,8 +87,7 @@ const makeHandleMessage = ({
         });
   } catch (err) {
     logger.error(
-      `Failed to reply to a message from user ${recipientId}:`,
-      err.message,
+      `Failed to reply to a message from user ${recipientId}: ${err.message}`,
     );
 
     return sendTextMessage({recipientId, text: config.errorText});

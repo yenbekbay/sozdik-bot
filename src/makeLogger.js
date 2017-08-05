@@ -7,7 +7,7 @@ import winston from 'winston';
 import config from 'src/config';
 
 export type LogFnType = (...data: Array<any>) => void;
-export type LoggerType = {
+export type LoggerType = {|
   error: LogFnType,
   warn: LogFnType,
   debug: LogFnType,
@@ -15,7 +15,7 @@ export type LoggerType = {
   stream: {
     write: (message: string) => void,
   },
-};
+|};
 
 const papertrailEnabled =
   typeof config.papertrailOptions.host === 'string' &&
@@ -23,12 +23,8 @@ const papertrailEnabled =
 
 const winstonLogger = new winston.Logger({
   rewriters: [
-    (
-      level: string,
-      message: string,
-      meta: {[key: string]: any},
-    ): {[key: string]: any} =>
-      _.isEmpty(meta.tags) ? _.omit(['tags'])(meta) : meta,
+    (level: string, message: string, meta: {[key: string]: any}) =>
+      _.isEmpty(meta.tags) ? _.omit(['tags'], meta) : meta,
   ],
   transports: _.compact([
     new winston.transports.Console({
@@ -47,12 +43,18 @@ const winstonLogger = new winston.Logger({
 });
 
 const logLevels = ['error', 'warn', 'debug', 'info'];
-const createLogger = (source: string): LoggerType => {
+const makeLogger = (source: string): LoggerType => {
   const logger = _.flow(
     _.map((level: string): LogFnType => (...data: Array<any>) => {
       winstonLogger[level](`[${source}]`, ...data);
     }),
-    _.zipObject(logLevels),
+    // $FlowFixMe
+    (_.zipObject(logLevels): {
+      error: LogFnType,
+      warn: LogFnType,
+      debug: LogFnType,
+      info: LogFnType,
+    }),
   )(logLevels);
   logger.stream = {
     write: (message: string) => {
@@ -64,4 +66,4 @@ const createLogger = (source: string): LoggerType => {
 };
 
 export {winstonLogger as __winstonLogger};
-export default createLogger;
+export default makeLogger;

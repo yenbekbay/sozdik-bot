@@ -1,9 +1,9 @@
 /* @flow */
 
 import {trackUser, trackEvent} from 'src/analytics';
-import createLogger from 'src/createLogger';
+import makeLogger from 'src/makeLogger';
 import config from 'src/config';
-import sozdikApi from 'src/sozdikApi';
+import getSozdikApi from 'src/getSozdikApi';
 
 import makeHandleMessage from '../makeHandleMessage';
 
@@ -18,8 +18,8 @@ const sampleUserProfile = {
 const sendTextMessage = jest.fn();
 const sendSenderAction = jest.fn();
 const getUserProfile = jest.fn(() => Promise.resolve(sampleUserProfile));
-const {getTranslationsForQuery} = sozdikApi('facebook');
-const logger = createLogger('test');
+const {getTranslationsForQuery} = getSozdikApi('facebook');
+const logger = makeLogger('test');
 
 describe('makeHandleMessage', () => {
   let handleMessage;

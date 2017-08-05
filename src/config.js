@@ -24,7 +24,7 @@ const config = {
     port: env.optional('PAPERTRAIL_PORT'),
   },
   port: 8080,
-  sozdikApiKey: {
+  getSozdikApiKey: {
     telegram: env.required('SOZDIK_API_TELEGRAM_KEY'),
     facebook: env.required('SOZDIK_API_FACEBOOK_KEY'),
   },

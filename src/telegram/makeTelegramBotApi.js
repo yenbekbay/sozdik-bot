@@ -4,7 +4,7 @@ import _ from 'lodash/fp';
 import rp from 'request-promise';
 
 import config from 'src/config';
-import type {LoggerType} from 'src/createLogger';
+import type {LoggerType} from 'src/makeLogger';
 
 import type {
   ChatType,
@@ -18,7 +18,7 @@ type ApiMethodType =
   | 'sendChatAction'
   | 'answerInlineQuery'
   | 'setWebhook';
-type SendMessageConfigType = {
+type SendMessageConfigType = {|
   chat: ChatType,
   text: string,
   parse_mode?: ParseModeType,
@@ -28,15 +28,15 @@ type SendMessageConfigType = {
   reply_markup?: {
     force_reply?: boolean,
   },
-};
-type SendChatActionConfigType = {
+|};
+type SendChatActionConfigType = {|
   chat: ChatType,
   action: 'typing',
-};
-type AnswerInlineQueryConfigType = {
+|};
+type AnswerInlineQueryConfigType = {|
   inlineQueryId: string,
   results: Array<InlineQueryResultType>,
-};
+|};
 
 export type SendMessageFnType = (
   config: SendMessageConfigType,
@@ -72,16 +72,20 @@ const makeTelegramBotApi = (logger: LoggerType) => ({
         chat_id: chat.id,
         text,
         ...options,
-        ...(_.includes('group', chat.type) && {
-          reply_markup: {force_reply: true},
-        }),
+        ...(_.includes('group', chat.type)
+          ? {
+              reply_markup: {force_reply: true},
+            }
+          : {}),
       });
 
       logger.debug(`Sent a message to chat ${chat.id}`);
 
       return response;
     } catch (err) {
-      logger.error(`Failed to send a message to chat ${chat.id}:`, err.message);
+      logger.error(
+        `Failed to send a message to chat ${chat.id}: ${err.message}`,
+      );
 
       return null;
     }
@@ -98,8 +102,7 @@ const makeTelegramBotApi = (logger: LoggerType) => ({
       return response;
     } catch (err) {
       logger.error(
-        `Failed to send a ${action} action to chat ${chat.id}:`,
-        err.message,
+        `Failed to send a ${action} action to chat ${chat.id}: ${err.message}`,
       );
 
       return null;
@@ -120,8 +123,7 @@ const makeTelegramBotApi = (logger: LoggerType) => ({
       return response;
     } catch (err) {
       logger.error(
-        `Failed to answer inline query ${inlineQueryId}:`,
-        err.message,
+        `Failed to answer inline query ${inlineQueryId}: ${err.message}`,
       );
 
       return null;
@@ -136,8 +138,7 @@ const makeTelegramBotApi = (logger: LoggerType) => ({
       return response;
     } catch (err) {
       logger.error(
-        `Failed to update telegram webhook url to ${url}:`,
-        err.message,
+        `Failed to update telegram webhook url to ${url}: ${err.message}`,
       );
 
       throw err;

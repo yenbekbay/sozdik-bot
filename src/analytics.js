@@ -4,9 +4,9 @@ import _ from 'lodash/fp';
 import Mixpanel from 'mixpanel';
 
 import config from 'src/config';
-import createLogger from 'src/createLogger';
+import makeLogger from 'src/makeLogger';
 
-const logger = createLogger('analytics');
+const logger = makeLogger('analytics');
 const mixpanel = Mixpanel.init(config.mixpanelToken);
 
 const trackUser = async (user: {
@@ -34,8 +34,9 @@ const trackUser = async (user: {
     });
   } catch (err) {
     logger.error(
-      `Failed to track user ${JSON.stringify(user)} to Mixpanel:`,
-      err.message,
+      `Failed to track user ${JSON.stringify(
+        user,
+      )} to Mixpanel: ${err.message}`,
     );
   }
 };
@@ -57,8 +58,7 @@ const trackEvent = async (
     });
   } catch (err) {
     logger.error(
-      `Failed to track event ${event} for user ${userId} to Mixpanel:`,
-      err.message,
+      `Failed to track event ${event} for user ${userId} to Mixpanel: ${err.message}`,
     );
   }
 };

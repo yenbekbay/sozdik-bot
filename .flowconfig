@@ -7,6 +7,7 @@
 
 [libs]
 flow-typed/
+node_modules/@anvilabs/flow-libdefs/definitions/lodash.js
 
 [lints]
 sketchy-null=error

@@ -1,6 +1,6 @@
 /* @flow */
 
-import createLogger from 'src/createLogger';
+import makeLogger from 'src/makeLogger';
 
 import makeMessengerPlatform, {
   request,
@@ -9,7 +9,7 @@ import makeMessengerPlatform, {
   urlForUserProfileRequest,
 } from '../makeMessengerPlatform';
 
-const logger = createLogger('test');
+const logger = makeLogger('test');
 
 describe('makeMessengerPlatform', () => {
   let platform;

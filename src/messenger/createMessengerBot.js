@@ -2,11 +2,11 @@
 
 import _ from 'lodash/fp';
 
-import createLogger from 'src/createLogger';
+import makeLogger from 'src/makeLogger';
 import config from 'src/config';
-import sozdikApi from 'src/sozdikApi';
+import getSozdikApi from 'src/getSozdikApi';
 
-import curriedmakeHandleMessage from './makeHandleMessage';
+import makeHandleMessage from './makeHandleMessage';
 import makeMessengerPlatform from './makeMessengerPlatform';
 import type {MessagingType} from './types';
 
@@ -14,8 +14,8 @@ type WebhookCallbackType = {
   entry: Array<{messaging: Array<MessagingType>}>,
 };
 
-const {getTranslationsForQuery} = sozdikApi('facebook');
-const logger = createLogger('messenger');
+const {getTranslationsForQuery} = getSozdikApi('facebook');
+const logger = makeLogger('messenger');
 
 const createMessengerBot = () => {
   const platform = makeMessengerPlatform(logger);
@@ -26,7 +26,7 @@ const createMessengerBot = () => {
     getUserProfile,
   } = platform;
 
-  const makeHandleMessage = curriedmakeHandleMessage({
+  const handleMessage = makeHandleMessage({
     sendTextMessage,
     sendSenderAction,
     getUserProfile,
@@ -41,9 +41,10 @@ const createMessengerBot = () => {
     handleWebhookCallback: (callback: WebhookCallbackType) =>
       _.flow(
         _.flatMap('messaging'),
+        // $FlowFixMe
         _.forEach((messaging: MessagingType) => {
           if (messaging.message) {
-            makeHandleMessage({
+            handleMessage({
               recipientId: messaging.sender.id,
               message: messaging.message,
             });
@@ -54,7 +55,7 @@ const createMessengerBot = () => {
       setGreetingText('Просто введи слово, фразу или число, и я переведу.');
     },
     __platform: platform,
-    __handleMessage: makeHandleMessage,
+    __handleMessage: handleMessage,
   };
 };
 

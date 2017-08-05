@@ -8,7 +8,7 @@ import type {$Request, $Response} from 'express';
 import {createTelegramBot} from 'src/telegram';
 import {createMessengerBot} from 'src/messenger';
 import config from 'src/config';
-import type {LoggerType} from 'src/createLogger';
+import type {LoggerType} from 'src/makeLogger';
 
 const createServer = (logger: LoggerType) => {
   const server = express();

@@ -2,7 +2,7 @@
 
 import request from 'supertest-as-promised';
 
-import createLogger from 'src/createLogger';
+import makeLogger from 'src/makeLogger';
 import config from 'src/config';
 
 import createServer from '../createServer';
@@ -21,7 +21,7 @@ jest.mock('../messenger', () => ({
   }),
 }));
 
-const logger = createLogger('test');
+const logger = makeLogger('test');
 
 describe('createServer', () => {
   let server;

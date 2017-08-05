@@ -6,11 +6,11 @@ import _ from 'lodash/fp';
 import removeMarkdown from 'remove-markdown';
 
 import {trackUser, trackEvent} from 'src/analytics';
-import type {LoggerType} from 'src/createLogger';
+import type {LoggerType} from 'src/makeLogger';
 import type {
   TranslationType,
   GetTranslationForQueryFnType,
-} from 'src/sozdikApi';
+} from 'src/getSozdikApi';
 
 import type {AnswerInlineQueryFnType} from './makeTelegramBotApi';
 import type {InlineQueryType, InlineQueryResultType} from './types';
@@ -19,11 +19,11 @@ const makeHandleInlineQuery = ({
   answerInlineQuery,
   getTranslationsForQuery,
   logger,
-}: {
+}: {|
   answerInlineQuery: AnswerInlineQueryFnType,
   getTranslationsForQuery: GetTranslationForQueryFnType,
   logger: LoggerType,
-}) => async ({id, from: user, query}: InlineQueryType) => {
+|}) => async ({id, from: user, query}: InlineQueryType) => {
   if (!query || query.length < 2) return null; // eslint-disable-line no-magic-numbers
 
   try {
@@ -58,8 +58,9 @@ const makeHandleInlineQuery = ({
     return response;
   } catch (err) {
     logger.error(
-      `Failed to answer to an inline query from ${JSON.stringify(user)}:`,
-      err.message,
+      `Failed to answer to an inline query from ${JSON.stringify(
+        user,
+      )}: ${err.message}`,
     );
 
     return null;

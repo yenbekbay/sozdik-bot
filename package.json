@@ -33,14 +33,28 @@
     "deploy": "sh scripts/deploy.sh"
   },
   "lint-staged": {
-    "{*.js,{scripts,src}/**/*.js}": ["eslint --cache --fix", "git add"],
-    "{*.json,.vscode/*.json}": ["prettier --write", "git add"]
+    "{*.js,{scripts,src}/**/*.js}": [
+      "eslint --cache --fix",
+      "git add"
+    ],
+    "{*.json,.vscode/*.json}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "jest": {
-    "collectCoverageFrom": ["src/**/*.js"],
-    "coverageReporters": ["lcov"],
-    "roots": ["<rootDir>/src"],
-    "setupFiles": ["<rootDir>/jest.setup.js"],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coverageReporters": [
+      "lcov"
+    ],
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "setupFiles": [
+      "<rootDir>/jest.setup.js"
+    ],
     "testEnvironment": "node",
     "testRegex": "/__tests__/.*-test\\.js$"
   },
@@ -66,6 +80,7 @@
     "winston-papertrail": "^1.0.5"
   },
   "devDependencies": {
+    "@anvilabs/flow-libdefs": "^1.2.5",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
     "babel-jest": "^20.0.3",
