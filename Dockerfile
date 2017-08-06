@@ -26,7 +26,7 @@ RUN yarn install --pure-lockfile --production
 
 # Copy application files
 COPY build ./build/
-COPY .env Caddyfile pm2.json ./
+COPY .env .env.example pm2.json ./
 
 # Runs "dumb-init -- <CMD>"
 ENTRYPOINT ["dumb-init", "--"]

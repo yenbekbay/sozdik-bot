@@ -1,5 +1,7 @@
 *
 !build/
-!pm2.json
-!package.json
 !.env
+!.env.example
+!package.json
+!pm2.json
+!yarn.lock

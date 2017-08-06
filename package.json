@@ -30,17 +30,32 @@
     "dev": "backpack --inspect",
     "commitmsg": "validate-commit-msg",
     "prepush": "yarn test",
+    "start": "yarn build && docker-compose up --build -d",
     "deploy": "sh scripts/deploy.sh"
   },
   "lint-staged": {
-    "{*.js,{scripts,src}/**/*.js}": ["eslint --cache --fix", "git add"],
-    "{*.json,.vscode/*.json}": ["prettier --write", "git add"]
+    "{*.js,{scripts,src}/**/*.js}": [
+      "eslint --cache --fix",
+      "git add"
+    ],
+    "{*.json,.vscode/*.json}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "jest": {
-    "collectCoverageFrom": ["src/**/*.js"],
-    "coverageReporters": ["lcov"],
-    "roots": ["<rootDir>/src"],
-    "setupFiles": ["<rootDir>/jest.setup.js"],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coverageReporters": [
+      "lcov"
+    ],
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "setupFiles": [
+      "<rootDir>/jest.setup.js"
+    ],
     "testEnvironment": "node",
     "testRegex": "/__tests__/.*-test\\.js$"
   },
@@ -61,6 +76,7 @@
     "remove-markdown": "^0.2.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
+    "source-map-support": "^0.4.15",
     "to-markdown": "^3.1.0",
     "winston": "^2.3.1",
     "winston-papertrail": "^1.0.5"

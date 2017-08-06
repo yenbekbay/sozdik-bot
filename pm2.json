@@ -3,6 +3,7 @@
     {
       "name": "sozdik-bot",
       "script": "build/main.js",
+      "max_restarts": 20,
       "env": {
         "NODE_ENV": "production"
       }

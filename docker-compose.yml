@@ -14,7 +14,7 @@ services:
       - server
     volumes:
       - /opt/sozdik-bot/data/caddy:/root/.caddy
-      - /opt/sozdik-bot/app/Caddyfile:/etc/Caddyfile
+      - /opt/sozdik-bot/config/Caddyfile:/etc/Caddyfile
     ports:
       - "80:80"
       - "443:443"
