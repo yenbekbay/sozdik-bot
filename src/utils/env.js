@@ -13,7 +13,11 @@ const env = {
   required: (key: string): string => {
     const value = process.env[key];
     if (value === undefined || value === null || value === '') {
-      if (key in defaultEnv) return defaultEnv[key];
+      if (key in defaultEnv) {
+        return defaultEnv[key];
+      } else if ('CI' in process.env && !key.startsWith('SOZDIK_API')) {
+        return '';
+      }
 
       throw new Error(`Missing ${key} environment variable`);
     }
