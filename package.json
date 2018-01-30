@@ -3,16 +3,16 @@
   "version": "0.0.0",
   "description": "Telegram and Messenger bot for Sozdik, a Russian to Kazakh dictionary",
   "private": true,
-  "repository": "anvilabs/sozdik-bot",
-  "homepage": "https://github.com/anvilabs/sozdik-bot#readme",
+  "repository": "yenbekbay/sozdik-bot",
+  "homepage": "https://github.com/yenbekbay/sozdik-bot#readme",
   "bugs": {
-    "url": "https://github.com/anvilabs/sozdik-bot/issues"
+    "url": "https://github.com/yenbekbay/sozdik-bot/issues"
   },
   "license": "GPL-3.0",
   "author": {
     "name": "Ayan Yenbekbay",
     "email": "ayan.yenb@gmail.com",
-    "url": "http://yenbekbay.me"
+    "url": "https://yenbekbay.me"
   },
   "engines": {
     "node": ">=6.0.0"
@@ -28,34 +28,21 @@
     "test:ci": "run-p --silent typecheck lint jest:coverage && codecov",
     "build": "backpack build",
     "dev": "backpack --inspect",
+    "precommit": "lint-staged",
     "commitmsg": "validate-commit-msg",
     "prepush": "yarn test",
     "start": "yarn build && docker-compose up --build -d",
     "deploy": "sh scripts/deploy.sh"
   },
   "lint-staged": {
-    "{*.js,{scripts,src}/**/*.js}": [
-      "eslint --cache --fix",
-      "git add"
-    ],
-    "{*.json,.vscode/*.json}": [
-      "prettier --write",
-      "git add"
-    ]
+    "{*.js,{scripts,src}/**/*.js}": ["eslint --cache --fix", "git add"],
+    "{*.json,.vscode/*.json}": ["prettier --write", "git add"]
   },
   "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.js"
-    ],
-    "coverageReporters": [
-      "lcov"
-    ],
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "setupFiles": [
-      "<rootDir>/jest.setup.js"
-    ],
+    "collectCoverageFrom": ["src/**/*.js"],
+    "coverageReporters": ["lcov"],
+    "roots": ["<rootDir>/src"],
+    "setupFiles": ["<rootDir>/jest.setup.js"],
     "testEnvironment": "node",
     "testRegex": "/__tests__/.*-test\\.js$"
   },
@@ -91,6 +78,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-flow": "^6.23.0",
     "backpack-core": "^0.4.1",
@@ -103,6 +91,7 @@
     "flow-typed": "^2.1.5",
     "husky": "^0.14.3",
     "jest": "^20.0.4",
+    "lint-staged": "^4.0.3",
     "npm-run-all": "^4.0.2",
     "prettier": "^1.5.3",
     "supertest": "^3.0.0",

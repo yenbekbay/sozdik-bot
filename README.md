@@ -1,9 +1,9 @@
 # sozdik-bot
 
-[![Build Status](https://img.shields.io/travis/anvilabs/sozdik-bot.svg)](https://travis-ci.org/anvilabs/sozdik-bot)
-[![Coverage Status](https://img.shields.io/codecov/c/github/anvilabs/sozdik-bot.svg)](https://codecov.io/gh/anvilabs/sozdik-bot)
-[![Dependency Status](https://img.shields.io/david/anvilabs/sozdik-bot.svg)](https://david-dm.org/anvilabs/sozdik-bot)
-[![devDependency Status](https://img.shields.io/david/dev/anvilabs/sozdik-bot.svg)](https://david-dm.org/anvilabs/sozdik-bot?type=dev)
+[![Build Status](https://img.shields.io/travis/yenbekbay/sozdik-bot.svg)](https://travis-ci.org/yenbekbay/sozdik-bot)
+[![Coverage Status](https://img.shields.io/codecov/c/github/yenbekbay/sozdik-bot.svg)](https://codecov.io/gh/yenbekbay/sozdik-bot)
+[![Dependency Status](https://img.shields.io/david/yenbekbay/sozdik-bot.svg)](https://david-dm.org/yenbekbay/sozdik-bot)
+[![devDependency Status](https://img.shields.io/david/dev/yenbekbay/sozdik-bot.svg)](https://david-dm.org/yenbekbay/sozdik-bot?type=dev)
 
 [Telegram](https://telegram.me/SozdikBot) and [Messenger](https://m.me/sozdikbot) bot for Sozdik, a Russian to Kazakh dictionary
 
@@ -15,7 +15,7 @@
 
 2. **Clone and install dependencies:**
 ```bash
-$ git clone https://github.com/anvilabs/sozdik-bot.git
+$ git clone https://github.com/yenbekbay/sozdik-bot.git
 $ cd sozdik-bot
 $ yarn # npm install
 ```
@@ -35,4 +35,4 @@ $ yarn start # npm start
 
 ## License
 
-[GNU GPLv3 License](./LICENSE) © Anvilabs LLC
+[GNU GPLv3 License](./LICENSE) © Ayan Yenbekbay
